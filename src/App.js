@@ -1,4 +1,20 @@
-import logo from './logo.svg';
+import React from 'react';
+import QuestionController from './Controllers/QuestionController';
+
+function App() {
+  return (
+      <div className="App">
+        <QuestionController />
+      </div>
+  );
+}
+
+export default App;
+
+
+
+
+/*import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -22,4 +38,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;*/
