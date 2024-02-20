@@ -1,12 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import QuestionController from './Controllers/QuestionController';
+import ColeccionView from "./Views/ColeccionView";
+import { BrowserRouter as Router, Route, Routes, Link, }
+    from "react-router-dom";
+import ConfiguratorObjectView from "./Views/ConfiguratorObjectView";
+import DesignView from "./Views/DesignView";
+import ConfiguratorObjectModel from "./classes/ConfiguratorObjectModel";
+import {MyContext} from "./MyContext";
 
 function App() {
-  return (
+    const [configObject, setConfigObject] = useState(new ConfiguratorObjectModel('', '', '', '', ''));
+    const [objId, setObjId] = useState("");
+
+    return (
       <div className="App">
-        <QuestionController />
+
+              <Routes>
+                  <Route exact path="/" element={<h1>Home Page</h1>} />
+                  <Route exact path="colecciones" element={<ColeccionView />} />
+                  <Route exact path="configuratorObject" element={<ConfiguratorObjectView />} />
+                  <Route exact path="design/:id" element=<DesignView /> />
+              </Routes>
+
+              <li><Link to="colecciones">Start Your Configuration</Link></li>
       </div>
-  );
+    );
 }
 
 export default App;

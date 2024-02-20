@@ -5,6 +5,7 @@ import React from 'react';
 const QuestionView = ({ question, options, handleOptionClick }) => {
     return (
         <div>
+            <h1>Here are some questions</h1>
             <h1>{question}</h1>
             <div>
                 {options.map((option) => (

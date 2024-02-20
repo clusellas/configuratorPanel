@@ -1,13 +1,20 @@
-// src/api.js
-
-const API_ROOT = 'http://example.com/api'; // Replace with your root URL
+const API_ROOT = 'http://localhost:8000/server'; // Replace with your root URL
 
 const API_ENDPOINTS = {
-    question: '/questions',
+    colecciones: '/colecciones/',
     answer: '/answers',
+    configurationObject: '/configurationObject/',
+    design:'/designcoleccion/'
     // Add more endpoints as needed
 };
 
 export default {
-    getEndpoint: (key) => `${API_ROOT}${API_ENDPOINTS[key]}`,
+    getEndpoint: (key, ...params) => {
+        let endpoint = API_ENDPOINTS[key];
+        // Replace URL parameters in the endpoint
+        params.forEach(param => {
+            endpoint = endpoint.replace(/:\w+/, param);
+        });
+        return `${API_ROOT}${endpoint}`;
+    },
 };
