@@ -1,20 +1,20 @@
-// src/components/QuestionController.js
 
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 //import { useHistory } from 'react-router-dom'; // Import useHistory hook from React Router
 import api from "../api";
 import {generatePath, use, useNavigate} from "react-router-dom";
 
 
-export async function fetchDesigns(coleccion_id) {
+export async function FetchDesigns(coleccion_id) {
+
     try {
+
         const payload = {
-            coleccion: coleccion_id
+            coleccion: coleccion_id,
+            show_design:true
         };
-        const url = api.getEndpoint('design')
-        const jsonData = JSON.stringify(payload);
-        const response = await axios.get(url, {params:payload} );
+        const response = await axios.get(api.getEndpoint('articles'), {params:payload} );
         return response.data;
     } catch (error) {
         console.error('Error fetching collections:', error);
@@ -30,19 +30,15 @@ export async function HandleImageClickDesign(Design) {
         };
         const jsonData = JSON.stringify(payload);
 
-        const response = await axios.post(api.getEndpoint('configurationObject'), jsonData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        //const response = await axios.post(api.getEndpoint('configurationObject'), jsonData, {
+        //    headers: {
+        //         'Content-Type': 'application/json'
+        //    }
+        //});
 
-        const configurationObjectId = response.data.id;
+        //const configurationObjectId = response.data.id;
 
-        const navigate = useNavigate();
-        // Navigate to the view displaying the newly created ConfigurationObject
-        navigate('size')
-
-        return response.data;
+        return Design.id;
     } catch (error) {
         console.error('Error making POST request:', error);
         throw error;

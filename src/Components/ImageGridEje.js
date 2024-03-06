@@ -14,12 +14,12 @@ const ImageGrid = ({ elements, onImageClick }) => {
                     {row.map((element, rowIndex) => (
                         <div key={rowIndex} className="image-column">
                             <img
-                                src={element.img}
-                                alt={element.name}
+                                src={element.eje.image}
+                                alt={element.eje.name}
                                 onClick={() => onImageClick(element)}
                                 className="image"
                             />
-                            <p>{element.code}</p>
+                            <p>{element.eje.code}</p>
                         </div>
                     ))}
                 </div>

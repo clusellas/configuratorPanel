@@ -22,7 +22,6 @@ export async function fetchCollections() {
 
 
 export async function HandleImageClick(collection) {
-    //const { setConfigObject, configObject } = useContext(MyContext);
 
     try {
 
@@ -31,17 +30,14 @@ export async function HandleImageClick(collection) {
         };
         const jsonData = JSON.stringify(payload);
 
-        const response = await axios.post(api.getEndpoint('configurationObject'), jsonData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const configurationObjectId = response.data.id;
-        //console.log(configObject);
-
-
-        return response.data;
+        // const response = await axios.post(api.getEndpoint('configurationObject'), jsonData, {
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+        //
+        // return response.data;
+        return collection.id
     } catch (error) {
         console.error('Error making POST request:', error);
         throw error;

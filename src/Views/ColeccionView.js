@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import CollectionsController, {fetchCollections, HandleImageClick} from '../Controllers/ColeccionController.js';
 import ColeccionController from "../Controllers/ColeccionController.js";
 import OptionItem from "../Components/OptionItem";
 import {generatePath, useNavigate} from "react-router-dom";
 import ImageGrid from "../Components/ImageGrid";
+import {MyContext} from "../MyContext";
 
 function ColeccionView() {
     const [collections, setCollections] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { setObjId, objId } = useContext(MyContext);
 
 
     useEffect(() => {
@@ -29,11 +31,17 @@ function ColeccionView() {
         try {
             const response = await HandleImageClick(collection);
 
-            const url = generatePath("/design/:id", { id: collection.id }); // "/users/42"
+            const coleccion_id = collection.id;
+            console.log(objId);
+            let newObj = objId;
+            newObj.coleccion_id = coleccion_id
+            setObjId(newObj);
 
+            const url = generatePath("/design/"); // "/users/42"
+            const urll = "/design/"
             // Navigate to the view displaying the newly created ConfigurationObject
-            navigate(url)
-            console.log(url)
+            navigate(urll)
+            console.log(urll)
             console.log('POST request response:', response);
         } catch (error) {
             // Handle error
@@ -43,8 +51,6 @@ function ColeccionView() {
     if (loading) {
         return <div>Loading...</div>;
     }
-
-
 
 
     return (

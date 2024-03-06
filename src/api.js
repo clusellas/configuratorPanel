@@ -4,7 +4,10 @@ const API_ENDPOINTS = {
     colecciones: '/colecciones/',
     answer: '/answers',
     configurationObject: '/configurationObject/',
-    design:'/designcoleccion/'
+    design:'/designcoleccion/',
+    ancho:'/ancho/',
+    eje:'/eje/',
+    articles:'/articles/'
     // Add more endpoints as needed
 };
 
