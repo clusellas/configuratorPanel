@@ -3,6 +3,7 @@ const API_ROOT = 'http://localhost:8000/server'; // Replace with your root URL
 const API_ENDPOINTS = {
     colecciones: '/colecciones/',
     answer: '/answers',
+    getconfigurationObject: '/configurationObject/:id/',
     configurationObject: '/configurationObject/',
     design:'/designcoleccion/',
     ancho:'/ancho/',

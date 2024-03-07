@@ -5,12 +5,10 @@ import api from "../api";
 
 export async function fetchConfiguratorObject(configuratorObjectId) {
     try {
-        const url = api.getEndpoint('configuratorObject', configuratorObjectId);
+        const url = api.getEndpoint('getconfigurationObject', configuratorObjectId);
         const response = await axios.get(url);
 
-
-        const { id, coleccion, design, ancho, eje } = response.data;
-        return new ConfiguratorObject(id, coleccion, design, ancho, eje);
+        return response.data;
     } catch (error) {
         console.error('Error fetching configurator object:', error);
         throw error;

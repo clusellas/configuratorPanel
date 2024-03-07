@@ -55,6 +55,7 @@ function SizesView() {
             const ejes = await fetchAxis(objId.coleccion_id, objId.design_id,objId.ancho_id)
             setAxis(ejes)
 
+
         } catch (error) {
             // Handle error
         }
@@ -73,7 +74,14 @@ function SizesView() {
             newObj.eje_id = eje.eje.id;
             setObjId(newObj);
 
-            const response = createObject(objId.coleccion_id, objId.design_id,objId.ancho_id,objId.eje_id)
+            const response = await createObject(objId.coleccion_id, objId.design_id,objId.ancho_id,objId.eje_id)
+            let objectId = response.id
+
+            const url = generatePath("/configuratorObject/:id", { id: objectId })
+            // Navigate to the view displaying the newly created ConfigurationObject
+            navigate(url)
+            console.log(url)
+
 
         } catch (error) {
             // Handle error
