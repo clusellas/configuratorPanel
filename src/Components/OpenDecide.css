@@ -1,0 +1,65 @@
+.option-box{
+    height: 90%;
+    /* width: 90%; */
+    margin: 32px;
+
+    /* margin-bottom: 32px; */
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 32px;
+    padding: 16px;
+    border: 2px solid grey;
+    position: fixed;
+}
+
+
+.option-decide-container {
+    /*top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;*/
+    height: 100%;
+    max-width: 800px; /* Adjust max-width according to your preference */
+     /* Adjust max-height according to your preference */
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.option-decide-title {
+    margin-bottom: 10px;
+}
+
+.option-decide-content {
+    flex: 1;
+}
+
+.option-decide-content.two-columns .MuiImageList-root {
+    justify-content: space-between;
+}
+
+.image-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    text-align: center;
+}
+
+.option-decide-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    position: sticky;
+    bottom: 0;
+    background-color: #ffffff; /* Adjust background color as needed */
+    padding: 10px;
+}

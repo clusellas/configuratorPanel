@@ -1,14 +1,19 @@
+import {updateConfiguratorObject} from "./Controllers/ConfiguratorObjectController";
+
 const API_ROOT = 'http://localhost:8000/server'; // Replace with your root URL
 
 const API_ENDPOINTS = {
     colecciones: '/colecciones/',
     answer: '/answers',
-    getconfigurationObject: '/configurationObject/:id/',
-    configurationObject: '/configurationObject/',
+    configurationObject: '/configuration-object/',
+    getconfigurationObject: '/configuration-object/:id/',
+    updateConfiguratorObject:'/configuration-object/:id/set_value_option/',
     design:'/designcoleccion/',
     ancho:'/ancho/',
     eje:'/eje/',
-    articles:'/articles/'
+    articles:'/articles/',
+    getOption:'/opcion/:id/',
+
     // Add more endpoints as needed
 };
 

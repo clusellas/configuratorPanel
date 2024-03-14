@@ -3,8 +3,9 @@ import CollectionsController, {fetchCollections, HandleImageClick} from '../Cont
 import ColeccionController from "../Controllers/ColeccionController.js";
 import OptionItem from "../Components/OptionItem";
 import {generatePath, useNavigate} from "react-router-dom";
-import ImageGrid from "../Components/ImageGrid";
+import ImageGridMIU from "../Components/ImageGridMIU";
 import {MyContext} from "../MyContext";
+import ImageGrid from "../Components/ImageGrid";
 
 function ColeccionView() {
     const [collections, setCollections] = useState([]);
@@ -54,7 +55,7 @@ function ColeccionView() {
 
 
     return (
-        <div className="collections-container" style={{ display: 'flex' }}>
+        <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
             <ImageGrid elements={collections} onImageClick={ClickImage} />
         </div>
 

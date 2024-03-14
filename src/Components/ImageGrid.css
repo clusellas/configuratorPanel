@@ -22,3 +22,11 @@
     object-fit: cover;
     cursor: pointer;
 }
+
+.image-grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    overflow: scroll; /* Prevents page scrolling */
+}

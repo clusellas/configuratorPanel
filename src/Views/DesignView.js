@@ -31,7 +31,7 @@ function DesignView() {
         try {
             console.log(design);
             const response = await HandleImageClickDesign(design);
-            const design_id = design.design_coleccion.design;
+            const design_id = design.design_coleccion.design.id;
             console.log(objId);
             let newObj = objId;
             newObj.design_id = design_id

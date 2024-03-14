@@ -1,0 +1,11 @@
+.test {
+    font-family: sans-serif;
+    text-align: center;
+    height: 1000px;
+    width: 90%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
