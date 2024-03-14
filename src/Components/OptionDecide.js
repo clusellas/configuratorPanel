@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, ImageList, ImageListItem, Button, Typography, CircularProgress, Box} from '@mui/material';
-import './OpenDecide.css'
+import './OptionDecide.css'
 
 const OptionDecide = ({ element, onValueClick, opciones_y_valores, navigation }) => {
     const numColumns =  2; // Determine the number of columns based on the elements array
@@ -22,7 +22,7 @@ const OptionDecide = ({ element, onValueClick, opciones_y_valores, navigation })
                     <Grid container spacing={2}>
                         <ImageList cols={numColumns}>
                             {element.valores.map((item, index) => {
-                                const selected = opciones_y_valores.some(val => val.opcion === element.id && val.valor === item.id);
+                                const selected = opciones_y_valores.some(val => val.opcion.id === element.id && val.valor.id === item.id);
                                 return (
                                     <ImageListItem key={index} onClick={() => onValueClick(element, item)} >
                                         <img src={item.image} alt={`Image ${index}`} />

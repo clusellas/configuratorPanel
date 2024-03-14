@@ -8,8 +8,8 @@ import {generatePath, useParams} from "react-router-dom";
 import {Button, Grid, Box} from "@mui/material";
 import {HandleImageClickDesign} from "../Controllers/DesignController";
 import OptionDecide from "../Components/OptionDecide";
-import RenderObject from "../Components/RenderObject.js"
 import Test from "../Components/TEST";
+import RenderObjectView from "./RenderObjectView";
 
 
 function ConfiguratorObjectView() {
@@ -116,7 +116,7 @@ function ConfiguratorObjectView() {
                         </Grid>
                         <Grid item xs={12}>
                             <div style={{height:"50%"}}>
-                                <RenderObject></RenderObject>
+                                <RenderObjectView Articulo ={CO.articulo} chosenOptions={CO.opciones_y_valores} reference_for_route={CO.figure_referencia}></RenderObjectView>
                         </div>
                         </Grid>
                     </Grid>
@@ -126,8 +126,6 @@ function ConfiguratorObjectView() {
 
                 </Grid>
             </Grid>
-
-            {/* Display other fields as needed */}
         </div>
     );
 }

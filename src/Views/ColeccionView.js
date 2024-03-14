@@ -31,19 +31,17 @@ function ColeccionView() {
     const ClickImage = async (collection) => {
         try {
             const response = await HandleImageClick(collection);
-
+            console.log('POST request response:', response);
             const coleccion_id = collection.id;
             console.log(objId);
             let newObj = objId;
             newObj.coleccion_id = coleccion_id
             setObjId(newObj);
 
-            const url = generatePath("/design/"); // "/users/42"
-            const urll = "/design/"
-            // Navigate to the view displaying the newly created ConfigurationObject
-            navigate(urll)
-            console.log(urll)
-            console.log('POST request response:', response);
+            const url = "/design/"
+            navigate(url)
+            console.log(url)
+
         } catch (error) {
             // Handle error
         }

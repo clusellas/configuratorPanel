@@ -11,9 +11,20 @@ import { Suspense } from "react";
 
 THREE.DefaultLoadingManager.addHandler(/\.dds$/i, new DDSLoader());
 
-const Experience = () => {
 
-    const obj = useLoader(OBJLoader, '/models/B209.120.BP.obj')
+export default function RenderObject({ rutas , chosenOptions}) {
+    let obj = null;
+    let obj_con_eje = useLoader(OBJLoader, rutas[0]);
+    let obj_sin_eje = useLoader(OBJLoader, rutas[1]);
+
+    let objcorr = useLoader(OBJLoader, '/models/B/B103.140.B.obj');
+    let objcorrdoblke = useLoader(OBJLoader, "/models/B/B103.140.B.obj");
+
+    if (obj_con_eje.children.length == 0){
+        obj = obj_sin_eje;
+    }else{
+        obj = obj_con_eje;
+    }
 
     const texture = useLoader(THREE.TextureLoader, '/textures/maderaplywood.jpg'); // Adjust the path to your texture file
 
@@ -51,7 +62,7 @@ const Experience = () => {
                     maxDepthThreshold={1.4}
                     color="#101010"
                     metalness={0.5}
-                  mirror={true}/>
+                    mirror={true}/>
             </mesh>
             <directionalLight position={[0, 10, 0]} intensity={0.7} />
             <directionalLight position={[10, 0, 0]} intensity={0.2} />
@@ -59,19 +70,5 @@ const Experience = () => {
 
         </PresentationControls>
 
-    );
-
-};
-
-
-export default function RenderObject() {
-    return (
-        <div className="test">
-            <Canvas>
-                <color attach="background" args={["#9bbee3"]} />
-                <fog attach="fog" args={["#9bbee3", 10, 20]} />
-                <Experience />
-            </Canvas>
-        </div>
     );
 }
