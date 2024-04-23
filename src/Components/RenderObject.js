@@ -17,8 +17,6 @@ export default function RenderObject({ rutas , chosenOptions}) {
     let obj_con_eje = useLoader(OBJLoader, rutas[0]);
     let obj_sin_eje = useLoader(OBJLoader, rutas[1]);
 
-    let objcorr = useLoader(OBJLoader, '/models/B/B103.140.B.obj');
-    let objcorrdoblke = useLoader(OBJLoader, "/models/B/B103.140.B.obj");
 
     if (obj_con_eje.children.length == 0){
         obj = obj_sin_eje;
@@ -62,7 +60,7 @@ export default function RenderObject({ rutas , chosenOptions}) {
                     maxDepthThreshold={1.4}
                     color="#101010"
                     metalness={0.5}
-                    mirror={true}/>
+                    />
             </mesh>
             <directionalLight position={[0, 10, 0]} intensity={0.7} />
             <directionalLight position={[10, 0, 0]} intensity={0.2} />

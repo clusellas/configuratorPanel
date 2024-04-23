@@ -62,13 +62,3 @@ function ColeccionView() {
 
 
 export default ColeccionView;
-//
-//
-// return (
-//     <div className="collections-container" style={{ display: 'flex', flexWrap: 'no-wrap' }}>
-//         {collections.map((collection, index) => (
-//             <OptionItem key={collection.code} collection={collection} onClick={ClickImage} />
-//         ))}
-//     </div>
-//
-// );

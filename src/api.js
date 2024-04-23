@@ -12,6 +12,10 @@ const API_ENDPOINTS = {
     ancho:'/ancho/',
     eje:'/eje/',
     articles:'/articles/',
+    mueble:'/mueble/',
+    encimera:'/encimera/',
+    lavabo:'/lavabo/',
+    espejo:'/espejo/',
     getOption:'/opcion/:id/',
 
     // Add more endpoints as needed

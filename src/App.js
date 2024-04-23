@@ -7,6 +7,8 @@ import DesignView from "./Views/DesignView";
 import ConfiguratorObjectModel from "./classes/ConfiguratorObjectModel";
 import ColeccionView from "./Views/ColeccionView";
 import SizesView from "./Views/SizesView";
+import Index from "./Views/index"
+import OpcionesPrimariasView from "./Views/opcionesPrimariasView";
 
 import {MyContext} from "./MyContext";
 import {createTheme, ThemeProvider} from "@mui/material";
@@ -14,24 +16,33 @@ import {createTheme, ThemeProvider} from "@mui/material";
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#1a73e8', // Set your primary color
+            main: '#574b46', // Set your primary color
         },
         secondary: {
-            main: '#7b1fa2', // Set your secondary color
+            main: '#a8838f', // Set your secondary color
         },
         error: {
             main: '#f44336', // Set error color
         },
-        custom: {
-            main: '#7b1fa2', // Set custom color
+        accent: {
+            main: '#332d28', // Set custom color
+        },
+        background: {
+            main: '#e6e6e6', // Set custom color
         },
         // You can define additional colors as needed
     },
 });
 function App() {
-    const [configObject, setConfigObject] = useState(new ConfiguratorObjectModel('', '', '', '', ''));
-    const [objId, setObjId] = useState({});
-
+    const [objData, setObjData] = useState({
+        current_obj: null,
+        current_opt: null,
+        mueble: {}, // State for mueble object
+        encimera: {}, // State for encimera object
+        encimera_p : {},
+        lavabo: {},
+        espejo: {}
+    });
     const { id } = useParams();
 
     return (
@@ -39,16 +50,18 @@ function App() {
 
           <ThemeProvider theme={theme}>
 
-              <MyContext.Provider value={{ objId, setObjId }}>
+              <MyContext.Provider value={{ objData, setObjData }}>
 
                     <Routes>
                         <Route exact path="/" element={<h1>Home Page</h1>} />
+                        <Route exact path="/index" element={<Index />} />
+                        <Route exact path="/opciones-primarias" element={<OpcionesPrimariasView />} />
                         <Route exact path="/colecciones" element={<ColeccionView />} />
                         <Route path="/configuratorObject/:id" element={<ConfiguratorObjectView id={id}/>} />
                         <Route exact path="/design" element={<DesignView />} />
                         <Route exact path="/size" element={<SizesView />} />
                     </Routes>
-                    <li><Link to="colecciones">Start Your Configuration</Link></li>
+                    <li><Link to="index">Start Your Configuration</Link></li>
                 </MyContext.Provider>
           </ThemeProvider>
 

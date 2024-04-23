@@ -16,7 +16,7 @@ const ImageGrid = ({ elements, onImageClick }) => {
                             <img
                                 src={element.eje.image}
                                 alt={element.eje.name}
-                                onClick={() => onImageClick(element)}
+                                onClick={() => onImageClick(element.eje)}
                                 className="image"
                             />
                             <p>{element.eje.code}</p>

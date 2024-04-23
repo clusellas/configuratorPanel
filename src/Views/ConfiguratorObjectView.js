@@ -116,7 +116,7 @@ function ConfiguratorObjectView() {
                         </Grid>
                         <Grid item xs={12}>
                             <div style={{height:"50%"}}>
-                                <RenderObjectView Articulo ={CO.articulo} chosenOptions={CO.opciones_y_valores} reference_for_route={CO.figure_referencia}></RenderObjectView>
+                                <RenderObjectView Articulo ={CO.articulo.attr} chosenOptions={CO.opciones_y_valores} reference_for_route={CO.figure_referencia}></RenderObjectView>
                         </div>
                         </Grid>
                     </Grid>

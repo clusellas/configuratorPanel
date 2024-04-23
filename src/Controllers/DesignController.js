@@ -14,7 +14,7 @@ export async function FetchDesigns(coleccion_id) {
             coleccion: coleccion_id,
             show_design:true
         };
-        const response = await axios.get(api.getEndpoint('articles'), {params:payload} );
+        const response = await axios.get(api.getEndpoint('muebles'), {params:payload} );
         return response.data;
     } catch (error) {
         console.error('Error fetching collections:', error);
