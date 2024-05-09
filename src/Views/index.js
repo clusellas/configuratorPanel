@@ -25,10 +25,10 @@ function Index() {
 
 
 
-    const ClickImage = async (img) => {
+    const ClickImage = async (image) => {
         try {
             let newobjData = objData;
-            objData.current_obj = img
+            objData.current_obj = image
             setObjData(newobjData);
 
             const url = generatePath("/opciones-primarias/");

@@ -52,6 +52,9 @@ export async function fetchOptionsEncimera(option, encimera){
             case 'eje':
                 payload.show_eje = true
                 break;
+            case 'acabado':
+                payload.show_acabado = true
+                break;
         }
 
         const response = await axios.get(api.getEndpoint('encimera'), {params:payload} );

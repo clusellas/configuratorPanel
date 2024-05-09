@@ -16,6 +16,11 @@ import {
 import ImageGridDesign from "../Components/ImageGridDesign";
 import SizeForm from "../Components/SizeForm";
 import ImageGridEje from "../Components/ImageGridEje";
+import ImageGridMedidas from "../Components/ImageGridMedidas";
+import ImageGridFaldon from "../Components/ImageGridFaldon";
+import ImageGridColorLavabo from "../Components/ImageGridColorLavabo";
+import ImageGridAcabado from "../Components/ImageGridAcabado";
+
 
 function OpcionesPrimariasView() {
     const [elements, setElements] = useState([]);
@@ -25,7 +30,7 @@ function OpcionesPrimariasView() {
 
     const opcionesPrimarias = {
         'mueble':['coleccion','design','ancho','eje'],
-        'encimera':['coleccion','ancho','eje','faldon'],
+        'encimera':['coleccion','ancho','eje','faldon','acabado'],
         'encimera_plana':['coleccion','ancho','eje','faldon'],
         'lavabo':['coleccion','colorLavabo'],
         'espejo':['coleccion','medidas']
@@ -60,6 +65,23 @@ function OpcionesPrimariasView() {
                     break;
             }
             setElements(data);
+
+            // check if elements are all null
+            let all_null = true;
+            for (let key in data[0]) {
+                if (data[0].hasOwnProperty(key)) {
+                    if (data[0][key] !== null) {
+                        all_null =  false; // If any tuple has a non-null value, return false
+                    }
+                }
+            }
+
+            if (all_null){
+                nextOption(); // If all tuples have null values, return true
+                fetchData();
+            }
+
+
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -71,55 +93,63 @@ function OpcionesPrimariasView() {
     }, []);
 
     const ClickImage = async (element) => {
-        try {
 
+        setLoading(true)
+        try {
             let newObjData = objData;
+
             console.log(element)
             console.log("element id " + element.id)
 
             newObjData[objData.current_obj][objData.current_opt] = element.id;
 
-            const optionArray = opcionesPrimarias[objData.current_obj];
-            const currentIndex = optionArray.indexOf(objData.current_opt);
-
-            let nextIndex;
-            // If the current option is found in the array
-            if (currentIndex !== -1) {
-                // Calculate the next index
-                nextIndex = currentIndex + 1;
-                newObjData.current_opt = optionArray[nextIndex];
-                console.log(nextIndex)
-
-            }
-
             setObjData(newObjData);
 
-
-            if (nextIndex >= optionArray.length){
-                const response = await CreateConfigurationObject(objData);
-
-                let objectId = response.id
-
-                objData.ObjConfigId = objectId;
-                nextIndex = currentIndex;
-                newObjData.current_opt = optionArray[nextIndex];
-
-                setObjData(newObjData);
-
-                const url = generatePath("/configuratorObject/:id", { id: objectId })
-                // Navigate to the view displaying the newly created ConfigurationObject
-                navigate(url)
-                console.log(url)
-            }
-
+            nextOption();
 
             fetchData();
-
 
         } catch (error) {
             // Handle error
         }
     };
+
+    const nextOption = async () => {
+
+        let newObjData = objData;
+
+        const optionArray = opcionesPrimarias[objData.current_obj];
+        const currentIndex = optionArray.indexOf(objData.current_opt);
+
+        let nextIndex;
+        // If the current option is found in the array
+        if (currentIndex !== -1) {
+            // Calculate the next index
+            nextIndex = currentIndex + 1;
+            newObjData.current_opt = optionArray[nextIndex];
+            console.log(nextIndex)
+
+        }
+
+        setObjData(newObjData);
+
+        if (nextIndex >= optionArray.length){
+            const response = await CreateConfigurationObject(objData);
+            let objectId = response.id
+
+            objData.ObjConfigId = objectId;
+
+            let nextIndex = optionArray.length-1;
+            newObjData.current_opt = optionArray[nextIndex];
+
+            setObjData(newObjData);
+
+            const url = generatePath("/configuratorObject/:id", { id: objectId })
+            // Navigate to the view displaying the newly created ConfigurationObject
+            navigate(url)
+            console.log(url)
+        }
+    }
 
     if (loading) {
         return <div>Loading...</div>;
@@ -158,24 +188,35 @@ function OpcionesPrimariasView() {
         case 'medidas':
             return (
                 <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGrid elements={elements} onImageClick={ClickImage} />
+                    <ImageGridMedidas elements={elements} onImageClick={ClickImage} />
                 </div>
 
             );
         case 'colorLavabo':
             return (
                 <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGrid elements={elements} onImageClick={ClickImage} />
+                    <ImageGridColorLavabo elements={elements} onImageClick={ClickImage} />
                 </div>
 
             );
         case 'faldon':
             return (
                 <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGrid elements={elements} onImageClick={ClickImage} />
+                    <ImageGridFaldon elements={elements} onImageClick={ClickImage} />
                 </div>
 
             );
+        case 'acabado':
+            return (
+                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
+                    <ImageGridAcabado elements={elements} onImageClick={ClickImage} />
+                </div>
+
+            );
+
+        default:
+            <div>AN ERROR OCURRED</div>
+
 
     }
 }

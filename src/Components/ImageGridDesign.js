@@ -14,7 +14,7 @@ const ImageGrid = ({ elements, onImageClick }) => {
                     {row.map((element, rowIndex) => (
                         <div key={rowIndex} className="image-column-design" >
                             <img
-                                src={element.design_coleccion.img}
+                                src={element.design_coleccion.image}
                                 alt={element.design_coleccion.design.code}
                                 onClick={() => onImageClick(element.design_coleccion.design)}
                                 className="image-design"

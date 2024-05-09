@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './ImageGridDesign.css'; // Import CSS file for styles
 
 const SizeFrom = ({ elements , onImageClick }) => {
-    const [value, setValue] = useState(''); // State to manage input value
+    const [value, setValue] = useState(elements[0].ancho.id); // State to manage input value
     const [min, setmin] = useState(1000); // State to manage input value
     const [max, setmax] = useState(0); // State to manage input value
 

@@ -8,10 +8,10 @@ const ImageGridMIU = ({ elements, onImageClick }) => {
             <Box sx={{ width: "100%", height: "100%", overflowY: 'scroll' }}>
                 <ImageList variant="masonry" cols={3} gap={8}>
                     {elements.map((item) => (
-                        <ImageListItem key={item.img}>
+                        <ImageListItem key={item.image}>
                             <img
-                                srcSet={`${item.img}?w=248&fit=cover&auto=format&dpr=2 2x`}
-                                src={`${item.img}?w=248&fit=cover&auto=format`}
+                                srcSet={`${item.image}?w=248&fit=cover&auto=format&dpr=2 2x`}
+                                src={`${item.image}?w=248&fit=cover&auto=format`}
                                 alt={item.name}
                                 onClick={() => onImageClick(item)}
                                 loading="lazy"

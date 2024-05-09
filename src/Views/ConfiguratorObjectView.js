@@ -18,6 +18,7 @@ function ConfiguratorObjectView() {
     const [CO, setCO] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedOptionId, setSelectedOptionId] = useState(null);
+    const [standard, setStandard] = useState(false);
 
 
 
@@ -26,8 +27,12 @@ function ConfiguratorObjectView() {
             try {
                 const configuratorObject = await fetchConfiguratorObject(id);
                 setCO(configuratorObject)
-
-                changeOption(configuratorObject.current_linea.opciones[0].id)
+                let current_linea = configuratorObject.current_linea
+                if (current_linea=== null){
+                    setStandard(true)
+                }else{
+                    changeOption(current_linea.opciones[0].id)
+                }
                 console.log(CO)
             } catch (error) {
                 console.error('Error fetching configurator object:', error);
@@ -92,6 +97,32 @@ function ConfiguratorObjectView() {
     }
 
     if (!CO) return null;
+
+    if(standard){
+        return (
+            <div>
+                <Grid height='90%' container rowSpacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item xs={8}>
+                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                            <Grid item xs={12}>
+
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div style={{height:"50%"}}>
+                                    <RenderObjectView Articulo ={CO.articulo.attr} chosenOptions={CO.opciones_y_valores} reference_for_route={CO.figure_referencia}></RenderObjectView>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <OptionDecide element={selectedOption} onValueClick={selectValue} opciones_y_valores={CO.opciones_y_valores} navigation={navigation}></OptionDecide>
+
+                    </Grid>
+                </Grid>
+            </div>
+        );
+
+    }
 
     return (
         <div>

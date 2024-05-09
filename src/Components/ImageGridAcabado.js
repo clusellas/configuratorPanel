@@ -1,12 +1,13 @@
 import React from 'react';
 import './ImageGrid.css'; // Import CSS file for styles
 
-const ImageGrid = ({ elements, onImageClick }) => {
+const ImageGridAcabado = ({ elements, onImageClick }) => {
     const rows = [];
     for (let i = 0; i < elements.length; i += 3) {
         rows.push(elements.slice(i, i + 3));
     }
-    if(elements[0].coleccion==null){
+
+    if(elements[0].acabado==null){
         return
     }
 
@@ -17,12 +18,12 @@ const ImageGrid = ({ elements, onImageClick }) => {
                     {row.map((element, rowIndex) => (
                         <div key={rowIndex} className="image-column">
                             <img
-                                src={element.coleccion.image}
-                                alt={element.coleccion.code}
-                                onClick={() => onImageClick(element.coleccion)}
+                                src={element.acabado.image}
+                                alt={element.acabado.code}
+                                onClick={() => onImageClick(element.acabado)}
                                 className="image"
                             />
-                            <p>{element.code}</p>
+                            <p>{element.acabado.code}</p>
                         </div>
                     ))}
                 </div>
@@ -31,4 +32,4 @@ const ImageGrid = ({ elements, onImageClick }) => {
     );
 };
 
-export default ImageGrid
+export default ImageGridAcabado
