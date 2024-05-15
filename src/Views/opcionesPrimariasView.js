@@ -105,7 +105,7 @@ function OpcionesPrimariasView() {
 
             setObjData(newObjData);
 
-            nextOption();
+            await nextOption();
 
             fetchData();
 
@@ -144,7 +144,7 @@ function OpcionesPrimariasView() {
 
             setObjData(newObjData);
 
-            const url = generatePath("/configuratorObject/:id", { id: objectId })
+            const url = generatePath("/composition/:id", { id: objData.composition_id })
             // Navigate to the view displaying the newly created ConfigurationObject
             navigate(url)
             console.log(url)

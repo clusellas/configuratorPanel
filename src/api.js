@@ -17,6 +17,8 @@ const API_ENDPOINTS = {
     lavabo:'/lavabo/',
     espejo:'/espejo/',
     getOption:'/opcion/:id/',
+    composition:'/composition/',
+    getComposition:'/composition/:id/'
 
     // Add more endpoints as needed
 };

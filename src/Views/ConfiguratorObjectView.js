@@ -8,7 +8,6 @@ import {generatePath, useParams} from "react-router-dom";
 import {Button, Grid, Box} from "@mui/material";
 import {HandleImageClickDesign} from "../Controllers/DesignController";
 import OptionDecide from "../Components/OptionDecide";
-import Test from "../Components/TEST";
 import RenderObjectView from "./RenderObjectView";
 
 

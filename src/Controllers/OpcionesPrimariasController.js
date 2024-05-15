@@ -138,6 +138,7 @@ export async function CreateConfigurationObject(objData) {
                 break;
         }
 
+        payload.composition = objData.composition_id;
         payload.object_type = objData.current_obj;
 
         const jsonData = JSON.stringify(payload);

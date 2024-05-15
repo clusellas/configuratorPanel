@@ -19,7 +19,7 @@ const ImageGridMedidas = ({ elements, onImageClick }) => {
                                 onClick={() => onImageClick(element.medidas)}
                                 className="image"
                             />
-                            <p>{element.code}</p>
+                            <p>{element.medidas.code}</p>
                         </div>
                     ))}
                 </div>

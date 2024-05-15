@@ -12,6 +12,8 @@ import OpcionesPrimariasView from "./Views/opcionesPrimariasView";
 
 import {MyContext} from "./MyContext";
 import {createTheme, ThemeProvider} from "@mui/material";
+import CompositionView from "./Views/CompositionView";
+import CountryPopup from "./Components/CountryPopup";
 
 const theme = createTheme({
     palette: {
@@ -51,17 +53,17 @@ function App() {
           <ThemeProvider theme={theme}>
 
               <MyContext.Provider value={{ objData, setObjData }}>
-
+                    <CountryPopup />
                     <Routes>
                         <Route exact path="/" element={<h1>Home Page</h1>} />
                         <Route exact path="/index" element={<Index />} />
                         <Route exact path="/opciones-primarias" element={<OpcionesPrimariasView />} />
                         <Route exact path="/colecciones" element={<ColeccionView />} />
                         <Route path="/configuratorObject/:id" element={<ConfiguratorObjectView id={id}/>} />
+                        <Route path="/composition/:id" element={<CompositionView id={id}/>} />
                         <Route exact path="/design" element={<DesignView />} />
                         <Route exact path="/size" element={<SizesView />} />
                     </Routes>
-                    <li><Link to="index">Start Your Configuration</Link></li>
                 </MyContext.Provider>
           </ThemeProvider>
 

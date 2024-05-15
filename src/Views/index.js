@@ -3,26 +3,34 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Button } from '@mui/material';
 import { MyContext } from '../MyContext'; // Adjust the path based on your actual context file
 import {generatePath, useParams} from "react-router-dom";
+import {CreateComposition} from "../Controllers/indexController";
+import {CreateConfigurationObject} from "../Controllers/OpcionesPrimariasController";
 
 
 function Index() {
     const navigate = useNavigate();
     const { setObjData, objData } = useContext(MyContext);
 
-
     useEffect(() => {
-        let initialObjData = {
-            'current_obj': null,
-            'current_opt': null,
-            'mueble': {}, // State for mueble object
-            'encimera': {}, // State for encimera object
-            'encimera_p' : {},
-            'lavabo': {},
-            'espejo': {}
-        }
-        setObjData(initialObjData)
-    }, []);
+        async function fetchData() {
 
+            const response = await CreateComposition();
+            let objectId = response.id
+
+            let initialObjData = {
+                'composition_id': objectId,
+                'current_obj': null,
+                'current_opt': null,
+                'mueble': {}, // State for mueble object
+                'encimera': {}, // State for encimera object
+                'encimera_p': {},
+                'lavabo': {},
+                'espejo': {}
+            }
+            setObjData(initialObjData)
+        }
+        fetchData();
+    }, []);
 
 
     const ClickImage = async (image) => {
@@ -42,10 +50,10 @@ function Index() {
         }
     };
 
-    // Sample images array for demonstration
     const images = [
         { src: 'mueble.png', alt: 'mueble' },
         { src: 'encimera.png', alt: 'encimera' },
+        {src: 'lavabo.png', alt: 'lavabo'},
         { src: 'espejo.png', alt: 'espejo'}
     ];
 
