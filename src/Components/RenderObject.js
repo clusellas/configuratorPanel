@@ -12,7 +12,7 @@ import React, {Suspense, useEffect, useRef} from "react";
 THREE.DefaultLoadingManager.addHandler(/\.dds$/i, new DDSLoader());
 
 
-export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoutes, espejoRoutes ,muebleChosenOptions , encimeraChosenOptions , lavaboChosenOptions , espejoChosenOptions }) {
+export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoutes, espejoRoutes ,muebleChosenOptions , encimeraChosenOptions , lavaboChosenOptions , espejoChosenOptions, eje, valorEje }) {
 
     let mueble = null;
     let mueble_con_eje = useLoader(OBJLoader, muebleRoutes[0]);
@@ -35,6 +35,8 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
     }
 
     let lavabo = null;
+    let lavabo2 = null;
+
     let lavabo_con_eje = useLoader(OBJLoader, lavaboRoutes[0]);
     let lavabo_sin_eje = useLoader(OBJLoader, lavaboRoutes[1]);
 
@@ -62,7 +64,7 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
     let espejoCenter;
 
     const scale = 0.003;
-    const zero_z = -10;
+    const height_water = 600;
 
 
 
@@ -71,6 +73,10 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
         'TABLMARINO_CHARCOAL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/CHARCOAL.jpg'),
         'TABLMARINO_NOGAL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/NOGAL.jpg'),
 
+        'ASH': useLoader(THREE.TextureLoader, '/textures/TABLMARINO_ASH.png'),
+        'CHARCOAL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/CHARCOAL.jpg'),
+        'NOGAL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/NOGAL.jpg'),
+
         'CARRARA': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PIEDRA/carrara.jpg'),
         'MARFIL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PIEDRA/crema marfil.jpg'),
         'MARRON': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PIEDRA/marron imperial.jpg'),
@@ -78,9 +84,10 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
         'GRIS': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PIEDRA/PIETRA GRIS.jpg'),
         'VERDE': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PIEDRA/verde india.jpg'),
 
-        'DEFAULT': useLoader(THREE.TextureLoader, '/textures/maderaplywood.jpg'),
+        'DEFAULT': useLoader(THREE.TextureLoader, '/textures/antracita.png'),
         'ERROR': useLoader(THREE.TextureLoader, '/textures/maderaplywood.jpg'),
         'PARED': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PARED.jpg'),
+        'SUELO': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PARED.jpg'),
 
 
     }
@@ -120,6 +127,8 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
             //console.log(child.name + '-->' + texture_current_dict[child.name] )
             let childName = type + '_' + child.name
 
+            childName = childName.split(':').shift();
+
             //if(texture_current_dict.hasOwnProperty(childName) && texture_dict.hasOwnProperty(texture_current_dict[childName]) ){
             const material = new THREE.MeshStandardMaterial( { map: texture_dict[texture_current_dict[childName]] } );
             child.material = material;
@@ -127,13 +136,10 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
 
         }else{
-
             const material = new THREE.MeshStandardMaterial( { map: texture_dict['DEFAULT'] } );
             child.material = material;
 
-
         }
-
     }
 
 
@@ -156,7 +162,7 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
                     texture_file_name = mueble_opt.valor.material_folder_name + '_' + materials_color.valor.material_file_name;
 
                 }else{
-                    texture_file_name = 'ERROR'
+                    texture_file_name = 'DEFAULT'
                 }
                 let nombre_grupo_piezas = mueble_opt.opcion.nombre_grupo_piezas;
                 texture_current_dict['mueble_' + nombre_grupo_piezas]= texture_file_name
@@ -274,17 +280,13 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
     console.log(texture_current_dict)
 
-
-
-
-
     console.log(texture_current_dict)
 
 
     if (mueble){
         const mueblePosition = new THREE.Vector3(
             (0-muebleCenter.x) * scale,  // Center X of the object objCenter.x
-            (400 - muebleBoundingBox.max.y) * scale,  // Position the countertop slightly above the top of the object
+            (height_water - muebleBoundingBox.max.y) * scale,  // Position the countertop slightly above the top of the object
             0  // Center Z of the objectobjCenter.z
              );
 
@@ -299,13 +301,13 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
         if(mueble){
             encimeraPosition = new THREE.Vector3(
                 (0 - encimeraCenter.x ) * scale,
-                400 * scale,
+                height_water * scale,
                 (muebleCenter.z  - encimeraCenter.z) * scale
             );
         }else{
             encimeraPosition = new THREE.Vector3(
                 (0 - encimeraCenter.x) * scale,
-                400 * scale,
+                height_water * scale,
                 0
             );
         }
@@ -317,13 +319,66 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
     if(lavabo){
         let lavaboPosition;
+        let ejelavabo = 0;
+        let ejeLavaboX = 0;
+        if(valorEje && eje != 'X'){
+                ejelavabo= (0 - muebleBoundingBox.max.x/2 + (valorEje * 10));
+        }else{
+            let fraction = 0;
+            let fractionX;
+            switch (eje){
+                case 'C':
+                    fraction = 0.5;
+                    break;
+                case 'D':
+                    fraction = 0.75
+                    break;
+                case 'I':
+                    fraction = 0.25
+                    break;
+                case 'X':
+                    fraction = 0.25
+                    fractionX = 0.75
+                    break;
+                default:
+                    let error = true;
+                    break;
+            }
+            if (mueble){
+                ejelavabo= (muebleBoundingBox.max.x - muebleBoundingBox.min.x)*(-0.5 + fraction)
+                ejeLavaboX = (muebleBoundingBox.max.x - muebleBoundingBox.min.x)*(-0.5 + fractionX)
+            }else if(encimera){
+                ejelavabo= (encimeraBoundingBox.max.x - encimeraBoundingBox.min.x)*(-0.5 + fraction)
+                ejeLavaboX = (encimeraBoundingBox.max.x - encimeraBoundingBox.min.x)*(-0.5 + fractionX)
+            }
+
+        }
+
+        console.log(ejelavabo)
+
+
         if(encimera){
             lavaboPosition = new THREE.Vector3(
-                encimeraCenter.x * scale, //TODO: CHANGE TO VALUE OF ARTICLE MUEBLE ELSE VALUE EJE ENCIMERA
-                (400 + encimeraBoundingBox.max.y)  * scale,
+                ejelavabo*scale, //TODO: CHANGE TO VALUE OF ARTICLE MUEBLE ELSE VALUE EJE ENCIMERA
+                (height_water + encimeraBoundingBox.max.y)  * scale,
                 (encimeraCenter.z) * scale
             );
             lavabo.position.copy(lavaboPosition);
+            console.log('lavabo')
+
+            if(eje === 'X'){
+                lavabo2 = lavabo.clone();
+                lavaboPosition = new THREE.Vector3(
+                    ejeLavaboX*scale, //TODO: CHANGE TO VALUE OF ARTICLE MUEBLE ELSE VALUE EJE ENCIMERA
+                    (height_water + encimeraBoundingBox.max.y)  * scale,
+                    (encimeraCenter.z) * scale
+                );
+
+                lavabo2.position.copy(lavaboPosition);
+
+                console.log(lavabo2.position);
+            }
+
             console.log(lavabo.position);
         }
     }
@@ -338,7 +393,7 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
         let espejoPosition = new THREE.Vector3(
             (0-espejoCenter.x)*scale,
-            550*scale,
+            (height_water+150)*scale,
             0.05
         );
         espejo.position.copy(espejoPosition);
@@ -347,9 +402,6 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
         console.log(espejo.position);
 
     }
-
-
-
 
     return(
         <PresentationControls
@@ -365,26 +417,49 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
                     {mueble && <primitive object={mueble} scale={scale}/>}
                     {encimera && <primitive  object={encimera} scale={scale}/>}
                     {lavabo && <primitive object={lavabo} scale={scale}/>}
+                    {lavabo2 && <primitive object={lavabo2}  scale={scale}/>}
                     {espejo && <primitive object={espejo}  scale={scale}/>}
 
-                    <mesh position={[0, 5, 0]}>
-                        <boxGeometry args={[10, 10, 0.1]} />
-                        <meshStandardMaterial map={texture_dict[texture_current_dict['PARED']] } />
+                    <mesh position={[0, 10, 0]}>
+                        <boxGeometry args={[20, 20, 0.1]} />
+                        <meshStandardMaterial map={texture_dict['PARED']} />
                     </mesh>
 
                     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-                        <planeGeometry args={[10, 10]} />
-                        <meshStandardMaterial color="#808080" />
+                        <planeGeometry args={[20, 10]} />
+                        <meshStandardMaterial map={texture_dict['SUELO']} />
                     </mesh>
                 </group>
 
                 {/*<primitive object={mirror} scale={scale}/>*/}
             </Suspense>
 
-            <directionalLight position={[0, 10, 0]} intensity={0.7} />
-            <directionalLight position={[10, 0, 0]} intensity={0.2} />
-            <directionalLight position={[0, 0, 10]} intensity={0.5} />
-            <ambientLight intensity={0.2} />
+            <directionalLight
+                position={[0, 10, 0]}
+                intensity={1}
+                castShadow={true}
+                shadow-mapSize-width={1024}
+                shadow-mapSize-height={1024}
+                shadow-camera-far={50}
+                />
+            <directionalLight
+                position={[10, 0, 0]}
+                intensity={0.5}
+                castShadow={true}
+                shadow-mapSize-width={1024}
+                shadow-mapSize-height={1024}
+                shadow-camera-far={50}
+            />
+            <directionalLight
+                position={[0, 0, 10]}
+                intensity={0.7}
+                castShadow={true}
+                shadow-mapSize-width={1024}
+                shadow-mapSize-height={1024}
+                shadow-camera-far={50}
+            ><orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} /> </directionalLight>
+            <ambientLight intensity={0.3}/>
+
 
         </PresentationControls>
 

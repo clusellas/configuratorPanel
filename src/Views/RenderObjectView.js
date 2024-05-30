@@ -1,9 +1,15 @@
-import {Canvas} from "@react-three/fiber";
+import {Canvas, useThree} from "@react-three/fiber";
 import RenderObject from "../Components/RenderObject";
 import "../Components/RenderObject.css";
 
+import ReactPDF, { PDFViewer, PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { saveAs } from 'file-saver';
+
+
 import { PDFDocument, rgb } from 'pdf-lib'
-import {useState} from "react"; // Import pdf-lib library
+import {useRef, useState} from "react";
+import * as PropTypes from "prop-types";
+import PrintIcon from "@mui/icons-material/Print"; // Import pdf-lib library
 
 
 function removeAfterLastPoint(str) {
@@ -18,6 +24,27 @@ function removeAfterLastPoint(str) {
     }
 
 }
+
+function removeEjeButKeepFaldon(str) {
+    const lastDotIndex = str.lastIndexOf('.');
+
+    // If there's no dot, return the input as is
+    if (lastDotIndex === -1) {
+        return str;
+    }
+
+    // Split the string into two parts: before and after the last dot
+    const beforeLastDot = str.substring(0, lastDotIndex + 1);
+    const afterLastDot = str.substring(lastDotIndex + 1);
+
+    // If the part after the last dot is not empty, remove the first character
+    const modifiedAfterLastDot = afterLastDot.length > 1 ? afterLastDot.substring(1) : '';
+
+    // Concatenate the parts together
+    return beforeLastDot + modifiedAfterLastDot;
+
+}
+
 
 
 
@@ -43,6 +70,9 @@ export default function RenderObjectView({ composition}) {
     let lavaboRoutes= [] ;
     let espejoRoutes= [] ;
 
+    let Eje;
+    let valorEje;
+
 
     if (mueble!= null){
         let colectionFolder = mueble.articulo.attr.coleccion.code + "/"
@@ -53,23 +83,48 @@ export default function RenderObjectView({ composition}) {
         muebleRoutes = [ruta_con_eje, ruta_sin_eje]
 
         muebleChosenOptions = mueble.opciones_y_valores;
+
+        Eje = mueble.articulo.attr.eje.code;
+        valorEje = mueble.articulo.attr.valor_eje;
     }
     if (encimera!=null){
-        let colectionFolder = encimera.articulo.attr.coleccion.code + "/"
 
-        let ref = encimera.figure_referencia ? encimera.figure_referencia : "";
-        let ruta_con_eje = ROOT + colectionFolder + encimera.articulo.attr.CodigoArticulo+ "." + ref + ".obj";
-        let ruta_sin_eje = ROOT + colectionFolder + removeAfterLastPoint(encimera.articulo.attr.CodigoArticulo) + "." + ref + ".obj";
+        let ruta_con_eje;
+        let ruta_sin_eje;
+        if (encimera.articulo.attr.plana === false){
+            let colectionFolder = encimera.articulo.attr.coleccion.code + "/"
+
+            let ref = encimera.figure_referencia ? encimera.figure_referencia : "";
+            let extra = 'ST';
+            if(mueble){
+                if(mueble.articulo.attr.composicion_simetrica == true){
+                    extra = 'CS';
+                }
+            }
+            ref = ref + "." + extra;
+
+            ruta_con_eje = ROOT + colectionFolder + encimera.articulo.attr.CodigoArticulo+ "." + ref + ".obj";
+            ruta_sin_eje = ROOT + colectionFolder + removeAfterLastPoint(encimera.articulo.attr.CodigoArticulo) + "." + ref + ".obj";
+
+        }else{
+            let colectionFolder = encimera.articulo.attr.coleccion.code + "/"
+
+            ruta_con_eje = ROOT + colectionFolder + encimera.articulo.attr.CodigoArticulo+  ".obj";
+            ruta_sin_eje = ROOT + colectionFolder + removeEjeButKeepFaldon(encimera.articulo.attr.CodigoArticulo) + ".obj";
+
+        }
+
         encimeraRoutes = [ruta_con_eje, ruta_sin_eje]
 
         encimeraChosenOptions = encimera.opciones_y_valores;
+
+        Eje = mueble.articulo.attr.eje.code;
     }
     if (lavabo!=null){
         let colectionFolder = lavabo.articulo.attr.coleccion.code + "/"
 
-        let ref = lavabo.figure_referencia ? lavabo.figure_referencia : "";
-        let ruta_con_eje = ROOT + colectionFolder + lavabo.articulo.attr.CodigoArticulo+ "." + ref + ".obj";
-        let ruta_sin_eje = ROOT + colectionFolder + removeAfterLastPoint(lavabo.articulo.attr.CodigoArticulo) + "." + ref + ".obj";
+        let ruta_con_eje = ROOT + colectionFolder + lavabo.articulo.attr.CodigoArticulo+  ".obj";
+        let ruta_sin_eje = ROOT + colectionFolder + removeAfterLastPoint(lavabo.articulo.attr.CodigoArticulo) + ".obj";
         lavaboRoutes = [ruta_con_eje, ruta_sin_eje]
 
         lavaboChosenOptions = lavabo.opciones_y_valores;
@@ -113,13 +168,118 @@ export default function RenderObjectView({ composition}) {
         const imgData = canvas.toDataURL('image/png');
         const img = await pdfDoc.embedPng(imgData);
 
-        // Draw image on the PDF
-        page.drawImage(img, {
-            x: 0,
-            y: height - (canvas.height * width / canvas.width),
-            width,
-            height: canvas.height * width / canvas.width
+        console.log(page.getSize())
+
+        // Define text styles
+        const titleFontSize = 20;
+        const normalFontSize = 12;
+        const midFontSize = 16;
+
+        // Add title and small image (occupies 1 space)
+        const titleText = 'RESUMEN DE TU CONFIGURACIÓN';
+        const titleWidth = titleText.length * titleFontSize * 0.6;
+        page.drawText(titleText, {
+            x: width / 2 - titleWidth / 2,
+            y: height - 30,
+            size: titleFontSize,
         });
+        // Add small image (adjust coordinates as needed)
+        // page.drawImage(image, { x: 20, y: height - 50, width: 50, height: 50 });
+
+        // Add client name, email, and country (occupies 2 spaces)
+        // const clientName = 'John Doe';
+        // const clientEmail = 'john.doe@example.com';
+        //
+        // const clientCountry = 'Country:' + localStorage.getItem('userCountry');
+        // page.drawText(clientName, { x: 20, y: height - 100, size: normalFontSize });
+        // page.drawText(clientEmail, { x: width / 2, y: height - 100, size: normalFontSize });
+        // page.drawText(clientCountry, { x: 20, y: height - 120, size: normalFontSize });
+
+        // Add new section occupying 5 vertical spaces
+        const newSectionText = 'New Section';
+        const newSectionWidth = newSectionText.length * titleFontSize * 0.6;
+        const newSectionY = height - 280; // Adjust as needed
+        const height_image = 200;
+        const width_image = height_image * canvas.width / canvas.height;
+
+        page.drawImage(img, {
+            x: width/2 - width_image/2,
+            y: height-280,
+            width: width_image,
+            height: height_image
+        });
+
+        let partNames = [];
+        let partPrices = [];
+        let partDescriptions = [];
+        let valueDescriptions = [];
+        let fullReferencia = [];
+
+
+        if(mueble){
+            partNames.push(mueble.articulo.attr.CodigoArticulo);
+            partPrices.push(mueble.current_price + "€")
+            partDescriptions.push(mueble.articulo.attr.DescripcionArticulo)
+            valueDescriptions.push(mueble.descripcion_valores)
+            fullReferencia.push(mueble.full_referencia)
+        }
+        if(encimera){
+            partNames.push(encimera.articulo.attr.CodigoArticulo);
+            partPrices.push(encimera.current_price + "€")
+            partDescriptions.push(encimera.articulo.attr.DescripcionArticulo)
+            valueDescriptions.push(encimera.descripcion_valores)
+            fullReferencia.push(encimera.full_referencia)
+        }
+        if(lavabo){
+            if(Eje === 'X'){
+                partNames.push(lavabo.articulo.attr.CodigoArticulo);
+                partPrices.push(lavabo.current_price + "€")
+                partDescriptions.push(lavabo.articulo.attr.DescripcionArticulo)
+                valueDescriptions.push(lavabo.descripcion_valores)
+                fullReferencia.push(lavabo.full_referencia)
+            }
+            partNames.push(lavabo.articulo.attr.CodigoArticulo);
+            partPrices.push(lavabo.current_price + "€")
+            partDescriptions.push(lavabo.articulo.attr.DescripcionArticulo)
+            valueDescriptions.push(lavabo.descripcion_valores)
+            fullReferencia.push(lavabo.full_referencia)
+        }
+        if(espejo){
+            partNames.push(espejo.articulo.attr.CodigoArticulo);
+            partPrices.push(espejo.current_price + "€")
+            partDescriptions.push(espejo.articulo.attr.DescripcionArticulo)
+            valueDescriptions.push(espejo.descripcion_valores)
+            fullReferencia.push(espejo.full_referencia)
+        }
+
+        const partYPositions = [newSectionY - 60, newSectionY - 140, newSectionY - 220, newSectionY - 300, newSectionY - 380];
+        partYPositions.forEach((y, index) => {
+            if(partNames[index]&&partPrices[index]&&partDescriptions[index]){
+
+                page.drawText(partNames[index] + '_' + fullReferencia[index], { x: 20, y: y, size: midFontSize });
+                page.drawText(partPrices[index], { x: width - 100, y: y, size: normalFontSize });
+
+                const maxTextWidth = width; // Maximum width for text
+                const descriptionLines = splitTextIntoLines(partDescriptions[index], normalFontSize, maxTextWidth);
+                const valueLines = splitTextIntoLines(valueDescriptions[index], normalFontSize, maxTextWidth);
+                let yOffset = y -15;
+                descriptionLines.forEach((line, idx) => {
+                    page.drawText(line, { x: 20, y: yOffset, size: normalFontSize });
+                    yOffset -= 15; // Adjust line spacing as needed
+                });
+                valueLines.forEach((line, idx) => {
+                    page.drawText(line, { x: 20, y: yOffset, size: normalFontSize });
+                    yOffset -= 15; // Adjust line spacing as needed
+                });
+
+            }
+        });
+
+        // Add total price (occupies 1 space)
+        let totalPrice = partPrices.map(price => parseFloat(price.replace('€', ''))).reduce((total, price) => total + price, 0);
+        totalPrice = totalPrice + '€';
+
+        page.drawText('Total: ' + totalPrice, { x: 20, y: 30, size: midFontSize });
 
         // Save PDF
         const pdfBytes = await pdfDoc.save();
@@ -133,16 +293,91 @@ export default function RenderObjectView({ composition}) {
         setGeneratingPDF(false);
     }
 
+    function splitTextIntoLines(text, fontSize, maxWidth) {
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = words[0];
+
+        for (let i = 1; i < words.length; i++) {
+            const word = words[i];
+            const width = fontSize * word.length * 0.6; // Assuming average width of characters
+            if (width < maxWidth) {
+                const potentialLine = currentLine + ' ' + word;
+                const potentialLineWidth = fontSize * potentialLine.length * 0.6;
+                if (potentialLineWidth <= maxWidth) {
+                    currentLine = potentialLine;
+                } else {
+                    lines.push(currentLine);
+                    currentLine = word;
+                }
+            } else {
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        lines.push(currentLine);
+
+        return lines;
+    }
+
+
+    //
+    // async function createPDF2() {
+    //     // Set generatingPDF to true to show loading indicator
+    //     setGeneratingPDF(true);
+    //
+    //     // Create PDF
+    //     const pdf = (
+    //         <Document>
+    //             <Page size="A4" style={styles.page}>
+    //                 <View style={styles.section}>
+    //                     <Canvas gl={{ preserveDrawingBuffer: true }}>
+    //                         <color attach="background" args={["#9bbee3"]} />
+    //                         <fog attach="fog" args={["#9bbee3", 10, 20]} />
+    //
+    //                         <RenderObject
+    //                             mueble={composition.mueble}
+    //                             encimera={composition.encimera}
+    //                             lavabo={composition.lavabo}
+    //                             espejo={composition.espejo}
+    //                         />
+    //                     </Canvas>
+    //                 </View>
+    //             </Page>
+    //         </Document>
+    //     );
+    //
+    //     // Generate PDF blob
+    //     const downloadLink = (
+    //         <PDFDownloadLink document={pdf} fileName="rendered_scene.pdf">
+    //             {({ blob, url, loading, error }) =>
+    //                 loading ? 'Loading document...' : 'Download now!'
+    //             }
+    //         </PDFDownloadLink>
+    //     );
+    //
+    //
+    //     // Set generatingPDF to false after PDF is generated
+    //     setGeneratingPDF(false);
+    //
+    //     return downloadLink;
+    // }
+
 
     return (
         <div className="render-container">
-            <button onClick={createPDF} disabled={generatingPDF}>
-                {generatingPDF ? 'Generating PDF...' : 'Save as PDF'}
-            </button>
+            <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: '999' }}>
+                <button onClick={createPDF} disabled={generatingPDF}>
+                    <PrintIcon></PrintIcon>
+                </button>
+            </div>
 
             <Canvas gl={{ preserveDrawingBuffer: true }}>
                 <color attach="background" args={["#9bbee3"]} />
-                <fog attach="fog" args={["#9bbee3", 10, 20]} />
+                <fog attach="fog" args={["#9bbee3", 10, 20]}
+                />
+
+
                 <RenderObject
                     muebleRoutes ={muebleRoutes}
                     encimeraRoutes={encimeraRoutes}
@@ -152,8 +387,11 @@ export default function RenderObjectView({ composition}) {
                     encimeraChosenOptions={encimeraChosenOptions}
                     lavaboChosenOptions={lavaboChosenOptions}
                     espejoChosenOptions={espejoChosenOptions}
+                    eje={Eje}
+                    valorEje={valorEje}
                 />
             </Canvas>
         </div>
     );
+
 }

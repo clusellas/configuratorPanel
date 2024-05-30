@@ -1,6 +1,6 @@
 .option-box{
     height: 80%;
-    /* width: 90%; */
+    width: 29%;
     margin: 32px;
 
     /* margin-bottom: 32px; */
@@ -16,6 +16,7 @@
     padding: 16px;
     border: 2px solid grey;
     position: fixed;
+    justify-content: center;
 }
 
 
@@ -25,6 +26,7 @@
     transform: translate(-50%, -50%);
     width: 90%;*/
     height: 100%;
+    width:95%;
     max-width: 800px; /* Adjust max-width according to your preference */
      /* Adjust max-height according to your preference */
     overflow: auto;
@@ -60,6 +62,5 @@
     margin-top: 10px;
     position: sticky;
     bottom: 0;
-    background-color: #ffffff; /* Adjust background color as needed */
     padding: 10px;
 }

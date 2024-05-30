@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import {
     fetchConfiguratorObject,
     fetchOptionById,
@@ -11,7 +11,6 @@ import {Button, Grid, Box, AppBar, Toolbar, IconButton} from "@mui/material";
 import OptionDecide from "../Components/OptionDecide";
 import RenderObjectView from "./RenderObjectView";
 import {MyContext} from "../MyContext";
-import {fetchComposition} from "../Controllers/CompositionController";
 
 
 
@@ -24,6 +23,8 @@ function CompositionView() {
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedOptionId, setSelectedOptionId] = useState(null);
     const [standard, setStandard] = useState(false);
+    const [showLavabo, setshowLavabo] = useState(false);
+
     const [unexpectedError, setUnexpectedError]  = useState(false);
     const { setObjData, objData } = useContext(MyContext);
 
@@ -101,6 +102,13 @@ function CompositionView() {
                 }
             }
 
+            if(composition.lavabo){
+                setshowLavabo(true)
+            }
+            if(composition.encimera && composition.encimera.articulo.attr.plana === true){
+                setshowLavabo(true)
+            }
+
             console.log(currentCO)
         } catch (error) {
             console.error('Error fetching configurator object:', error);
@@ -135,10 +143,7 @@ function CompositionView() {
     const selectValue = async (opcion , selectedValue) => {
         const response = await updateConfiguratorObject(currentCO.id, opcion.id, selectedValue.id);
 
-        //const configuratorObject = await fetchConfiguratorObject(currentCO.id);
-
         fetchData();
-        //setCurrentCO(configuratorObject);
 
         console.log('Selected option:', selectedValue.id);
     };
@@ -188,12 +193,13 @@ function CompositionView() {
         console.log('Selected option:', direction);
     }
 
+
     if (!currentCO) return null;
 
     return (
         <div>
             <Grid container rowSpacing={10}>
-                <Grid height='8%' item xs={12}>
+                <Grid container height='8%' item xs={12} padding-bottom={5}>
                     <AppBar position="static" color="secondary">
                         <Toolbar>
                             <Grid container justifyContent="flex-start" columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -203,57 +209,58 @@ function CompositionView() {
                                 <Grid item x={2}>
                                     <Button variant = 'outlined' color="primary" onClick={() => changeConfigurationObject('encimera')}>encimera</Button>
                                 </Grid>
-                                <Grid item x={2}>
-                                    <Button variant = 'outlined' color="primary" onClick={() => changeConfigurationObject('lavabo')}>lavabo</Button>
-                                </Grid>
+
+                                {showLavabo && (
+                                    <Grid item x={2}>
+                                        <Button variant='outlined' color="primary" onClick={() => changeConfigurationObject('lavabo')}>lavabo</Button>
+                                    </Grid>
+                                )}
                                 <Grid item x={2}>
                                     <Button variant = 'outlined' color="primary" onClick={() => changeConfigurationObject('espejo')}>espejo</Button>
                                 </Grid>
                             </Grid>
-                            <button>
-                                <PrintIcon />
-                            </button>
+                            <div>{CMPS.total_price}€</div>
 
                         </Toolbar>
                     </AppBar>
                 </Grid>
-                <Grid height='80%' container rowSpacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid item xs={8}>
-                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                            <Grid item xs={12}>
-                                {standard ? false : (
-                                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
-                                        {currentCO.current_linea.opciones.map((option, index) => (
-                                            <Grid item x={2}>
-                                                <Button
-                                                    key={option.id}
-                                                    variant={selectedOptionId === option.id ? 'contained' : 'outlined'}
-                                                    color="primary"
-                                                    size='small'
-                                                    onClick={() => changeOption(option.id)}>
-                                                    {option.name}
-                                                </Button>
-                                            </Grid>
-                                        ))}
-                                    </Grid>
-                                )}
-                            </Grid>
-                            <Grid item xs={12}>
-                                <div style={{height:"40%"}}>
-                                    <RenderObjectView composition={CMPS}></RenderObjectView>
-                                </div>
+                    <Grid height='80%' container rowSpacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }} margin-top={10}>
+                        <Grid item xs={8}>
+                            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                <Grid item xs={12}>
+                                    {standard ? false : (
+                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
+                                            {currentCO.current_linea.opciones.map((option, index) => (
+                                                <Grid item x={2}>
+                                                    <Button
+                                                        key={option.id}
+                                                        variant={selectedOptionId === option.id ? 'contained' : 'outlined'}
+                                                        color="primary"
+                                                        size='small'
+                                                        onClick={() => changeOption(option.id)}>
+                                                        {option.name}
+                                                    </Button>
+                                                </Grid>
+                                            ))}
+                                        </Grid>
+                                    )}
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <div style={{height:"40%"}}>
+                                        <RenderObjectView composition={CMPS}></RenderObjectView>
+                                    </div>
+                                </Grid>
                             </Grid>
                         </Grid>
+                        {standard ? false : (
+                            <Grid item xs={4}>
+                                <OptionDecide element={selectedOption} onValueClick={selectValue} opciones_y_valores={currentCO.opciones_y_valores} navigation={navigation}></OptionDecide>
+
+                            </Grid>
+                        )}
+
+
                     </Grid>
-                    {standard ? false : (
-                        <Grid item xs={4}>
-                            <OptionDecide element={selectedOption} onValueClick={selectValue} opciones_y_valores={currentCO.opciones_y_valores} navigation={navigation}></OptionDecide>
-
-                        </Grid>
-                    )}
-
-
-                </Grid>
 
             </Grid>
 

@@ -2,10 +2,9 @@
 import React, {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import api from "../api";
-import {MyContext} from "../MyContext";
 
 
-export async function fetchOptionsMueble(option, mueble){
+export async function fetchOptionsMueble(option, mueble , composition_id){
     try {
 
         let payload = Object.assign({}, mueble);
@@ -25,6 +24,8 @@ export async function fetchOptionsMueble(option, mueble){
                 break;
         }
 
+        payload.composition_id = composition_id
+
         const response = await axios.get(api.getEndpoint('mueble'), {params:payload} );
         return response.data;
 
@@ -35,7 +36,7 @@ export async function fetchOptionsMueble(option, mueble){
     }
 }
 
-export async function fetchOptionsEncimera(option, encimera){
+export async function fetchOptionsEncimera(option, encimera ,composition_id){
     try {
 
         let payload = Object.assign({}, encimera);
@@ -57,6 +58,8 @@ export async function fetchOptionsEncimera(option, encimera){
                 break;
         }
 
+        payload.composition_id = composition_id
+
         const response = await axios.get(api.getEndpoint('encimera'), {params:payload} );
         return response.data;
 
@@ -67,7 +70,7 @@ export async function fetchOptionsEncimera(option, encimera){
     }
 }
 
-export async function fetchOptionsLavabo(option, lavabo){
+export async function fetchOptionsLavabo(option, lavabo ,composition_id){
     try {
 
         let payload = Object.assign({}, lavabo);
@@ -76,10 +79,12 @@ export async function fetchOptionsLavabo(option, lavabo){
                 payload.show_coleccion = true
                 break;
             case 'color':
-                payload.show_colorLavabo = true
+                payload.show_color = true
                 break;
 
         }
+        payload.composition_id = composition_id
+
         const response = await axios.get(api.getEndpoint('lavabo'), {params:payload} );
         return response.data;
 
@@ -90,7 +95,7 @@ export async function fetchOptionsLavabo(option, lavabo){
     }
 }
 
-export async function fetchOptionsEspejo(option, espejo){
+export async function fetchOptionsEspejo(option, espejo, composition_id){
     try {
 
         let payload = Object.assign({}, espejo);
@@ -103,6 +108,8 @@ export async function fetchOptionsEspejo(option, espejo){
                 break;
 
         }
+        payload.composition_id = composition_id
+
         const response = await axios.get(api.getEndpoint('espejo'), {params:payload} );
         return response.data;
 

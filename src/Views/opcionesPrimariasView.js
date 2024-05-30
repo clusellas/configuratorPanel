@@ -1,9 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import CollectionsController, {fetchCollections, HandleImageClick} from '../Controllers/ColeccionController.js';
-import ColeccionController from "../Controllers/ColeccionController.js";
-import OptionItem from "../Components/OptionItem";
 import {generatePath, useNavigate} from "react-router-dom";
-import ImageGridMIU from "../Components/ImageGridMIU";
 import {MyContext} from "../MyContext";
 import ImageGrid from "../Components/ImageGrid";
 import {
@@ -32,7 +28,7 @@ function OpcionesPrimariasView() {
         'mueble':['coleccion','design','ancho','eje'],
         'encimera':['coleccion','ancho','eje','faldon','acabado'],
         'encimera_plana':['coleccion','ancho','eje','faldon'],
-        'lavabo':['coleccion','colorLavabo'],
+        'lavabo':['coleccion','color'],
         'espejo':['coleccion','medidas']
     }
     if (objData.current_obj == null){
@@ -52,19 +48,20 @@ function OpcionesPrimariasView() {
 
             switch (objData.current_obj) {
                 case 'mueble':
-                    data = await fetchOptionsMueble(objData.current_opt, objData.mueble);
+                    data = await fetchOptionsMueble(objData.current_opt, objData.mueble, objData.composition_id);
                     break;
                 case 'encimera':
-                    data = await fetchOptionsEncimera(objData.current_opt, objData.encimera);
+                    data = await fetchOptionsEncimera(objData.current_opt, objData.encimera, objData.composition_id);
                     break;
                 case 'lavabo':
-                    data = await fetchOptionsLavabo(objData.current_opt, objData.lavabo);
+                    data = await fetchOptionsLavabo(objData.current_opt, objData.lavabo, objData.composition_id);
                     break;
                 case 'espejo':
-                    data = await fetchOptionsEspejo(objData.current_opt, objData.espejo);
+                    data = await fetchOptionsEspejo(objData.current_opt, objData.espejo , objData.composition_id);
                     break;
             }
             setElements(data);
+
 
             // check if elements are all null
             let all_null = true;
@@ -79,6 +76,10 @@ function OpcionesPrimariasView() {
             if (all_null){
                 nextOption(); // If all tuples have null values, return true
                 fetchData();
+            }else{
+                if(data.length == 1){
+                    //await ClickImage(data[0][Object.keys(data[0])[0]]);
+                }
             }
 
 
@@ -192,7 +193,7 @@ function OpcionesPrimariasView() {
                 </div>
 
             );
-        case 'colorLavabo':
+        case 'color':
             return (
                 <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
                     <ImageGridColorLavabo elements={elements} onImageClick={ClickImage} />
