@@ -129,7 +129,6 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
             childName = childName.split(':').shift();
 
-            //if(texture_current_dict.hasOwnProperty(childName) && texture_dict.hasOwnProperty(texture_current_dict[childName]) ){
             const material = new THREE.MeshStandardMaterial( { map: texture_dict[texture_current_dict[childName]] } );
             child.material = material;
             //}
@@ -285,9 +284,9 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
     if (mueble){
         const mueblePosition = new THREE.Vector3(
-            (0-muebleCenter.x) * scale,  // Center X of the object objCenter.x
-            (height_water - muebleBoundingBox.max.y) * scale,  // Position the countertop slightly above the top of the object
-            0  // Center Z of the objectobjCenter.z
+            (0-muebleCenter.x) * scale,
+            (height_water - muebleBoundingBox.max.y) * scale,
+            0
              );
 
         mueble.position.copy(mueblePosition);

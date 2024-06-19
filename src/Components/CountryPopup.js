@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, FormControl, InputLabel, MenuItem } from '@mui/material';
-import Select from 'react-select';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, FormControl } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 const CountryPopup = () => {
     const [country, setCountry] = useState(localStorage.getItem('userCountry') || '');
     const [showPopup, setShowPopup] = useState(!country);
+    const [showConsentPopup, setShowConsentPopup] = useState(false);
+    const [consentGiven, setConsentGiven] = useState(localStorage.getItem('consentGiven') === 'true');
 
     const countries = [
         { label: 'Afghanistan', value: 'Afghanistan' },
@@ -202,54 +205,95 @@ const CountryPopup = () => {
         { label: 'Zimbabwe', value: 'Zimbabwe' }
     ];
 
-
-    const handleCountryChange = (selectedOption) => {
-        if (selectedOption) {
-            setCountry(selectedOption.value);
-            localStorage.setItem('userCountry', selectedOption.value);
-            setShowPopup(false);
+    const handleCountryChange = (event, newValue) => {
+        if (newValue) {
+            if (consentGiven) {
+                setCountry(newValue.value);
+                localStorage.setItem('userCountry', newValue.value);
+                setShowPopup(false);
+            } else {
+                setCountry(newValue.value);
+                setShowConsentPopup(true);
+            }
         }
     };
 
+    const handleConsent = () => {
+        localStorage.setItem('consentGiven', 'true');
+        localStorage.setItem('userCountry', country);
+        setConsentGiven(true);
+        setShowConsentPopup(false);
+        setShowPopup(false);
+    };
+
     useEffect(() => {
-        if (localStorage.getItem('userCountry')) {
+        if (localStorage.getItem('userCountry') && consentGiven) {
             setShowPopup(false);
         }
-    }, []);
+    }, [consentGiven]);
 
     return (
-        <Dialog
-            open={showPopup}
-            onClose={() => setShowPopup(false)}
-            PaperProps={{
-                style: {
-                    width: '50%',
-                    height: '40%',
-                    margin: 'auto',
-                    display: 'flex',
-                    flexDirection: 'column',
-                },
-            }}
-        >
-            <DialogTitle>Please select your country</DialogTitle>
-            <DialogContent style={{ flexGrow: 1 }}>
-                <Select
-                    options={countries}
-                    value={country ? { label: country, value: country } : null}
-                    onChange={handleCountryChange}
-                    placeholder="Search or select country..."
-                    isSearchable
-                    autoFocus
-                    styles={{
-                        container: (provided) => ({
-                            ...provided,
-                            flexGrow: 1,
+        <>
+            <Dialog
+                open={showPopup}
+                onClose={() => setShowPopup(false)}
+                PaperProps={{
+                    style: {
+                        width: '50%',
+                        height: '40%',
+                        margin: 'auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    },
+                }}
+            >
+                <DialogTitle>Por favor seleccione su país</DialogTitle>
+                <DialogContent style={{ flexGrow: 1 }}>
+                    <FormControl fullWidth>
+                        <Autocomplete
+                            options={countries}
+                            getOptionLabel={(option) => option.label}
+                            value={countries.find((c) => c.value === country) || null}
+                            onChange={handleCountryChange}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="País"
+                                    autoFocus
+                                />
+                            )}
+                        />
+                    </FormControl>
+                </DialogContent>
+            </Dialog>
 
-                        }),
-                    }}
-                />
-            </DialogContent>
-        </Dialog>
+            <Dialog
+                open={showConsentPopup}
+                onClose={() => setShowConsentPopup(false)}
+                PaperProps={{
+                    style: {
+                        width: '50%',
+                        height: '20%',
+                        margin: 'auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    },
+                }}
+            >
+                <DialogTitle>Consentimiento de cookies</DialogTitle>
+                <DialogContent style={{ flexGrow: 1 }}>
+                    <p>Para proporcionar una mejor experiencia, necesitamos su consentimiento para almacenar su país.</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowConsentPopup(false)} color="secondary">
+                        Rechazar
+                    </Button>
+                    <Button onClick={handleConsent} color="primary">
+                        Aceptar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
 

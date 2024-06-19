@@ -45,9 +45,6 @@ function removeEjeButKeepFaldon(str) {
 
 }
 
-
-
-
 export default function RenderObjectView({ composition}) {
 
     const [generatingPDF, setGeneratingPDF] = useState(false);
@@ -183,17 +180,7 @@ export default function RenderObjectView({ composition}) {
             y: height - 30,
             size: titleFontSize,
         });
-        // Add small image (adjust coordinates as needed)
-        // page.drawImage(image, { x: 20, y: height - 50, width: 50, height: 50 });
 
-        // Add client name, email, and country (occupies 2 spaces)
-        // const clientName = 'John Doe';
-        // const clientEmail = 'john.doe@example.com';
-        //
-        // const clientCountry = 'Country:' + localStorage.getItem('userCountry');
-        // page.drawText(clientName, { x: 20, y: height - 100, size: normalFontSize });
-        // page.drawText(clientEmail, { x: width / 2, y: height - 100, size: normalFontSize });
-        // page.drawText(clientCountry, { x: 20, y: height - 120, size: normalFontSize });
 
         // Add new section occupying 5 vertical spaces
         const newSectionText = 'New Section';
@@ -320,48 +307,6 @@ export default function RenderObjectView({ composition}) {
         return lines;
     }
 
-
-    //
-    // async function createPDF2() {
-    //     // Set generatingPDF to true to show loading indicator
-    //     setGeneratingPDF(true);
-    //
-    //     // Create PDF
-    //     const pdf = (
-    //         <Document>
-    //             <Page size="A4" style={styles.page}>
-    //                 <View style={styles.section}>
-    //                     <Canvas gl={{ preserveDrawingBuffer: true }}>
-    //                         <color attach="background" args={["#9bbee3"]} />
-    //                         <fog attach="fog" args={["#9bbee3", 10, 20]} />
-    //
-    //                         <RenderObject
-    //                             mueble={composition.mueble}
-    //                             encimera={composition.encimera}
-    //                             lavabo={composition.lavabo}
-    //                             espejo={composition.espejo}
-    //                         />
-    //                     </Canvas>
-    //                 </View>
-    //             </Page>
-    //         </Document>
-    //     );
-    //
-    //     // Generate PDF blob
-    //     const downloadLink = (
-    //         <PDFDownloadLink document={pdf} fileName="rendered_scene.pdf">
-    //             {({ blob, url, loading, error }) =>
-    //                 loading ? 'Loading document...' : 'Download now!'
-    //             }
-    //         </PDFDownloadLink>
-    //     );
-    //
-    //
-    //     // Set generatingPDF to false after PDF is generated
-    //     setGeneratingPDF(false);
-    //
-    //     return downloadLink;
-    // }
 
 
     return (

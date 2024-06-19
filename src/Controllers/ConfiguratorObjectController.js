@@ -1,6 +1,5 @@
 // ConfiguratorObjectController.js
 import axios from 'axios';
-import ConfiguratorObject from '../classes/ConfiguratorObjectModel';
 import api from "../api";
 
 export async function fetchConfiguratorObject(configuratorObjectId) {
