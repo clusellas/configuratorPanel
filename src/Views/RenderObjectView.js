@@ -318,8 +318,8 @@ export default function RenderObjectView({ composition}) {
             </div>
 
             <Canvas gl={{ preserveDrawingBuffer: true }}>
-                <color attach="background" args={["#9bbee3"]} />
-                <fog attach="fog" args={["#9bbee3", 10, 20]}
+                <color attach="background" args={["#161617"]} />
+                <fog attach="fog" args={["#131415", 10, 20]}
                 />
 
 

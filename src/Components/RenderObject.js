@@ -72,10 +72,22 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
         'TABLMARINO_ASH': useLoader(THREE.TextureLoader, '/textures/TABLMARINO_ASH.png'),
         'TABLMARINO_CHARCOAL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/CHARCOAL.jpg'),
         'TABLMARINO_NOGAL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/NOGAL.jpg'),
+        'TABLMARINO_ACEITADO': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/MADERA TABLERO MARINO_ACEITADO.png'),
+
+
+        'LACADOBRIL_ACERO': useLoader(THREE.TextureLoader, '/textures/MATERIALES/LACADOMATE/ACABADO LACA_ACERO MATE.png'),
+
+
+        'LACADOMATE_ACERO': useLoader(THREE.TextureLoader, '/textures/MATERIALES/LACADOMATE/ACABADO LACA_ACERO MATE.png'),
+        'LACADOMATE_BEIGE': useLoader(THREE.TextureLoader, '/textures/MATERIALES/LACADOMATE/ACABADO LACA_BEIGE MATE.png'),
+        'LACADOMATE_TERRACOTA': useLoader(THREE.TextureLoader, '/textures/MATERIALES/LACADOMATE/ACABADO LACA_TERRACOTA MATE.png'),
+
 
         'ASH': useLoader(THREE.TextureLoader, '/textures/TABLMARINO_ASH.png'),
         'CHARCOAL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/CHARCOAL.jpg'),
         'NOGAL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/NOGAL.jpg'),
+        'ACEITADO': useLoader(THREE.TextureLoader, '/textures/MATERIALES/TAB.MARINO/MADERA TABLERO MARINO_ACEITADO.png'),
+
 
         'CARRARA': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PIEDRA/carrara.jpg'),
         'MARFIL': useLoader(THREE.TextureLoader, '/textures/MATERIALES/PIEDRA/crema marfil.jpg'),
@@ -129,9 +141,44 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
             childName = childName.split(':').shift();
 
-            const material = new THREE.MeshStandardMaterial( { map: texture_dict[texture_current_dict[childName]] } );
-            child.material = material;
-            //}
+            if (type === 'espejo') {
+                child.material = new THREE.MeshStandardMaterial({
+                    metalness: 0.99,
+                    roughness: 0.2,
+                    color: '#ccc8c8'
+                });
+            } else {
+                let texture = texture_dict[texture_current_dict[childName]] || texture_dict['DEFAULT'];
+
+                // Ensure texture is correctly wrapped and mapped
+                texture.wrapS = THREE.ClampToEdgeWrapping;
+                texture.wrapT = THREE.ClampToEdgeWrapping;
+                texture.repeat.set(2, 2); // Adjust these values to fit your needs
+                texture.needsUpdate = true;
+
+                child.material = new THREE.MeshStandardMaterial({ map: texture });
+            }
+
+            child.geometry.computeBoundingBox();
+
+            let bbox = child.geometry.boundingBox;
+            let max = bbox.max, min = bbox.min;
+
+            let offset = new THREE.Vector2(0 - min.x, 0 - min.y);
+            let range = new THREE.Vector2(max.x - min.x, max.y - min.y);
+            let uvAttribute = child.geometry.attributes.uv;
+
+            for (let i = 0; i < uvAttribute.count; i++) {
+                let uv = new THREE.Vector2().fromBufferAttribute(uvAttribute, i);
+
+                uv.x = (uv.x + offset.x) / range.x;
+                uv.y = (uv.y + offset.y) / range.y;
+
+                uvAttribute.setXY(i, uv.x, uv.y);
+            }
+            uvAttribute.needsUpdate = true;
+
+            // Adjust UV mapping if needed
 
 
         }else{
@@ -270,9 +317,10 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
             add_material(child, 'espejo')
         });
 
-        espejoBoundingBox = computeTotalBoundingBox(mueble);
+        espejoBoundingBox = computeTotalBoundingBox(espejo);
         espejoCenter = new THREE.Vector3();
         espejoBoundingBox.getCenter(espejoCenter);
+
     }
 
     console.log(texture_dict)

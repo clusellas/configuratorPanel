@@ -10,21 +10,51 @@ import {
     TextField,
     styled
 } from '@mui/material';
-import './OptionDecide.css'
+import './OptionDecide.css';
+
+const OptionBox = styled('div')(({ theme }) => ({
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    backgroundColor: '#e6e6e6',
+    //borderRadius: theme.shape.borderRadius,
+    //boxShadow: theme.shadows[3],
+}));
+
+const OptionDecideContainer = styled('div')(({ theme }) => ({
+    margin: theme.spacing(2),
+}));
+
+const OptionDecideContent = styled('div')(({ theme }) => ({
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(500px, 1fr))',
+    gap: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+}));
+
+const ImageContainer = styled('div')(({ theme, selected }) => ({
+    border: `4px solid ${selected ? theme.palette.primary.main : 'transparent'}`,
+    borderRadius: theme.shape.borderRadius,
+    cursor: 'pointer',
+    '&:hover': {
+        borderColor: theme.palette.primary.light,
+    },
+}));
+
+const ScrollableImageList = styled(ImageList)(({ theme }) => ({
+    maxHeight: 1000, // Adjust this height as needed
+    overflowY: 'scroll',
+}));
 
 const OptionDecide = ({ element, onValueClick, opciones_y_valores, navigation }) => {
-
     const baseURL = 'http://localhost:8000';
 
-    const numColumns =  2; // Determine the number of columns based on the elements array
+    const numColumns = 2; // Determine the number of columns based on the elements array
 
     let allCodesAreNumbers;
 
-    if (element){
+    if (element) {
         allCodesAreNumbers = element.valores.every(item => /^-?\d+(,\d+)?$/.test(item.code));
     }
-
-
 
     if (!element) {
         // Return a loading indicator if elements is null
@@ -35,14 +65,11 @@ const OptionDecide = ({ element, onValueClick, opciones_y_valores, navigation })
         );
     }
 
-
-
     return (
-        <div className="option-box">
-            <div className="option-decide-container">
+        <OptionBox>
+            <OptionDecideContainer>
                 <Typography variant="h5" className="option-decide-title">{element.name}</Typography>
-                <div className={`option-decide-content ${numColumns === 2 ? 'two-columns' : 'one-column'}`}>
-
+                <OptionDecideContent className={`option-decide-content ${numColumns === 2 ? 'two-columns' : 'one-column'}`}>
                     {allCodesAreNumbers ? (
                         <Autocomplete
                             options={element.valores}
@@ -53,33 +80,29 @@ const OptionDecide = ({ element, onValueClick, opciones_y_valores, navigation })
                         />
                     ) : (
                         <Grid container spacing={2}>
-                            <ImageList cols={numColumns}>
+                            <ScrollableImageList cols={numColumns}>
                                 {element.valores.map((item, index) => {
                                     const selected = opciones_y_valores.some(val => val.opcion.id === element.id && val.valor.id === item.id);
                                     return (
-                                        <ImageListItem key={index} onClick={() => onValueClick(element, item)} >
-                                            <img src={`${baseURL}${item.image}`} alt={item.code} />
-                                            <Typography className="image-text" variant="body2"  style={{ backgroundColor: selected ? 'grey' : 'white' }}>{item.code}</Typography>
+                                        <ImageListItem key={index} onClick={() => onValueClick(element, item)}>
+                                            <ImageContainer selected={selected} style={{ backgroundColor: selected ? 'grey' : 'white' }}>
+                                                <img src={`${baseURL}${item.image}`} alt={item.code} style={{ width: '100%', height: 'auto' }} />
+                                                <Typography className="image-text" variant="body2" style={{ backgroundColor: 'rgba(255, 255, 255, 0,7)', width:'97%' }}>{item.description}</Typography>
+                                            </ImageContainer>
                                         </ImageListItem>
-
                                     );
                                 })}
-                            </ImageList>
+                            </ScrollableImageList>
                         </Grid>
-                        )
-                    }
-                </div>
+                    )}
+                </OptionDecideContent>
                 <div className="option-decide-navigation">
                     <Button onClick={() => navigation('back')} variant="contained" color="primary">Back</Button>
                     <Button onClick={() => navigation('next')} variant="contained" color="primary">Next</Button>
                 </div>
-            </div>
-        </div>
-
-
+            </OptionDecideContainer>
+        </OptionBox>
     );
 };
 
 export default OptionDecide;
-
-
