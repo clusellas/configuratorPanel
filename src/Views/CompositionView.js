@@ -53,7 +53,7 @@ function CompositionView() {
                 }
             }
 
-            console.log(objData);
+           // console.log(objData);
             let current_linea;
 
             let vari = 'encimera';
@@ -112,7 +112,7 @@ function CompositionView() {
                 setshowLavabo(true)
             }
 
-            console.log(currentCO)
+            //console.log(currentCO)
         } catch (error) {
             console.error('Error fetching configurator object:', error);
         }}
@@ -129,7 +129,7 @@ function CompositionView() {
         const url = generatePath("/opciones-primarias/");
         // Navigate to the view displaying the newly created ConfigurationObject
         navigate(url);
-        console.log(url);
+        //console.log(url);
 
     };
 
@@ -140,7 +140,7 @@ function CompositionView() {
         const option = await fetchOptionById(option_id);
         setSelectedOption(option);
 
-        console.log('Selected option:', option_id);
+        //console.log('Selected option:', option_id);
     };
 
     const selectValue = async (opcion , selectedValue) => {
@@ -148,7 +148,7 @@ function CompositionView() {
 
         fetchData();
 
-        console.log('Selected option:', selectedValue.id);
+        //console.log('Selected option:', selectedValue.id);
     };
 
     const changeConfigurationObject = (producto) => {
@@ -193,7 +193,7 @@ function CompositionView() {
             changeOption(currentCO.current_linea.opciones[index].id);
         }
 
-        console.log('Selected option:', direction);
+        //console.log('Selected option:', direction);
     }
 
 

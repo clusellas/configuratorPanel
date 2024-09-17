@@ -216,7 +216,7 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
         });
 
-        console.log(texture_current_dict);
+        //console.log(texture_current_dict);
 
         mueble.traverse(child => {
             add_material(child, 'mueble')
@@ -246,7 +246,7 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
             }
         });
 
-        console.log(texture_current_dict);
+        //console.log(texture_current_dict);
 
         encimera.traverse(child => {
             add_material(child, 'encimera')
@@ -323,11 +323,14 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
     }
 
-    console.log(texture_dict)
+    /**
+         console.log(texture_dict)
 
     console.log(texture_current_dict)
 
     console.log(texture_current_dict)
+     */
+
 
 
     if (mueble){
@@ -338,9 +341,13 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
              );
 
         mueble.position.copy(mueblePosition);
-        console.log('mueble')
+
+        /**
+         *         console.log('mueble')
         console.log(mueble.position);
         console.log(muebleBoundingBox);
+         */
+
     }
 
     if(encimera){
@@ -359,9 +366,12 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
             );
         }
         encimera.position.copy(encimeraPosition);
-        console.log('encimera')
+        /*
+                console.log('encimera')
 
         console.log(encimera.position);
+        */
+
     }
 
     if(lavabo){
@@ -401,7 +411,7 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
         }
 
-        console.log(ejelavabo)
+        //console.log(ejelavabo)
 
 
         if(encimera){
@@ -411,7 +421,7 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
                 (encimeraCenter.z) * scale
             );
             lavabo.position.copy(lavaboPosition);
-            console.log('lavabo')
+            //console.log('lavabo')
 
             if(eje === 'X'){
                 lavabo2 = lavabo.clone();
@@ -423,10 +433,10 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
 
                 lavabo2.position.copy(lavaboPosition);
 
-                console.log(lavabo2.position);
+               // console.log(lavabo2.position);
             }
 
-            console.log(lavabo.position);
+           // console.log(lavabo.position);
         }
     }
 
@@ -444,9 +454,12 @@ export default function RenderObject({ muebleRoutes, encimeraRoutes, lavaboRoute
             0.05
         );
         espejo.position.copy(espejoPosition);
-        console.log('espejo')
+        /*
+                console.log('espejo')
 
         console.log(espejo.position);
+
+        */
 
     }
 

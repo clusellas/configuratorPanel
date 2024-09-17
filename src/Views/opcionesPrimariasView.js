@@ -99,8 +99,11 @@ function OpcionesPrimariasView() {
         try {
             let newObjData = objData;
 
-            console.log(element)
+            /*
+                        console.log(element)
             console.log("element id " + element.id)
+            */
+
 
             newObjData[objData.current_obj][objData.current_opt] = element.id;
 
@@ -128,7 +131,7 @@ function OpcionesPrimariasView() {
             // Calculate the next index
             nextIndex = currentIndex + 1;
             newObjData.current_opt = optionArray[nextIndex];
-            console.log(nextIndex)
+            //console.log(nextIndex)
 
         }
 
@@ -148,7 +151,7 @@ function OpcionesPrimariasView() {
             const url = generatePath("/composition/:id", { id: objData.composition_id })
             // Navigate to the view displaying the newly created ConfigurationObject
             navigate(url)
-            console.log(url)
+            //console.log(url)
         }
     }
 

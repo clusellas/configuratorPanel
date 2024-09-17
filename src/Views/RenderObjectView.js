@@ -11,8 +11,13 @@ import {useRef, useState} from "react";
 import * as PropTypes from "prop-types";
 import PrintIcon from "@mui/icons-material/Print"; // Import pdf-lib library
 
+/*
+Elimina todos los caracteres despues del ultimo punto de str
+Si no hay punto, no cambia nada
+*/
 
 function removeAfterLastPoint(str) {
+
     if (!str){
         return "";
     }else{
@@ -24,6 +29,11 @@ function removeAfterLastPoint(str) {
     }
 
 }
+
+/*
+Elimina el primer carácter después del último punto ('.') en una cadena.
+Si no hay un punto o despues de punto hay menos de 1 letra, la cadena se devuelve tal cual. 
+*/
 
 function removeEjeButKeepFaldon(str) {
     const lastDotIndex = str.lastIndexOf('.');
@@ -138,7 +148,9 @@ export default function RenderObjectView({ composition}) {
         espejoChosenOptions = espejo.opciones_y_valores;
 
     }
+    /*
     console.log('----------------')
+
     console.log(muebleRoutes)
     console.log(encimeraRoutes)
     console.log(lavaboRoutes)
@@ -150,6 +162,8 @@ export default function RenderObjectView({ composition}) {
     console.log(espejoChosenOptions)
 
     console.log('----------------')
+
+    */
 
     async function createPDF() {
         // Set generatingPDF to true to show loading indicator
@@ -164,8 +178,11 @@ export default function RenderObjectView({ composition}) {
         const { width, height } = page.getSize();
         const imgData = canvas.toDataURL('image/png');
         const img = await pdfDoc.embedPng(imgData);
-
+/*
         console.log(page.getSize())
+
+
+*/
 
         // Define text styles
         const titleFontSize = 20;

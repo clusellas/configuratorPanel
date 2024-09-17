@@ -31,16 +31,16 @@ function ColeccionView() {
     const ClickImage = async (collection) => {
         try {
             const response = await HandleImageClick(collection);
-            console.log('POST request response:', response);
+           // console.log('POST request response:', response);
             const coleccion_id = collection.id;
-            console.log(objId);
+            //console.log(objId);
             let newObj = objId;
             newObj.coleccion_id = coleccion_id
             setObjId(newObj);
 
             const url = "/design/"
             navigate(url)
-            console.log(url)
+            //console.log(url)
 
         } catch (error) {
             // Handle error
