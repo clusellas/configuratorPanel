@@ -234,7 +234,7 @@ function CompositionView() {
                                     {standard ? false : (
                                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
                                             {currentCO.current_linea.opciones.map((option, index) => (
-                                                <Grid item x={2}>
+                                                <Grid item x={2} key={index}>
                                                     <Button
                                                         key={option.id}
                                                         variant={selectedOptionId === option.id ? 'contained' : 'outlined'}
