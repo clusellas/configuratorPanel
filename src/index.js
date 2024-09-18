@@ -3,13 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import MobileWarning from './Views/MobileWarning';
+
+
+//Código para comprobar si se accede desde movil
+const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
       <BrowserRouter>
-          <App />
+          {isMobile ? <MobileWarning/> : <App/>}
       </BrowserRouter>
   </React.StrictMode>
 );

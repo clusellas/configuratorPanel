@@ -77,7 +77,7 @@ function OpcionesPrimariasView() {
                 nextOption(); // If all tuples have null values, return true
                 fetchData();
             }else{
-                if(data.length == 1){
+                if(data.length === 1){
                     //await ClickImage(data[0][Object.keys(data[0])[0]]);
                 }
             }

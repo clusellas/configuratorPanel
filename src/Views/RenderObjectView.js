@@ -1,14 +1,12 @@
-import {Canvas, useThree} from "@react-three/fiber";
+import {Canvas} from "@react-three/fiber";
 import RenderObject from "../Components/RenderObject";
 import "../Components/RenderObject.css";
 
-import ReactPDF, { PDFViewer, PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import { saveAs } from 'file-saver';
 
 
-import { PDFDocument, rgb } from 'pdf-lib'
-import {useRef, useState} from "react";
-import * as PropTypes from "prop-types";
+
+import { PDFDocument } from 'pdf-lib'
+import {useState} from "react";
 import PrintIcon from "@mui/icons-material/Print"; // Import pdf-lib library
 
 /*
@@ -104,7 +102,7 @@ export default function RenderObjectView({ composition}) {
             let ref = encimera.figure_referencia ? encimera.figure_referencia : "";
             let extra = 'ST';
             if(mueble){
-                if(mueble.articulo.attr.composicion_simetrica == true){
+                if(mueble.articulo.attr.composicion_simetrica === true){
                     extra = 'CS';
                 }
             }
@@ -201,7 +199,7 @@ export default function RenderObjectView({ composition}) {
 
         // Add new section occupying 5 vertical spaces
         const newSectionText = 'New Section';
-        const newSectionWidth = newSectionText.length * titleFontSize * 0.6;
+        //const newSectionWidth = newSectionText.length * titleFontSize * 0.6;
         const newSectionY = height - 280; // Adjust as needed
         const height_image = 200;
         const width_image = height_image * canvas.width / canvas.height;
@@ -325,16 +323,18 @@ export default function RenderObjectView({ composition}) {
     }
 
 
+// ---------------
+// En algun lado    style={{touchAction:'none'}
 
     return (
-        <div className="render-container">
+        <div className="render-container" >
             <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: '999' }}>
                 <button onClick={createPDF} disabled={generatingPDF}>
-                    <PrintIcon></PrintIcon>
+                    <PrintIcon/>
                 </button>
             </div>
 
-            <Canvas gl={{ preserveDrawingBuffer: true }}>
+            <Canvas gl={{ preserveDrawingBuffer: true, touchAction:'none'}}>
                 <color attach="background" args={["#161617"]} />
                 <fog attach="fog" args={["#131415", 10, 20]}
                 />

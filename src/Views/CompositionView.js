@@ -1,15 +1,13 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
-    fetchConfiguratorObject,
     fetchOptionById,
     updateConfiguratorObject
 } from '../Controllers/ConfiguratorObjectController';
 
 
 
-import PrintIcon from '@mui/icons-material/Print';
 import {generatePath, useNavigate, useParams} from "react-router-dom";
-import {Button, Grid, Box, AppBar, Toolbar, IconButton} from "@mui/material";
+import {Button, Grid, AppBar, Toolbar} from "@mui/material";
 import OptionDecide from "../Components/OptionDecide";
 import RenderObjectView from "./RenderObjectView";
 import {MyContext} from "../MyContext";
@@ -56,10 +54,8 @@ function CompositionView() {
            // console.log(objData);
             let current_linea;
 
-            let vari = 'encimera';
 
             switch (objData.current_obj){
-            //switch (vari){
                 case 'mueble':
                     setCurrentCO(composition.mueble);
                     if (composition.mueble!= null){
@@ -93,7 +89,6 @@ function CompositionView() {
                     }
                     break;
                 default:
-                    let error = true;
                     break;
             }
 
@@ -167,7 +162,7 @@ function CompositionView() {
         } else {
 
             for (let i = 0; i < currentCO.current_linea.opciones.length; i++) {
-                if(currentCO.current_linea.opciones[i].id == selectedOptionId){
+                if(currentCO.current_linea.opciones[i].id === selectedOptionId){
                     return i;
                 }
             }
@@ -179,15 +174,15 @@ function CompositionView() {
             return;
         } else {
             let index = findIndexSelectedOptionInLinea();
-            if (direction == 'back') {
+            if (direction === 'back') {
                 index = index-1;
-            } else if (direction == 'next') {
+            } else if (direction === 'next') {
                 index = index+1;
             }else{
                 return;
             }
 
-            if (index == -1 || index === currentCO.current_linea.opciones.length){
+            if (index === -1 || index === currentCO.current_linea.opciones.length){
                 return;
             }
             changeOption(currentCO.current_linea.opciones[index].id);
