@@ -1,15 +1,20 @@
-
 import api from "../api";
-import axios from "axios";
 
-export async function fetchComposition(compositionId) {
-    try {
-        const url = api.getEndpoint('getComposition', compositionId);
-        const response = await axios.get(url);
+export function fetchComposition(compositionId) {
+    const url = api.getEndpoint("getComposition", compositionId);
 
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching compositiion with configuration objects:', error);
-        throw error;
-    }
+    return fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Error API: ${response.status}`);
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            console.error(
+                "Error fetching compositiion with configuration objects:",
+                error
+            );
+            throw error;
+        });
 }
