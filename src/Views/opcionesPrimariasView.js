@@ -15,7 +15,6 @@ import ImageGridEje from "../Components/ImageGridEje";
 import ImageGridMedidas from "../Components/ImageGridMedidas";
 import ImageGridFaldon from "../Components/ImageGridFaldon";
 import ImageGridColorLavabo from "../Components/ImageGridColorLavabo";
-import ImageGridAcabado from "../Components/ImageGridAcabado";
 
 function OpcionesPrimariasView() {
     const [elements, setElements] = useState([]);
@@ -250,23 +249,6 @@ function OpcionesPrimariasView() {
                     />
                 </div>
             );
-        /*
-
-
-        
-        case "acabado":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <ImageGridAcabado
-                        elements={elements}
-                        onImageClick={ClickImage}
-                    />
-                </div>
-            );
-            */
 
         default:
             <div>AN ERROR OCURRED</div>;

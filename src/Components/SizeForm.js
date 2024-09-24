@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { TextField, MenuItem, Button, Box, Grid } from '@mui/material';
-import './ImageGridDesign.css'; // Import CSS file for additional styles if needed
+import React, { useState, useEffect } from "react";
+import { TextField, MenuItem, Button, Box, Grid } from "@mui/material";
 
 const SizeFrom = ({ elements, onImageClick }) => {
     const [value, setValue] = useState(elements[0].ancho.id); // State to manage input value
@@ -11,7 +10,7 @@ const SizeFrom = ({ elements, onImageClick }) => {
         let minValue = 1000;
         let maxValue = 0;
 
-        elements.forEach(element => {
+        elements.forEach((element) => {
             let value = parseInt(element.ancho.code, 10);
             if (value > maxValue) {
                 maxValue = value;
@@ -31,7 +30,7 @@ const SizeFrom = ({ elements, onImageClick }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission behavior
-        onImageClick({ 'id': value }); // Call the onSubmit function passed from the parent with the input value
+        onImageClick({ id: value }); // Call the onSubmit function passed from the parent with the input value
     };
 
     return (
@@ -40,12 +39,17 @@ const SizeFrom = ({ elements, onImageClick }) => {
             direction="column"
             justifyContent="center"
             alignItems="center"
-            style={{ minHeight: '100vh' }}
+            style={{ minHeight: "100vh" }}
         >
             <Box
                 component="form"
                 onSubmit={handleSubmit}
-                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 2,
+                }}
             >
                 <TextField
                     select
