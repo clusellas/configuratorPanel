@@ -1,15 +1,14 @@
-
-import React from 'react';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
+import React from "react";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 
 const ImageContainer = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
-    cursor: 'pointer',
+    cursor: "pointer",
 }));
 
 const ImageGridColorLavabo = ({ elements, onImageClick }) => {
@@ -18,15 +17,39 @@ const ImageGridColorLavabo = ({ elements, onImageClick }) => {
     }
 
     const filteredElements = elements.filter(
-        element => element.color.image !== 'http://localhost:8000/media/default.png'
+        (element) =>
+            element.color.image !== "http://localhost:8000/media/default.png"
     );
 
-    const rows = [];
-    for (let i = 0; i < filteredElements.length; i += 3) {
-        rows.push(filteredElements.slice(i, i + 3));
-    }
-
     return (
+        <Grid container spacing={2}>
+            {filteredElements.map((elem, indexEleme) => (
+                <Grid item xs={12} sm={6} md={4}>
+                    <ImageContainer onClick={() => onImageClick(elem.color)}>
+                        <img
+                            src={elem.color.image}
+                            alt={elem.color.code}
+                            style={{
+                                maxWidth: "auto",
+                                maxHeight: "40vh",
+                                objectFit: "cover",
+                            }}
+                        />
+                        <Typography variant="body1">
+                            {elem.color.name}
+                        </Typography>
+                    </ImageContainer>
+                </Grid>
+            ))}
+        </Grid>
+    );
+};
+
+export default ImageGridColorLavabo;
+
+/*
+
+
         <Grid container spacing={2}>
             {rows.map((row, rowIndex) => (
                 <Grid container item spacing={2} key={rowIndex}>
@@ -45,7 +68,4 @@ const ImageGridColorLavabo = ({ elements, onImageClick }) => {
                 </Grid>
             ))}
         </Grid>
-    );
-};
-
-export default ImageGridColorLavabo;
+*/

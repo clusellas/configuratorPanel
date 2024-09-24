@@ -1,11 +1,19 @@
-import React from 'react';
-import './ImageGrid.css';
-import { Box, ImageList, ImageListItem, ImageListItemBar, ListSubheader } from "@mui/material";
+import React from "react";
+import "./ImageGrid.css";
+import {
+    Box,
+    ImageList,
+    ImageListItem,
+    ImageListItemBar,
+    ListSubheader,
+} from "@mui/material";
+
+// NO SE USA ----------------------------
 
 const ImageGridMIU = ({ elements, onImageClick }) => {
     return (
         <div className="image-grid-container">
-            <Box sx={{ width: "100%", height: "100%", overflowY: 'scroll' }}>
+            <Box sx={{ width: "100%", height: "100%", overflowY: "scroll" }}>
                 <ImageList variant="masonry" cols={3} gap={8}>
                     {elements.map((item) => (
                         <ImageListItem key={item.image}>
@@ -15,11 +23,9 @@ const ImageGridMIU = ({ elements, onImageClick }) => {
                                 alt={item.name}
                                 onClick={() => onImageClick(item)}
                                 loading="lazy"
-                                style={{objectFit:'cover'}}
+                                style={{ objectFit: "cover" }}
                             />
-                            <ImageListItemBar
-                                title={item.name}
-                            />
+                            <ImageListItemBar title={item.name} />
                         </ImageListItem>
                     ))}
                 </ImageList>

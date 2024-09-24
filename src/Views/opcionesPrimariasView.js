@@ -1,13 +1,13 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {generatePath, useNavigate} from "react-router-dom";
-import {MyContext} from "../MyContext";
+import React, { useState, useEffect, useContext } from "react";
+import { generatePath, useNavigate } from "react-router-dom";
+import { MyContext } from "../MyContext";
 import ImageGrid from "../Components/ImageGrid";
 import {
     CreateConfigurationObject,
     fetchOptionsEncimera,
     fetchOptionsEspejo,
     fetchOptionsLavabo,
-    fetchOptionsMueble
+    fetchOptionsMueble,
 } from "../Controllers/OpcionesPrimariasController";
 import ImageGridDesign from "../Components/ImageGridDesign";
 import SizeForm from "../Components/SizeForm";
@@ -17,7 +17,6 @@ import ImageGridFaldon from "../Components/ImageGridFaldon";
 import ImageGridColorLavabo from "../Components/ImageGridColorLavabo";
 import ImageGridAcabado from "../Components/ImageGridAcabado";
 
-
 function OpcionesPrimariasView() {
     const [elements, setElements] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -25,21 +24,21 @@ function OpcionesPrimariasView() {
     const { setObjData, objData } = useContext(MyContext);
 
     const opcionesPrimarias = {
-        'mueble':['coleccion','design','ancho','eje'],
-        'encimera':['coleccion','ancho','eje','faldon','acabado'],
-        'encimera_plana':['coleccion','ancho','eje','faldon'],
-        'lavabo':['coleccion','color'],
-        'espejo':['coleccion','medidas']
-    }
-    if (objData.current_obj == null){
+        mueble: ["coleccion", "design", "ancho", "eje"],
+        encimera: ["coleccion", "ancho", "eje", "faldon", "acabado"],
+        encimera_plana: ["coleccion", "ancho", "eje", "faldon"],
+        lavabo: ["coleccion", "color"],
+        espejo: ["coleccion", "medidas"],
+    };
+    if (objData.current_obj == null) {
         let newobjData = objData;
-        newobjData.current_obj = 'mueble'
-        setObjData(newobjData)
+        newobjData.current_obj = "mueble";
+        setObjData(newobjData);
     }
-    if (objData.current_opt == null){
+    if (objData.current_opt == null) {
         let newobjData = objData;
         newobjData.current_opt = opcionesPrimarias[objData.current_obj][0];
-        setObjData(newobjData)
+        setObjData(newobjData);
     }
 
     const fetchData = async () => {
@@ -47,41 +46,55 @@ function OpcionesPrimariasView() {
             let data;
 
             switch (objData.current_obj) {
-                case 'mueble':
-                    data = await fetchOptionsMueble(objData.current_opt, objData.mueble, objData.composition_id);
+                case "mueble":
+                    data = await fetchOptionsMueble(
+                        objData.current_opt,
+                        objData.mueble,
+                        objData.composition_id
+                    );
                     break;
-                case 'encimera':
-                    data = await fetchOptionsEncimera(objData.current_opt, objData.encimera, objData.composition_id);
+                case "encimera":
+                    data = await fetchOptionsEncimera(
+                        objData.current_opt,
+                        objData.encimera,
+                        objData.composition_id
+                    );
                     break;
-                case 'lavabo':
-                    data = await fetchOptionsLavabo(objData.current_opt, objData.lavabo, objData.composition_id);
+                case "lavabo":
+                    data = await fetchOptionsLavabo(
+                        objData.current_opt,
+                        objData.lavabo,
+                        objData.composition_id
+                    );
                     break;
-                case 'espejo':
-                    data = await fetchOptionsEspejo(objData.current_opt, objData.espejo , objData.composition_id);
+                case "espejo":
+                    data = await fetchOptionsEspejo(
+                        objData.current_opt,
+                        objData.espejo,
+                        objData.composition_id
+                    );
                     break;
             }
             setElements(data);
-
 
             // check if elements are all null
             let all_null = true;
             for (let key in data[0]) {
                 if (data[0].hasOwnProperty(key)) {
                     if (data[0][key] !== null) {
-                        all_null =  false; // If any tuple has a non-null value, return false
+                        all_null = false; // If any tuple has a non-null value, return false
                     }
                 }
             }
 
-            if (all_null){
+            if (all_null) {
                 nextOption(); // If all tuples have null values, return true
                 fetchData();
-            }else{
-                if(data.length === 1){
+            } else {
+                if (data.length === 1) {
                     //await ClickImage(data[0][Object.keys(data[0])[0]]);
                 }
             }
-
 
             setLoading(false);
         } catch (error) {
@@ -94,8 +107,7 @@ function OpcionesPrimariasView() {
     }, []);
 
     const ClickImage = async (element) => {
-
-        setLoading(true)
+        setLoading(true);
         try {
             let newObjData = objData;
 
@@ -104,7 +116,6 @@ function OpcionesPrimariasView() {
             console.log("element id " + element.id)
             */
 
-
             newObjData[objData.current_obj][objData.current_opt] = element.id;
 
             setObjData(newObjData);
@@ -112,14 +123,12 @@ function OpcionesPrimariasView() {
             await nextOption();
 
             fetchData();
-
         } catch (error) {
             // Handle error
         }
     };
 
     const nextOption = async () => {
-
         let newObjData = objData;
 
         const optionArray = opcionesPrimarias[objData.current_obj];
@@ -132,98 +141,136 @@ function OpcionesPrimariasView() {
             nextIndex = currentIndex + 1;
             newObjData.current_opt = optionArray[nextIndex];
             //console.log(nextIndex)
-
         }
 
         setObjData(newObjData);
 
-        if (nextIndex >= optionArray.length){
+        if (nextIndex >= optionArray.length) {
             const response = await CreateConfigurationObject(objData);
-            let objectId = response.id
+            let objectId = response.id;
 
             objData.ObjConfigId = objectId;
 
-            let nextIndex = optionArray.length-1;
+            let nextIndex = optionArray.length - 1;
             newObjData.current_opt = optionArray[nextIndex];
 
             setObjData(newObjData);
 
-            const url = generatePath("/composition/:id", { id: objData.composition_id })
+            const url = generatePath("/composition/:id", {
+                id: objData.composition_id,
+            });
             // Navigate to the view displaying the newly created ConfigurationObject
-            navigate(url)
+            navigate(url);
             //console.log(url)
         }
-    }
+    };
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
+    console.log(objData.current_opt);
 
     switch (objData.current_opt) {
-        case 'coleccion':
+        case "coleccion":
             return (
-                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
+                <div
+                    className="collections-container"
+                    style={{ display: "flex", overflow: "hidden" }}
+                >
                     <ImageGrid elements={elements} onImageClick={ClickImage} />
                 </div>
-
             );
-        case 'design':
+        case "design":
             return (
-                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGridDesign elements={elements} onImageClick={ClickImage} />
+                <div
+                    className="collections-container"
+                    style={{ display: "flex", overflow: "hidden" }}
+                >
+                    <ImageGridDesign
+                        elements={elements}
+                        onImageClick={ClickImage}
+                    />
                 </div>
-
             );
-        case 'ancho':
+        case "ancho":
             return (
-                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
+                <div
+                    className="collections-container"
+                    style={{ display: "flex", overflow: "hidden" }}
+                >
                     <SizeForm elements={elements} onImageClick={ClickImage} />
                 </div>
-
             );
-        case 'eje':
+        case "eje":
             return (
-                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGridEje elements={elements} onImageClick={ClickImage} />
+                <div
+                    className="collections-container"
+                    style={{ display: "flex", overflow: "hidden" }}
+                >
+                    <ImageGridEje
+                        elements={elements}
+                        onImageClick={ClickImage}
+                    />
                 </div>
-
             );
-        case 'medidas':
+        case "faldon":
             return (
-                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGridMedidas elements={elements} onImageClick={ClickImage} />
+                <div
+                    className="collections-container"
+                    style={{ display: "flex", overflow: "hidden" }}
+                >
+                    <ImageGridFaldon
+                        elements={elements}
+                        onImageClick={ClickImage}
+                    />
                 </div>
-
             );
-        case 'color':
+        case "medidas":
             return (
-                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGridColorLavabo elements={elements} onImageClick={ClickImage} />
+                <div
+                    className="collections-container"
+                    style={{ display: "flex", overflow: "hidden" }}
+                >
+                    <ImageGridMedidas
+                        elements={elements}
+                        onImageClick={ClickImage}
+                    />
                 </div>
-
             );
-        case 'faldon':
+        case "color":
             return (
-                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGridFaldon elements={elements} onImageClick={ClickImage} />
+                <div
+                    className="collections-container"
+                    style={{ display: "flex", overflow: "hidden" }}
+                >
+                    <ImageGridColorLavabo
+                        elements={elements}
+                        onImageClick={ClickImage}
+                    />
                 </div>
-
             );
-        case 'acabado':
+        /*
+
+
+        
+        case "acabado":
             return (
-                <div className="collections-container" style={{ display: 'flex', overflow: 'hidden' }}>
-                    <ImageGridAcabado elements={elements} onImageClick={ClickImage} />
+                <div
+                    className="collections-container"
+                    style={{ display: "flex", overflow: "hidden" }}
+                >
+                    <ImageGridAcabado
+                        elements={elements}
+                        onImageClick={ClickImage}
+                    />
                 </div>
-
             );
+            */
 
         default:
-            <div>AN ERROR OCURRED</div>
-
-
+            <div>AN ERROR OCURRED</div>;
     }
 }
-
 
 export default OpcionesPrimariasView;

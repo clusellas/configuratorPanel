@@ -1,5 +1,7 @@
-import React from 'react';
-import './ImageGrid.css'; // Import CSS file for styles
+import React from "react";
+import "./ImageGrid.css"; // Import CSS file for styles
+
+//  NO SE USA -------------------------------
 
 const ImageGridAcabado = ({ elements, onImageClick }) => {
     const rows = [];
@@ -7,12 +9,15 @@ const ImageGridAcabado = ({ elements, onImageClick }) => {
         rows.push(elements.slice(i, i + 3));
     }
 
-    if(elements[0].acabado==null){
-        return
+    if (elements[0].acabado == null) {
+        return;
     }
 
     return (
-        <div className="images-in-rows-of-three">
+        <div
+            className="images-in-rows-of-three"
+            style="border: 5px solid black;"
+        >
             {rows.map((row, index) => (
                 <div key={index} className="image-row">
                     {row.map((element, rowIndex) => (
@@ -32,4 +37,4 @@ const ImageGridAcabado = ({ elements, onImageClick }) => {
     );
 };
 
-export default ImageGridAcabado
+export default ImageGridAcabado;

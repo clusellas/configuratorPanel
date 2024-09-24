@@ -192,7 +192,6 @@ export default function RenderObject({
 
     function add_material(child, type) {
         if (child instanceof THREE.Mesh) {
-            //console.log(child.name + "-->" + texture_current_dict[child.name]);
             let childName = type + "_" + child.name;
 
             childName = childName.split(":").shift();
@@ -204,8 +203,6 @@ export default function RenderObject({
                     color: "#ccc8c8",
                 });
             } else {
-                console.log(texture_current_dict);
-
                 let texture =
                     texture_dict[texture_current_dict[childName]] ||
                     texture_dict["DEFAULT"];
@@ -263,15 +260,9 @@ export default function RenderObject({
                             mueble_opt.opcion.orden + 1 &&
                         object_color.opcion.es_color === true
                     ) {
-                        console.log("object_color");
-                        console.log(object_color);
-                        console.log(materials_color);
                         materials_color = object_color;
-                        console.log("Entro en soy color");
                     }
                 });
-                console.log("materials_color");
-                console.log(materials_color);
 
                 let texture_file_name;
                 if (
@@ -316,8 +307,6 @@ export default function RenderObject({
                     texture_file_name;
             }
         });
-
-        //console.log(texture_current_dict);
 
         encimera.traverse((child) => {
             add_material(child, "encimera");
@@ -405,14 +394,6 @@ export default function RenderObject({
         espejoBoundingBox.getCenter(espejoCenter);
     }
 
-    //console.log(texture_dict);
-
-    //console.log(texture_current_dict);
-    /**
-
-    console.log(texture_current_dict)
-     */
-
     if (mueble) {
         const mueblePosition = new THREE.Vector3(
             (0 - muebleCenter.x) * scale,
@@ -421,12 +402,6 @@ export default function RenderObject({
         );
 
         mueble.position.copy(mueblePosition);
-
-        /**
-         *         console.log('mueble')
-        console.log(mueble.position);
-        console.log(muebleBoundingBox);
-         */
     }
 
     if (encimera) {
@@ -445,11 +420,6 @@ export default function RenderObject({
             );
         }
         encimera.position.copy(encimeraPosition);
-        /*
-                console.log('encimera')
-
-        console.log(encimera.position);
-        */
     }
 
     if (lavabo) {
@@ -495,8 +465,6 @@ export default function RenderObject({
             }
         }
 
-        //console.log(ejelavabo)
-
         if (encimera) {
             lavaboPosition = new THREE.Vector3(
                 ejelavabo * scale, //TODO: CHANGE TO VALUE OF ARTICLE MUEBLE ELSE VALUE EJE ENCIMERA
@@ -504,7 +472,6 @@ export default function RenderObject({
                 encimeraCenter.z * scale
             );
             lavabo.position.copy(lavaboPosition);
-            //console.log('lavabo')
 
             if (eje === "X") {
                 lavabo2 = lavabo.clone();
@@ -515,11 +482,7 @@ export default function RenderObject({
                 );
 
                 lavabo2.position.copy(lavaboPosition);
-
-                // console.log(lavabo2.position);
             }
-
-            // console.log(lavabo.position);
         }
     }
 
@@ -537,12 +500,6 @@ export default function RenderObject({
             0.05
         );
         espejo.position.copy(espejoPosition);
-        /*
-                console.log('espejo')
-
-        console.log(espejo.position);
-
-        */
     }
 
     return (

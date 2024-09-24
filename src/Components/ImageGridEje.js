@@ -1,14 +1,14 @@
-import React from 'react';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
+import React from "react";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 
 const ImageContainer = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
-    cursor: 'pointer',
+    cursor: "pointer",
 }));
 
 const ImageGrid = ({ elements, onImageClick }) => {
@@ -17,30 +17,26 @@ const ImageGrid = ({ elements, onImageClick }) => {
     }
 
     const filteredElements = elements.filter(
-        element => element.eje.image !== 'http://localhost:8000/media/default.png'
+        (element) =>
+            element.eje.image !== "http://localhost:8000/media/default.png"
     );
-
-    const rows = [];
-    for (let i = 0; i < filteredElements.length; i += 3) {
-        rows.push(filteredElements.slice(i, i + 3));
-    }
 
     return (
         <Grid container spacing={2}>
-            {rows.map((row, rowIndex) => (
-                <Grid container item spacing={2} key={rowIndex}>
-                    {row.map((element, elementIndex) => (
-                        <Grid item xs={12} sm={6} md={4} key={elementIndex}>
-                            <ImageContainer onClick={() => onImageClick(element.eje)}>
-                                <img
-                                    src={element.eje.image}
-                                    alt={element.eje.code}
-                                    style={{ maxWidth: '100%', maxHeight: '700px', objectFit: 'cover' }}
-                                />
-                                <Typography variant="body1">{element.eje.name}</Typography>
-                            </ImageContainer>
-                        </Grid>
-                    ))}
+            {filteredElements.map((elem, indexElem) => (
+                <Grid item xs={12} sm={6} md={4} key={indexElem}>
+                    <ImageContainer onClick={() => onImageClick(elem.eje)}>
+                        <img
+                            src={elem.eje.image}
+                            alt={elem.eje.code}
+                            style={{
+                                maxWidth: "auto",
+                                maxHeight: "40vh",
+                                objectFit: "cover",
+                            }}
+                        />
+                        <Typography variant="body1">{elem.eje.name}</Typography>
+                    </ImageContainer>
                 </Grid>
             ))}
         </Grid>
@@ -48,4 +44,3 @@ const ImageGrid = ({ elements, onImageClick }) => {
 };
 
 export default ImageGrid;
-

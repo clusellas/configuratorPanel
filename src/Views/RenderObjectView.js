@@ -188,22 +188,6 @@ export default function RenderObjectView({ composition }) {
 
         espejoChosenOptions = espejo.opciones_y_valores;
     }
-    /*
-    console.log('----------------')
-
-    console.log(muebleRoutes)
-    console.log(encimeraRoutes)
-    console.log(lavaboRoutes)
-    console.log(espejoRoutes)
-
-    console.log(muebleChosenOptions)
-    console.log(encimeraChosenOptions)
-    console.log(lavaboChosenOptions)
-    console.log(espejoChosenOptions)
-
-    console.log('----------------')
-
-    */
 
     async function createPDF() {
         // Set generatingPDF to true to show loading indicator
@@ -416,7 +400,10 @@ export default function RenderObjectView({ composition }) {
                 </button>
             </div>
 
-            <Canvas gl={{ preserveDrawingBuffer: true }}>
+            <Canvas
+                gl={{ preserveDrawingBuffer: true }}
+                style={{ touchAction: "none" }}
+            >
                 <color attach="background" args={["#161617"]} />
                 <fog attach="fog" args={["#131415", 10, 20]} />
 
