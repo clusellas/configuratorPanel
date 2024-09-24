@@ -1,14 +1,14 @@
-import React from 'react';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
+import React from "react";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 
 const ImageContainer = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
-    cursor: 'pointer',
+    cursor: "pointer",
 }));
 
 const ImageGrid = ({ elements, onImageClick }) => {
@@ -17,7 +17,9 @@ const ImageGrid = ({ elements, onImageClick }) => {
     }
 
     const filteredElements = elements.filter(
-        element => element.coleccion.image !== 'http://localhost:8000/media/default.png'
+        (element) =>
+            element.coleccion.image !==
+            "http://localhost:8000/media/default.png"
     );
 
     const rows = [];
@@ -31,13 +33,21 @@ const ImageGrid = ({ elements, onImageClick }) => {
                 <Grid container item spacing={2} key={rowIndex}>
                     {row.map((element, elementIndex) => (
                         <Grid item xs={12} sm={6} md={4} key={elementIndex}>
-                            <ImageContainer onClick={() => onImageClick(element.coleccion)}>
+                            <ImageContainer
+                                onClick={() => onImageClick(element.coleccion)}
+                            >
                                 <img
                                     src={element.coleccion.image}
                                     alt={element.coleccion.code}
-                                    style={{ maxWidth: '100%', maxHeight: '700px', objectFit: 'cover' }}
+                                    style={{
+                                        maxWidth: "100%",
+                                        maxHeight: "700px",
+                                        objectFit: "cover",
+                                    }}
                                 />
-                                <Typography variant="body1">{element.coleccion.name}</Typography>
+                                <Typography variant="body1">
+                                    {element.coleccion.name}
+                                </Typography>
                             </ImageContainer>
                         </Grid>
                     ))}

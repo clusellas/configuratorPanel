@@ -61,9 +61,19 @@ function Index() {
         },
         { src: "espejo.jpg", alt: "espejo", description: "Elige un espejo" },
     ];
-
+    /*
+                border: "5px solid",
+                borderColor: "primary",
+*/
     return (
-        <Box sx={{ padding: "20px" }}>
+        <Box
+            sx={{
+                height: "100vh",
+                width: "auto",
+                p: 3,
+                boxSizing: "border-box",
+            }}
+        >
             <Typography variant="h4" align="center" gutterBottom>
                 Elige Tu Pieza Inicial
             </Typography>
@@ -77,10 +87,11 @@ function Index() {
                                 alt={image.alt}
                                 onClick={() => ClickImage(image.alt)}
                                 sx={{
-                                    width: "100%",
+                                    width: "90%",
                                     height: "auto",
                                     cursor: "pointer",
                                     transition: "transform 0.3s ease-in-out",
+
                                     "&:hover": {
                                         transform: "scale(1.05)",
                                     },

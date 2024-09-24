@@ -1,12 +1,9 @@
-import {Canvas} from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import RenderObject from "../Components/RenderObject";
 import "../Components/RenderObject.css";
 
-
-
-
-import { PDFDocument } from 'pdf-lib'
-import {useState} from "react";
+import { PDFDocument } from "pdf-lib";
+import { useState } from "react";
 import PrintIcon from "@mui/icons-material/Print"; // Import pdf-lib library
 
 /*
@@ -15,17 +12,15 @@ Si no hay punto, no cambia nada
 */
 
 function removeAfterLastPoint(str) {
-
-    if (!str){
+    if (!str) {
         return "";
-    }else{
-        const lastPointIndex = str.lastIndexOf('.');
+    } else {
+        const lastPointIndex = str.lastIndexOf(".");
         if (lastPointIndex !== -1) {
             return str.substring(0, lastPointIndex);
         }
         return str;
     }
-
 }
 
 /*
@@ -34,7 +29,7 @@ Si no hay un punto o despues de punto hay menos de 1 letra, la cadena se devuelv
 */
 
 function removeEjeButKeepFaldon(str) {
-    const lastDotIndex = str.lastIndexOf('.');
+    const lastDotIndex = str.lastIndexOf(".");
 
     // If there's no dot, return the input as is
     if (lastDotIndex === -1) {
@@ -46,19 +41,17 @@ function removeEjeButKeepFaldon(str) {
     const afterLastDot = str.substring(lastDotIndex + 1);
 
     // If the part after the last dot is not empty, remove the first character
-    const modifiedAfterLastDot = afterLastDot.length > 1 ? afterLastDot.substring(1) : '';
+    const modifiedAfterLastDot =
+        afterLastDot.length > 1 ? afterLastDot.substring(1) : "";
 
     // Concatenate the parts together
     return beforeLastDot + modifiedAfterLastDot;
-
 }
 
-export default function RenderObjectView({ composition}) {
-
+export default function RenderObjectView({ composition }) {
     const [generatingPDF, setGeneratingPDF] = useState(false);
 
-
-    const ROOT = '/models/'
+    const ROOT = "/models/";
 
     let mueble = composition.mueble;
     let encimera = composition.encimera;
@@ -70,81 +63,130 @@ export default function RenderObjectView({ composition}) {
     let lavaboChosenOptions;
     let espejoChosenOptions;
 
-    let muebleRoutes = [] ;
-    let encimeraRoutes= [] ;
-    let lavaboRoutes= [] ;
-    let espejoRoutes= [] ;
+    let muebleRoutes = [];
+    let encimeraRoutes = [];
+    let lavaboRoutes = [];
+    let espejoRoutes = [];
 
     let Eje;
     let valorEje;
 
-
-    if (mueble!= null){
-        let colectionFolder = mueble.articulo.attr.coleccion.code + "/"
+    if (mueble != null) {
+        let colectionFolder = mueble.articulo.attr.coleccion.code + "/";
 
         let ref = mueble.figure_referencia ? mueble.figure_referencia : "";
-        let ruta_con_eje = ROOT + colectionFolder + mueble.articulo.attr.CodigoArticulo+ "." + ref + ".obj";
-        let ruta_sin_eje = ROOT + colectionFolder + removeAfterLastPoint(mueble.articulo.attr.CodigoArticulo) + "." + ref + ".obj";
-        muebleRoutes = [ruta_con_eje, ruta_sin_eje]
+        let ruta_con_eje =
+            ROOT +
+            colectionFolder +
+            mueble.articulo.attr.CodigoArticulo +
+            "." +
+            ref +
+            ".obj";
+        let ruta_sin_eje =
+            ROOT +
+            colectionFolder +
+            removeAfterLastPoint(mueble.articulo.attr.CodigoArticulo) +
+            "." +
+            ref +
+            ".obj";
+
+        muebleRoutes = [ruta_con_eje, ruta_sin_eje];
 
         muebleChosenOptions = mueble.opciones_y_valores;
 
         Eje = mueble.articulo.attr.eje.code;
         valorEje = mueble.articulo.attr.valor_eje;
     }
-    if (encimera!=null){
-
+    if (encimera != null) {
         let ruta_con_eje;
         let ruta_sin_eje;
-        if (encimera.articulo.attr.plana === false){
-            let colectionFolder = encimera.articulo.attr.coleccion.code + "/"
+        if (encimera.articulo.attr.plana === false) {
+            let colectionFolder = encimera.articulo.attr.coleccion.code + "/";
 
-            let ref = encimera.figure_referencia ? encimera.figure_referencia : "";
-            let extra = 'ST';
-            if(mueble){
-                if(mueble.articulo.attr.composicion_simetrica === true){
-                    extra = 'CS';
+            let ref = encimera.figure_referencia
+                ? encimera.figure_referencia
+                : "";
+            let extra = "ST";
+            if (mueble) {
+                if (mueble.articulo.attr.composicion_simetrica === true) {
+                    extra = "CS";
                 }
             }
             ref = ref + "." + extra;
 
-            ruta_con_eje = ROOT + colectionFolder + encimera.articulo.attr.CodigoArticulo+ "." + ref + ".obj";
-            ruta_sin_eje = ROOT + colectionFolder + removeAfterLastPoint(encimera.articulo.attr.CodigoArticulo) + "." + ref + ".obj";
+            ruta_con_eje =
+                ROOT +
+                colectionFolder +
+                encimera.articulo.attr.CodigoArticulo +
+                "." +
+                ref +
+                ".obj";
+            ruta_sin_eje =
+                ROOT +
+                colectionFolder +
+                removeAfterLastPoint(encimera.articulo.attr.CodigoArticulo) +
+                "." +
+                ref +
+                ".obj";
+        } else {
+            let colectionFolder = encimera.articulo.attr.coleccion.code + "/";
 
-        }else{
-            let colectionFolder = encimera.articulo.attr.coleccion.code + "/"
-
-            ruta_con_eje = ROOT + colectionFolder + encimera.articulo.attr.CodigoArticulo+  ".obj";
-            ruta_sin_eje = ROOT + colectionFolder + removeEjeButKeepFaldon(encimera.articulo.attr.CodigoArticulo) + ".obj";
-
+            ruta_con_eje =
+                ROOT +
+                colectionFolder +
+                encimera.articulo.attr.CodigoArticulo +
+                ".obj";
+            ruta_sin_eje =
+                ROOT +
+                colectionFolder +
+                removeEjeButKeepFaldon(encimera.articulo.attr.CodigoArticulo) +
+                ".obj";
         }
 
-        encimeraRoutes = [ruta_con_eje, ruta_sin_eje]
+        encimeraRoutes = [ruta_con_eje, ruta_sin_eje];
 
         encimeraChosenOptions = encimera.opciones_y_valores;
 
         Eje = mueble.articulo.attr.eje.code;
     }
-    if (lavabo!=null){
-        let colectionFolder = lavabo.articulo.attr.coleccion.code + "/"
+    if (lavabo != null) {
+        let colectionFolder = lavabo.articulo.attr.coleccion.code + "/";
 
-        let ruta_con_eje = ROOT + colectionFolder + lavabo.articulo.attr.CodigoArticulo+  ".obj";
-        let ruta_sin_eje = ROOT + colectionFolder + removeAfterLastPoint(lavabo.articulo.attr.CodigoArticulo) + ".obj";
-        lavaboRoutes = [ruta_con_eje, ruta_sin_eje]
+        let ruta_con_eje =
+            ROOT +
+            colectionFolder +
+            lavabo.articulo.attr.CodigoArticulo +
+            ".obj";
+        let ruta_sin_eje =
+            ROOT +
+            colectionFolder +
+            removeAfterLastPoint(lavabo.articulo.attr.CodigoArticulo) +
+            ".obj";
+        lavaboRoutes = [ruta_con_eje, ruta_sin_eje];
 
         lavaboChosenOptions = lavabo.opciones_y_valores;
     }
-    if (espejo!=null){
-        let colectionFolder = espejo.articulo.attr.coleccion.code + "/"
+    if (espejo != null) {
+        let colectionFolder = espejo.articulo.attr.coleccion.code + "/";
 
         let ref = espejo.figure_referencia ? espejo.figure_referencia : "";
         ref = "." + ref ? ref : "";
-        let ruta_con_eje = ROOT + colectionFolder + espejo.articulo.attr.CodigoArticulo + ref + ".obj";
-        let ruta_sin_eje = ROOT + colectionFolder + removeAfterLastPoint(espejo.articulo.attr.CodigoArticulo) + "." + ref + ".obj";
-        espejoRoutes = [ruta_con_eje, ruta_sin_eje]
+        let ruta_con_eje =
+            ROOT +
+            colectionFolder +
+            espejo.articulo.attr.CodigoArticulo +
+            ref +
+            ".obj";
+        let ruta_sin_eje =
+            ROOT +
+            colectionFolder +
+            removeAfterLastPoint(espejo.articulo.attr.CodigoArticulo) +
+            "." +
+            ref +
+            ".obj";
+        espejoRoutes = [ruta_con_eje, ruta_sin_eje];
 
         espejoChosenOptions = espejo.opciones_y_valores;
-
     }
     /*
     console.log('----------------')
@@ -168,15 +210,15 @@ export default function RenderObjectView({ composition}) {
         setGeneratingPDF(true);
 
         // Get canvas element
-        const canvas = document.querySelector('canvas');
+        const canvas = document.querySelector("canvas");
 
         // Create PDF
         const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage();
         const { width, height } = page.getSize();
-        const imgData = canvas.toDataURL('image/png');
+        const imgData = canvas.toDataURL("image/png");
         const img = await pdfDoc.embedPng(imgData);
-/*
+        /*
         console.log(page.getSize())
 
 
@@ -188,7 +230,7 @@ export default function RenderObjectView({ composition}) {
         const midFontSize = 16;
 
         // Add title and small image (occupies 1 space)
-        const titleText = 'RESUMEN DE TU CONFIGURACIÓN';
+        const titleText = "RESUMEN DE TU CONFIGURACIÓN";
         const titleWidth = titleText.length * titleFontSize * 0.6;
         page.drawText(titleText, {
             x: width / 2 - titleWidth / 2,
@@ -196,19 +238,18 @@ export default function RenderObjectView({ composition}) {
             size: titleFontSize,
         });
 
-
         // Add new section occupying 5 vertical spaces
-        const newSectionText = 'New Section';
+        const newSectionText = "New Section";
         //const newSectionWidth = newSectionText.length * titleFontSize * 0.6;
         const newSectionY = height - 280; // Adjust as needed
         const height_image = 200;
-        const width_image = height_image * canvas.width / canvas.height;
+        const width_image = (height_image * canvas.width) / canvas.height;
 
         page.drawImage(img, {
-            x: width/2 - width_image/2,
-            y: height-280,
+            x: width / 2 - width_image / 2,
+            y: height - 280,
             width: width_image,
-            height: height_image
+            height: height_image,
         });
 
         let partNames = [];
@@ -217,78 +258,115 @@ export default function RenderObjectView({ composition}) {
         let valueDescriptions = [];
         let fullReferencia = [];
 
-
-        if(mueble){
+        if (mueble) {
             partNames.push(mueble.articulo.attr.CodigoArticulo);
-            partPrices.push(mueble.current_price + "€")
-            partDescriptions.push(mueble.articulo.attr.DescripcionArticulo)
-            valueDescriptions.push(mueble.descripcion_valores)
-            fullReferencia.push(mueble.full_referencia)
+            partPrices.push(mueble.current_price + "€");
+            partDescriptions.push(mueble.articulo.attr.DescripcionArticulo);
+            valueDescriptions.push(mueble.descripcion_valores);
+            fullReferencia.push(mueble.full_referencia);
         }
-        if(encimera){
+        if (encimera) {
             partNames.push(encimera.articulo.attr.CodigoArticulo);
-            partPrices.push(encimera.current_price + "€")
-            partDescriptions.push(encimera.articulo.attr.DescripcionArticulo)
-            valueDescriptions.push(encimera.descripcion_valores)
-            fullReferencia.push(encimera.full_referencia)
+            partPrices.push(encimera.current_price + "€");
+            partDescriptions.push(encimera.articulo.attr.DescripcionArticulo);
+            valueDescriptions.push(encimera.descripcion_valores);
+            fullReferencia.push(encimera.full_referencia);
         }
-        if(lavabo){
-            if(Eje === 'X'){
+        if (lavabo) {
+            if (Eje === "X") {
                 partNames.push(lavabo.articulo.attr.CodigoArticulo);
-                partPrices.push(lavabo.current_price + "€")
-                partDescriptions.push(lavabo.articulo.attr.DescripcionArticulo)
-                valueDescriptions.push(lavabo.descripcion_valores)
-                fullReferencia.push(lavabo.full_referencia)
+                partPrices.push(lavabo.current_price + "€");
+                partDescriptions.push(lavabo.articulo.attr.DescripcionArticulo);
+                valueDescriptions.push(lavabo.descripcion_valores);
+                fullReferencia.push(lavabo.full_referencia);
             }
             partNames.push(lavabo.articulo.attr.CodigoArticulo);
-            partPrices.push(lavabo.current_price + "€")
-            partDescriptions.push(lavabo.articulo.attr.DescripcionArticulo)
-            valueDescriptions.push(lavabo.descripcion_valores)
-            fullReferencia.push(lavabo.full_referencia)
+            partPrices.push(lavabo.current_price + "€");
+            partDescriptions.push(lavabo.articulo.attr.DescripcionArticulo);
+            valueDescriptions.push(lavabo.descripcion_valores);
+            fullReferencia.push(lavabo.full_referencia);
         }
-        if(espejo){
+        if (espejo) {
             partNames.push(espejo.articulo.attr.CodigoArticulo);
-            partPrices.push(espejo.current_price + "€")
-            partDescriptions.push(espejo.articulo.attr.DescripcionArticulo)
-            valueDescriptions.push(espejo.descripcion_valores)
-            fullReferencia.push(espejo.full_referencia)
+            partPrices.push(espejo.current_price + "€");
+            partDescriptions.push(espejo.articulo.attr.DescripcionArticulo);
+            valueDescriptions.push(espejo.descripcion_valores);
+            fullReferencia.push(espejo.full_referencia);
         }
 
-        const partYPositions = [newSectionY - 60, newSectionY - 140, newSectionY - 220, newSectionY - 300, newSectionY - 380];
+        const partYPositions = [
+            newSectionY - 60,
+            newSectionY - 140,
+            newSectionY - 220,
+            newSectionY - 300,
+            newSectionY - 380,
+        ];
         partYPositions.forEach((y, index) => {
-            if(partNames[index]&&partPrices[index]&&partDescriptions[index]){
-
-                page.drawText(partNames[index] + '_' + fullReferencia[index], { x: 20, y: y, size: midFontSize });
-                page.drawText(partPrices[index], { x: width - 100, y: y, size: normalFontSize });
+            if (
+                partNames[index] &&
+                partPrices[index] &&
+                partDescriptions[index]
+            ) {
+                page.drawText(partNames[index] + "_" + fullReferencia[index], {
+                    x: 20,
+                    y: y,
+                    size: midFontSize,
+                });
+                page.drawText(partPrices[index], {
+                    x: width - 100,
+                    y: y,
+                    size: normalFontSize,
+                });
 
                 const maxTextWidth = width; // Maximum width for text
-                const descriptionLines = splitTextIntoLines(partDescriptions[index], normalFontSize, maxTextWidth);
-                const valueLines = splitTextIntoLines(valueDescriptions[index], normalFontSize, maxTextWidth);
-                let yOffset = y -15;
+                const descriptionLines = splitTextIntoLines(
+                    partDescriptions[index],
+                    normalFontSize,
+                    maxTextWidth
+                );
+                const valueLines = splitTextIntoLines(
+                    valueDescriptions[index],
+                    normalFontSize,
+                    maxTextWidth
+                );
+                let yOffset = y - 15;
                 descriptionLines.forEach((line, idx) => {
-                    page.drawText(line, { x: 20, y: yOffset, size: normalFontSize });
+                    page.drawText(line, {
+                        x: 20,
+                        y: yOffset,
+                        size: normalFontSize,
+                    });
                     yOffset -= 15; // Adjust line spacing as needed
                 });
                 valueLines.forEach((line, idx) => {
-                    page.drawText(line, { x: 20, y: yOffset, size: normalFontSize });
+                    page.drawText(line, {
+                        x: 20,
+                        y: yOffset,
+                        size: normalFontSize,
+                    });
                     yOffset -= 15; // Adjust line spacing as needed
                 });
-
             }
         });
 
         // Add total price (occupies 1 space)
-        let totalPrice = partPrices.map(price => parseFloat(price.replace('€', ''))).reduce((total, price) => total + price, 0);
-        totalPrice = totalPrice + '€';
+        let totalPrice = partPrices
+            .map((price) => parseFloat(price.replace("€", "")))
+            .reduce((total, price) => total + price, 0);
+        totalPrice = totalPrice + "€";
 
-        page.drawText('Total: ' + totalPrice, { x: 20, y: 30, size: midFontSize });
+        page.drawText("Total: " + totalPrice, {
+            x: 20,
+            y: 30,
+            size: midFontSize,
+        });
 
         // Save PDF
         const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const link = document.createElement('a');
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        const link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
-        link.download = 'rendered_scene.pdf';
+        link.download = "rendered_scene.pdf";
         link.click();
 
         // Set generatingPDF to false after PDF is generated
@@ -296,7 +374,7 @@ export default function RenderObjectView({ composition}) {
     }
 
     function splitTextIntoLines(text, fontSize, maxWidth) {
-        const words = text.split(' ');
+        const words = text.split(" ");
         const lines = [];
         let currentLine = words[0];
 
@@ -304,8 +382,9 @@ export default function RenderObjectView({ composition}) {
             const word = words[i];
             const width = fontSize * word.length * 0.6; // Assuming average width of characters
             if (width < maxWidth) {
-                const potentialLine = currentLine + ' ' + word;
-                const potentialLineWidth = fontSize * potentialLine.length * 0.6;
+                const potentialLine = currentLine + " " + word;
+                const potentialLineWidth =
+                    fontSize * potentialLine.length * 0.6;
                 if (potentialLineWidth <= maxWidth) {
                     currentLine = potentialLine;
                 } else {
@@ -322,26 +401,27 @@ export default function RenderObjectView({ composition}) {
         return lines;
     }
 
-
-// ---------------
-// En algun lado    style={{touchAction:'none'}
-
     return (
-        <div className="render-container" >
-            <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: '999' }}>
+        <div className="render-container">
+            <div
+                style={{
+                    position: "absolute",
+                    top: "20px",
+                    right: "20px",
+                    zIndex: "999",
+                }}
+            >
                 <button onClick={createPDF} disabled={generatingPDF}>
-                    <PrintIcon/>
+                    <PrintIcon />
                 </button>
             </div>
 
-            <Canvas gl={{ preserveDrawingBuffer: true, touchAction:'none'}}>
+            <Canvas gl={{ preserveDrawingBuffer: true }}>
                 <color attach="background" args={["#161617"]} />
-                <fog attach="fog" args={["#131415", 10, 20]}
-                />
-
+                <fog attach="fog" args={["#131415", 10, 20]} />
 
                 <RenderObject
-                    muebleRoutes ={muebleRoutes}
+                    muebleRoutes={muebleRoutes}
                     encimeraRoutes={encimeraRoutes}
                     lavaboRoutes={lavaboRoutes}
                     espejoRoutes={espejoRoutes}
@@ -355,5 +435,4 @@ export default function RenderObjectView({ composition}) {
             </Canvas>
         </div>
     );
-
 }

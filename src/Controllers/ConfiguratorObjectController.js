@@ -39,7 +39,6 @@ export async function updateConfiguratorObject(
     optionId,
     valueId
 ) {
-    console.log("wew");
     const payload = {
         optionId: optionId,
         valueId: valueId,
@@ -63,6 +62,11 @@ export async function updateConfiguratorObject(
             }
             return response.json();
         })
+        .then((data) =>
+            console.log(
+                `Respuesta de back haciendo update de configurator objec es:  ${data["message"]}`
+            )
+        )
         .catch((error) => {
             throw new Error(`Error fetching configurator object: ${error}`);
         });
