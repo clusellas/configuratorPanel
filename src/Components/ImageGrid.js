@@ -12,33 +12,45 @@ const ImageContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const ImageGrid = ({ elements, onImageClick }) => {
-    // Esta basura habra que quitar
+    if (!elements || elements.length === 0 || !elements[0].coleccion) {
+        return null;
+    }
+
     const filteredElements = elements.filter(
         (element) =>
             element.coleccion.image !==
             "http://localhost:8000/media/default.png"
     );
 
+    const rows = [];
+    for (let i = 0; i < filteredElements.length; i += 3) {
+        rows.push(filteredElements.slice(i, i + 3));
+    }
+
     return (
         <Grid container spacing={2}>
-            {filteredElements.map((elem, indexElem) => (
-                <Grid item xs={12} sm={6} md={4} key={indexElem}>
-                    <ImageContainer
-                        onClick={() => onImageClick(elem.coleccion)}
-                    >
-                        <img
-                            src={elem.coleccion.image}
-                            alt={elem.coleccion.code}
-                            style={{
-                                maxWidth: "auto",
-                                maxHeight: "40vh",
-                                objectFit: "cover",
-                            }}
-                        />
-                        <Typography variant="body1">
-                            {elem.coleccion.name}
-                        </Typography>
-                    </ImageContainer>
+            {rows.map((row, rowIndex) => (
+                <Grid container item spacing={2} key={rowIndex}>
+                    {row.map((element, elementIndex) => (
+                        <Grid item xs={12} sm={6} md={4} key={elementIndex}>
+                            <ImageContainer
+                                onClick={() => onImageClick(element.coleccion)}
+                            >
+                                <img
+                                    src={element.coleccion.image}
+                                    alt={element.coleccion.code}
+                                    style={{
+                                        maxWidth: "100%",
+                                        maxHeight: "700px",
+                                        objectFit: "cover",
+                                    }}
+                                />
+                                <Typography variant="body1">
+                                    {element.coleccion.name}
+                                </Typography>
+                            </ImageContainer>
+                        </Grid>
+                    ))}
                 </Grid>
             ))}
         </Grid>

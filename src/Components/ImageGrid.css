@@ -1,0 +1,32 @@
+.images-in-rows-of-three {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x:hidden;
+}
+
+.image-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.image-column {
+    width: 33%;
+    margin-bottom: 10px;
+}
+
+.image {
+    width: 90%;
+    height: 90%; /* Set a fixed height for all images */
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.image-grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    overflow: scroll; /* Prevents page scrolling */
+}

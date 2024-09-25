@@ -1,5 +1,4 @@
 import api from "../api";
-import { error } from "pdf-lib";
 
 export function fetchOptionsMueble(option, mueble, composition_id) {
     let payload = Object.assign({}, mueble);

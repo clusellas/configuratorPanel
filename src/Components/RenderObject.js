@@ -5,7 +5,7 @@ import { useLoader } from "@react-three/fiber";
 import { PresentationControls } from "@react-three/drei";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { DDSLoader } from "three-stdlib";
-import React, { Suspense, useRef } from "react";
+import React, { Suspense } from "react";
 import { useFrame } from "@react-three/fiber";
 
 THREE.DefaultLoadingManager.addHandler(/\.dds$/i, new DDSLoader());
@@ -22,7 +22,6 @@ export default function RenderObject({
     eje,
     valorEje,
 }) {
-    const ref = useRef();
     let mueble = null;
     let mueble_con_eje = useLoader(OBJLoader, muebleRoutes[0]);
     let mueble_sin_eje = useLoader(OBJLoader, muebleRoutes[1]);
@@ -64,12 +63,6 @@ export default function RenderObject({
     } else if (espejo_sin_eje.children.length > 0) {
         espejo = espejo_sin_eje;
     }
-
-    useFrame(() => {
-        if (ref.current) {
-            ref.current.rotation.y += 0.01;
-        }
-    });
 
     let muebleBoundingBox;
     let muebleCenter;

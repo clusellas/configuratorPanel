@@ -1,0 +1,24 @@
+.images-in-rows-of-three-design {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x:hidden;
+}
+
+.image-row-design {
+    flex: 0 0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.image-column-design {
+    width: 20%; /* Or any fixed width you prefer */
+}
+
+.image-design {
+    width: 90%;
+    height: 90%; /* Set a fixed height for all images */
+    object-fit: cover;
+    cursor: pointer;
+}

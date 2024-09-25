@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, MenuItem, Button, Box, Grid } from "@mui/material";
+import "./ImageGridDesign.css"; // Import CSS file for additional styles if needed
 
 const SizeFrom = ({ elements, onImageClick }) => {
     const [value, setValue] = useState(elements[0].ancho.id); // State to manage input value

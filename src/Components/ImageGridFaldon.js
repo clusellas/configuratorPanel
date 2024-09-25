@@ -21,24 +21,35 @@ const ImageGridFaldon = ({ elements, onImageClick }) => {
             element.faldon.image !== "http://localhost:8000/media/default.png"
     );
 
+    const rows = [];
+    for (let i = 0; i < filteredElements.length; i += 2) {
+        rows.push(filteredElements.slice(i, i + 2));
+    }
+
     return (
         <Grid container spacing={2}>
-            {filteredElements.map((elem, indexElem) => (
-                <Grid item xs={12} sm={6} md={4} key={indexElem}>
-                    <ImageContainer onClick={() => onImageClick(elem.faldon)}>
-                        <img
-                            src={elem.faldon.image}
-                            alt={elem.faldon.code}
-                            style={{
-                                maxWidth: "100%",
-                                maxHeight: "700px",
-                                objectFit: "cover",
-                            }}
-                        />
-                        <Typography variant="body1">
-                            {elem.faldon.name}
-                        </Typography>
-                    </ImageContainer>
+            {rows.map((row, rowIndex) => (
+                <Grid container item spacing={2} key={rowIndex}>
+                    {row.map((element, elementIndex) => (
+                        <Grid item xs={12} sm={6} md={4} key={elementIndex}>
+                            <ImageContainer
+                                onClick={() => onImageClick(element.faldon)}
+                            >
+                                <img
+                                    src={element.faldon.image}
+                                    alt={element.faldon.code}
+                                    style={{
+                                        maxWidth: "100%",
+                                        maxHeight: "700px",
+                                        objectFit: "cover",
+                                    }}
+                                />
+                                <Typography variant="body1">
+                                    {element.faldon.name}
+                                </Typography>
+                            </ImageContainer>
+                        </Grid>
+                    ))}
                 </Grid>
             ))}
         </Grid>
