@@ -188,147 +188,141 @@ function CompositionView() {
     if (!currentCO) return null;
 
     return (
-        <div>
-            <Grid container rowSpacing={10}>
-                <Grid container height="8%" item xs={12} padding-bottom={5}>
-                    <AppBar position="static" color="secondary">
-                        <Toolbar>
-                            <Grid
-                                container
-                                justifyContent="flex-start"
-                                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                            >
-                                <Grid item x={2}>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={() =>
-                                            changeConfigurationObject("mueble")
-                                        }
-                                    >
-                                        mueble
-                                    </Button>
-                                </Grid>
-                                <Grid item x={2}>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={() =>
-                                            changeConfigurationObject(
-                                                "encimera"
-                                            )
-                                        }
-                                    >
-                                        encimera
-                                    </Button>
-                                </Grid>
-
-                                {showLavabo && (
-                                    <Grid item x={2}>
-                                        <Button
-                                            variant="outlined"
-                                            color="primary"
-                                            onClick={() =>
-                                                changeConfigurationObject(
-                                                    "lavabo"
-                                                )
-                                            }
-                                        >
-                                            lavabo
-                                        </Button>
-                                    </Grid>
-                                )}
-                                <Grid item x={2}>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={() =>
-                                            changeConfigurationObject("espejo")
-                                        }
-                                    >
-                                        espejo
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                            <div>{CMPS.total_price}€</div>
-                        </Toolbar>
-                    </AppBar>
-                </Grid>
-                <Grid
-                    height="80%"
-                    container
-                    rowSpacing={10}
-                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                    margin-top={10}
+        <Grid container rowSpacing={10} sx={{ height: "100vh" }}>
+            <Grid container height="8%" item xs={12} padding-bottom={5}>
+                <AppBar
+                    position="static"
+                    color="secondary"
+                    //sx={{ position: "fixed" }}
                 >
-                    <Grid item xs={8}>
+                    <Toolbar>
                         <Grid
                             container
-                            rowSpacing={1}
+                            justifyContent="flex-start"
                             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                         >
-                            <Grid item xs={12}>
-                                {standard ? (
-                                    false
-                                ) : (
-                                    <Grid
-                                        container
-                                        rowSpacing={1}
-                                        columnSpacing={{ xs: 1, sm: 1, md: 1 }}
+                            <Grid item x={2}>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() =>
+                                        changeConfigurationObject("mueble")
+                                    }
+                                >
+                                    mueble
+                                </Button>
+                            </Grid>
+                            <Grid item x={2}>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() =>
+                                        changeConfigurationObject("encimera")
+                                    }
+                                >
+                                    encimera
+                                </Button>
+                            </Grid>
+
+                            {showLavabo && (
+                                <Grid item x={2}>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() =>
+                                            changeConfigurationObject("lavabo")
+                                        }
                                     >
-                                        {currentCO.current_linea.opciones.map(
-                                            (option, index) => (
-                                                <Grid item x={2} key={index}>
-                                                    <Button
-                                                        key={option.id}
-                                                        variant={
-                                                            selectedOptionId ===
-                                                            option.id
-                                                                ? "contained"
-                                                                : "outlined"
-                                                        }
-                                                        color="primary"
-                                                        size="small"
-                                                        onClick={() =>
-                                                            changeOption(
-                                                                option.id
-                                                            )
-                                                        }
-                                                    >
-                                                        {option.name}
-                                                    </Button>
-                                                </Grid>
-                                            )
-                                        )}
-                                    </Grid>
-                                )}
+                                        lavabo
+                                    </Button>
+                                </Grid>
+                            )}
+                            <Grid item x={2}>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() =>
+                                        changeConfigurationObject("espejo")
+                                    }
+                                >
+                                    espejo
+                                </Button>
                             </Grid>
-                            <Grid item xs={12}>
-                                <div style={{ height: "40%" }}>
-                                    <RenderObjectView
-                                        composition={CMPS}
-                                    ></RenderObjectView>
-                                </div>
-                            </Grid>
+                        </Grid>
+                        <div>{CMPS.total_price}€</div>
+                    </Toolbar>
+                </AppBar>
+            </Grid>
+            <Grid
+                height="80%"
+                container
+                rowSpacing={10}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                margin-top={10}
+            >
+                <Grid item xs={8}>
+                    <Grid
+                        container
+                        rowSpacing={1}
+                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                    >
+                        <Grid item xs={12}>
+                            {standard ? (
+                                false
+                            ) : (
+                                <Grid
+                                    container
+                                    rowSpacing={1}
+                                    columnSpacing={{ xs: 1, sm: 1, md: 1 }}
+                                >
+                                    {currentCO.current_linea.opciones.map(
+                                        (option, index) => (
+                                            <Grid item x={2} key={index}>
+                                                <Button
+                                                    key={option.id}
+                                                    variant={
+                                                        selectedOptionId ===
+                                                        option.id
+                                                            ? "contained"
+                                                            : "outlined"
+                                                    }
+                                                    color="primary"
+                                                    size="small"
+                                                    onClick={() =>
+                                                        changeOption(option.id)
+                                                    }
+                                                >
+                                                    {option.name}
+                                                </Button>
+                                            </Grid>
+                                        )
+                                    )}
+                                </Grid>
+                            )}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div style={{ height: "40%" }}>
+                                <RenderObjectView
+                                    composition={CMPS}
+                                ></RenderObjectView>
+                            </div>
                         </Grid>
                     </Grid>
-                    {standard ? (
-                        false
-                    ) : (
-                        <Grid item xs={4}>
-                            <OptionDecide
-                                element={selectedOption}
-                                onValueClick={selectValue}
-                                opciones_y_valores={
-                                    currentCO.opciones_y_valores
-                                }
-                                navigation={navigation}
-                            ></OptionDecide>
-                        </Grid>
-                    )}
                 </Grid>
+                {standard ? (
+                    false
+                ) : (
+                    <Grid item xs={4}>
+                        <OptionDecide
+                            element={selectedOption}
+                            onValueClick={selectValue}
+                            opciones_y_valores={currentCO.opciones_y_valores}
+                            navigation={navigation}
+                        ></OptionDecide>
+                    </Grid>
+                )}
             </Grid>
-        </div>
+        </Grid>
     );
 }
 

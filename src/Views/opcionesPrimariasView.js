@@ -15,17 +15,12 @@ import ImageGridEje from "../Components/ImageGridEje";
 import ImageGridMedidas from "../Components/ImageGridMedidas";
 import ImageGridFaldon from "../Components/ImageGridFaldon";
 import ImageGridColorLavabo from "../Components/ImageGridColorLavabo";
-import ImageGridAcabado from "../Components/ImageGridAcabado";
 
 function OpcionesPrimariasView() {
     const [elements, setElements] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const { setObjData, objData } = useContext(MyContext);
-
-    console.log("objData");
-
-    console.log(objData);
 
     const opcionesPrimarias = {
         mueble: ["coleccion", "design", "ancho", "eje"],
@@ -249,18 +244,6 @@ function OpcionesPrimariasView() {
                     style={{ display: "flex", overflow: "hidden" }}
                 >
                     <ImageGridColorLavabo
-                        elements={elements}
-                        onImageClick={ClickImage}
-                    />
-                </div>
-            );
-        case "acabado":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <ImageGridAcabado
                         elements={elements}
                         onImageClick={ClickImage}
                     />
