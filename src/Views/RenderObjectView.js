@@ -75,6 +75,10 @@ export default function RenderObjectView({ composition }) {
         let colectionFolder = mueble.articulo.attr.coleccion.code + "/";
 
         let ref = mueble.figure_referencia ? mueble.figure_referencia : "";
+        console.log("ruta_con_eje");
+        console.log(colectionFolder);
+        console.log(mueble.articulo.attr.CodigoArticulo);
+        console.log(ref);
         let ruta_con_eje =
             ROOT +
             colectionFolder +
