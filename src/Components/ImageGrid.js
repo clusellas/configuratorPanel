@@ -28,14 +28,21 @@ const ImageGrid = ({ elements, onImageClick }) => {
                 <Grid item xs={12} sm={6} md={4} key={indexElem}>
                     <ImageContainer
                         onClick={() => onImageClick(elem.coleccion)}
+                        sx={{
+                            height: "40vh",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
                     >
                         <img
                             src={elem.coleccion.image}
                             alt={elem.coleccion.code}
                             style={{
-                                maxWidth: "25vw",
-                                maxHeight: "40vh",
-                                objectFit: "cover",
+                                width: "90%",
+                                maxHeight: "80%",
+                                objectFit: "contain",
                             }}
                         />
                         <Typography variant="body1">

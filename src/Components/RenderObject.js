@@ -6,7 +6,6 @@ import { PresentationControls } from "@react-three/drei";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { DDSLoader } from "three-stdlib";
 import React, { Suspense } from "react";
-import { useFrame } from "@react-three/fiber";
 
 THREE.DefaultLoadingManager.addHandler(/\.dds$/i, new DDSLoader());
 
@@ -23,6 +22,10 @@ export default function RenderObject({
     valorEje,
 }) {
     let mueble = null;
+    console.log("muebleRoutes");
+
+    console.log(muebleRoutes);
+
     let mueble_con_eje = useLoader(OBJLoader, muebleRoutes[0]);
     let mueble_sin_eje = useLoader(OBJLoader, muebleRoutes[1]);
 
