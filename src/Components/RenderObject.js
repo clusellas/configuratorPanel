@@ -6,7 +6,6 @@ import { PresentationControls } from "@react-three/drei";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { DDSLoader } from "three-stdlib";
 import React, { Suspense } from "react";
-import { useFrame } from "@react-three/fiber";
 
 THREE.DefaultLoadingManager.addHandler(/\.dds$/i, new DDSLoader());
 
