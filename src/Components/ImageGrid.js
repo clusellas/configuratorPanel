@@ -40,7 +40,7 @@ const ImageGrid = ({ elements, onImageClick }) => {
                             src={elem.coleccion.image}
                             alt={elem.coleccion.code}
                             style={{
-                                width: "80%",
+                                width: "90%",
                                 maxHeight: "80%",
                                 objectFit: "contain",
                             }}

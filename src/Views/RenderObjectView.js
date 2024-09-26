@@ -74,23 +74,20 @@ export default function RenderObjectView({ composition }) {
     if (mueble != null) {
         let colectionFolder = mueble.articulo.attr.coleccion.code + "/";
 
-        let ref = mueble.figure_referencia ? mueble.figure_referencia : "";
-        console.log("ruta_con_eje");
-        console.log(colectionFolder);
-        console.log(mueble.articulo.attr.CodigoArticulo);
-        console.log(ref);
+        let ref = mueble.figure_referencia
+            ? `.${mueble.figure_referencia}`
+            : "";
+
         let ruta_con_eje =
             ROOT +
             colectionFolder +
             mueble.articulo.attr.CodigoArticulo +
-            "." +
             ref +
             ".obj";
         let ruta_sin_eje =
             ROOT +
             colectionFolder +
             removeAfterLastPoint(mueble.articulo.attr.CodigoArticulo) +
-            "." +
             ref +
             ".obj";
 
