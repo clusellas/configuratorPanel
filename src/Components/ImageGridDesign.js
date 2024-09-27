@@ -12,12 +12,17 @@ const ImageContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const ImageGrid = ({ elements, onImageClick }) => {
-    console.log(elements);
-
     if (!elements || elements.length === 0 || !elements[0].design_coleccion) {
         return null;
     }
 
+    /*
+    const filteredElements = elements.filter(
+        (element) =>
+            element.design_coleccion.image !==
+            "http://localhost:8000/media/default.png"
+    );
+*/
     return (
         <Grid container spacing={2}>
             {elements.map((elem, indexElem) => (
@@ -32,7 +37,7 @@ const ImageGrid = ({ elements, onImageClick }) => {
                             alt={elem.design_coleccion.design.code}
                             style={{
                                 maxWidth: "100%",
-                                maxHeight: "500px",
+                                height: "auto",
                                 objectFit: "cover",
                             }}
                         />

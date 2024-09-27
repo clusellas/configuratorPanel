@@ -15,16 +15,16 @@ const ImageGridColorLavabo = ({ elements, onImageClick }) => {
     if (!elements || elements.length === 0 || !elements[0].color) {
         return null;
     }
-
+    /*
     const filteredElements = elements.filter(
         (element) =>
             element.color.image !== "http://localhost:8000/media/default.png"
     );
-
+*/
     return (
         <Grid container spacing={2}>
-            {filteredElements.map((elem, indexEleme) => (
-                <Grid item xs={12} sm={6} md={4}>
+            {elements.map((elem, indexEleme) => (
+                <Grid item xs={12} sm={6} md={4} key={indexEleme}>
                     <ImageContainer onClick={() => onImageClick(elem.color)}>
                         <img
                             src={elem.color.image}
