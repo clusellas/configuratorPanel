@@ -15,6 +15,8 @@ import ImageGridEje from "../Components/ImageGridEje";
 import ImageGridMedidas from "../Components/ImageGridMedidas";
 import ImageGridFaldon from "../Components/ImageGridFaldon";
 import ImageGridColorLavabo from "../Components/ImageGridColorLavabo";
+import { CircularProgress } from "@mui/material";
+import { Grid } from "@mui/material";
 
 function OpcionesPrimariasView() {
     const [elements, setElements] = useState([]);
@@ -165,7 +167,19 @@ function OpcionesPrimariasView() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <Grid
+                container
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <CircularProgress />
+            </Grid>
+        );
     }
 
     console.log(objData.current_opt);
