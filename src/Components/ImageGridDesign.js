@@ -12,6 +12,12 @@ const ImageContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const ImageGrid = ({ elements, onImageClick }) => {
+    console.log(elements);
+
+    if (!elements || elements.length === 0 || !elements[0].design_coleccion) {
+        return null;
+    }
+
     return (
         <Grid container spacing={2}>
             {elements.map((elem, indexElem) => (
