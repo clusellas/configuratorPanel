@@ -1,4 +1,4 @@
-import "./RenderObject.css";
+//import "./RenderObject.css";
 
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
@@ -22,11 +22,17 @@ export default function RenderObject({
     valorEje,
 }) {
     let mueble = null;
-    console.log("muebleRoutes");
+    console.log("muebleChosenOptions");
 
-    console.log(muebleRoutes);
-
+    console.log(muebleChosenOptions);
     let mueble_con_eje = useLoader(OBJLoader, muebleRoutes[0]);
+    console.log("childs");
+
+    if (mueble_con_eje.children.length > 1) {
+        mueble_con_eje.children.forEach((child) => {
+            console.log(child);
+        });
+    }
     let mueble_sin_eje = useLoader(OBJLoader, muebleRoutes[1]);
 
     if (mueble_con_eje.children.length > 0) {
@@ -188,9 +194,16 @@ export default function RenderObject({
 
     function add_material(child, type) {
         if (child instanceof THREE.Mesh) {
+            console.log("child en add_material");
+            console.log(type);
+            console.log(child.name);
+            console.log(child);
             let childName = type + "_" + child.name;
 
             childName = childName.split(":").shift();
+            console.log("texture_current_dict");
+
+            console.log(texture_current_dict);
 
             if (type === "espejo") {
                 child.material = new THREE.MeshStandardMaterial({
@@ -250,6 +263,9 @@ export default function RenderObject({
     if (mueble != null) {
         muebleChosenOptions.forEach((mueble_opt, index) => {
             if (mueble_opt.opcion.es_material === true) {
+                console.log("mueble_opt.opcion");
+
+                console.log(mueble_opt.opcion);
                 muebleChosenOptions.forEach((object_color, index_color) => {
                     if (
                         object_color.opcion.orden ===
@@ -273,6 +289,9 @@ export default function RenderObject({
                     texture_file_name = "DEFAULT";
                 }
                 let nombre_grupo_piezas = mueble_opt.opcion.nombre_grupo_piezas;
+                console.log("nombre_grupo_piezas");
+
+                console.log(nombre_grupo_piezas);
                 texture_current_dict["mueble_" + nombre_grupo_piezas] =
                     texture_file_name;
             }

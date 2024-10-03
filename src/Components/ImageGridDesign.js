@@ -16,16 +16,15 @@ const ImageGrid = ({ elements, onImageClick }) => {
         return null;
     }
 
-    /*
     const filteredElements = elements.filter(
         (element) =>
             element.design_coleccion.image !==
             "http://localhost:8000/media/default.png"
     );
-*/
+
     return (
         <Grid container spacing={2}>
-            {elements.map((elem, indexElem) => (
+            {filteredElements.map((elem, indexElem) => (
                 <Grid item xs={12} sm={6} md={4} lg={2.4} key={indexElem}>
                     <ImageContainer
                         onClick={() =>
