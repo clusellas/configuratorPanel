@@ -525,7 +525,7 @@ export default function RenderObject({
             //polar={[-Math.PI / 2, Math.PI / 2]}
             zoom={1.5}
             rotation={[Math.PI / 8, Math.PI / 4, 0]}
-            azimuth={[-Math.PI / 2, Math.PI / 4]}
+            azimuth={[-Math.PI / 2, Math.PI / 5]}
             //azimuth={[-Infinity, Infinity]}
         >
             <Suspense fallback={null}>
@@ -536,13 +536,10 @@ export default function RenderObject({
                     {lavabo2 && <primitive object={lavabo2} scale={scale} />}
                     {espejo && <primitive object={espejo} scale={scale} />}
 
-                    {/*
-
                     <mesh position={[0, 10, 0]}>
                         <boxGeometry args={[20, 20, 0.1]} />
                         <meshStandardMaterial map={texture_dict["PARED"]} />
                     </mesh>
-*/}
 
                     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
                         <planeGeometry args={[20, 10]} />
