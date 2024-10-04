@@ -13,6 +13,7 @@ import { MyContext } from "./MyContext";
 import { createTheme, ThemeProvider } from "@mui/material";
 import CompositionView from "./Views/CompositionView";
 import CountryPopup from "./Components/CountryPopup";
+import IntroducionView from "./Views/IntroducionView";
 
 const theme = createTheme({
     palette: {
@@ -52,7 +53,9 @@ function App() {
                 <MyContext.Provider value={{ objData, setObjData }}>
                     <CountryPopup />
                     <Routes>
-                        <Route exact path="/" element={<Index />} />
+                        <Route exact path="/" element={<IntroducionView />} />
+
+                        <Route exact path="/index" element={<Index />} />
                         <Route
                             exact
                             path="/opciones-primarias"
