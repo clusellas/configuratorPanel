@@ -61,10 +61,7 @@ function Index() {
         },
         { src: "espejo.jpg", alt: "espejo", description: "Elige un espejo" },
     ];
-    /*
-                border: "5px solid",
-                borderColor: "primary",
-*/
+
     return (
         <Box
             sx={{
@@ -85,15 +82,24 @@ function Index() {
                                 component="img"
                                 src={image.src}
                                 alt={image.alt}
-                                onClick={() => ClickImage(image.alt)}
+                                onClick={() =>
+                                    index === 0 && ClickImage(image.alt)
+                                }
                                 sx={{
                                     width: "90%",
                                     height: "auto",
-                                    cursor: "pointer",
+                                    cursor:
+                                        index === 0 ? "pointer" : "not-allowed",
+                                    filter:
+                                        index === 0
+                                            ? "none"
+                                            : "grayscale(100%)",
+
                                     transition: "transform 0.3s ease-in-out",
 
                                     "&:hover": {
-                                        transform: "scale(1.05)",
+                                        transform:
+                                            index === 0 ? "scale(1.1)" : "none",
                                     },
                                 }}
                             />
