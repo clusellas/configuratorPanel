@@ -32,14 +32,12 @@ function OpcionesPrimariasView() {
         espejo: ["coleccion", "medidas"],
     };
     if (objData.current_obj == null) {
-        let newobjData = objData;
-        newobjData.current_obj = "mueble";
-        setObjData(newobjData);
+        objData.current_obj = "mueble";
+        setObjData(objData);
     }
     if (objData.current_opt == null) {
-        let newobjData = objData;
-        newobjData.current_opt = opcionesPrimarias[objData.current_obj][0];
-        setObjData(newobjData);
+        objData.current_opt = opcionesPrimarias[objData.current_obj][0];
+        setObjData(objData);
     }
 
     const fetchData = async () => {
@@ -48,6 +46,9 @@ function OpcionesPrimariasView() {
 
             switch (objData.current_obj) {
                 case "mueble":
+                    console.log("mueble");
+                    console.log(objData.current_opt + objData.composition_id);
+                    console.log(objData.mueble);
                     data = await fetchOptionsMueble(
                         objData.current_opt,
                         objData.mueble,
@@ -93,7 +94,7 @@ function OpcionesPrimariasView() {
                 fetchData();
             } else {
                 if (data.length === 1) {
-                    //await ClickImage(data[0][Object.keys(data[0])[0]]);
+                    // await ClickImage(data[0][Object.keys(data[0])[0]]);
                 }
             }
 
@@ -110,16 +111,9 @@ function OpcionesPrimariasView() {
     const ClickImage = async (element) => {
         setLoading(true);
         try {
-            let newObjData = objData;
+            objData[objData.current_obj][objData.current_opt] = element.id;
 
-            /*
-                        console.log(element)
-            console.log("element id " + element.id)
-            */
-
-            newObjData[objData.current_obj][objData.current_opt] = element.id;
-
-            setObjData(newObjData);
+            setObjData(objData);
 
             await nextOption();
 
@@ -130,8 +124,6 @@ function OpcionesPrimariasView() {
     };
 
     const nextOption = async () => {
-        let newObjData = objData;
-
         const optionArray = opcionesPrimarias[objData.current_obj];
         const currentIndex = optionArray.indexOf(objData.current_opt);
 
@@ -140,11 +132,11 @@ function OpcionesPrimariasView() {
         if (currentIndex !== -1) {
             // Calculate the next index
             nextIndex = currentIndex + 1;
-            newObjData.current_opt = optionArray[nextIndex];
+            objData.current_opt = optionArray[nextIndex];
             //console.log(nextIndex)
         }
 
-        setObjData(newObjData);
+        setObjData(objData);
 
         if (nextIndex >= optionArray.length) {
             const response = await CreateConfigurationObject(objData);
@@ -153,16 +145,15 @@ function OpcionesPrimariasView() {
             objData.ObjConfigId = objectId;
 
             let nextIndex = optionArray.length - 1;
-            newObjData.current_opt = optionArray[nextIndex];
+            objData.current_opt = optionArray[nextIndex];
 
-            setObjData(newObjData);
+            setObjData(objData);
 
             const url = generatePath("/composition/:id", {
                 id: objData.composition_id,
             });
             // Navigate to the view displaying the newly created ConfigurationObject
             navigate(url);
-            //console.log(url)
         }
     };
 
@@ -265,7 +256,7 @@ function OpcionesPrimariasView() {
             );
 
         default:
-            <div>AN ERROR OCURRED</div>;
+            return <div>AN ERROR OCURRED</div>;
     }
 }
 

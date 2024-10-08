@@ -54,7 +54,7 @@ function App() {
                     <CountryPopup />
                     <Routes>
                         <Route exact path="/" element={<IntroducionView />} />
-
+                        {}
                         <Route exact path="/index" element={<Index />} />
                         <Route
                             exact

@@ -17,11 +17,11 @@ function Index() {
 
             let initialObjData = {
                 composition_id: objectId,
-                current_obj: null,
-                current_opt: null,
+                current_obj: null, // objeto actual
+                current_opt: null, // opcion actual
                 mueble: {}, // State for mueble object
                 encimera: {}, // State for encimera object
-                encimera_p: {},
+                encimera_p: {}, // encimera plana
                 lavabo: {},
                 espejo: {},
             };
@@ -30,13 +30,19 @@ function Index() {
         fetchData();
     }, []);
 
+    // aqui image es tipo de pieza seleccionada
     const ClickImage = async (image) => {
         try {
-            let newobjData = objData;
             objData.current_obj = image;
-            setObjData(newobjData);
+            setObjData(objData);
+            /*
+            const url = generatePath(
+                `/composition/${newobjData.composition_id}`
+            );
+            */
 
-            const url = generatePath("/opciones-primarias/");
+            const url = "/opciones-primarias";
+
             navigate(url);
         } catch (error) {
             // Handle error
@@ -61,10 +67,7 @@ function Index() {
         },
         { src: "espejo.jpg", alt: "espejo", description: "Elige un espejo" },
     ];
-    /*
-                border: "5px solid",
-                borderColor: "primary",
-*/
+
     return (
         <Box
             sx={{
@@ -85,15 +88,24 @@ function Index() {
                                 component="img"
                                 src={image.src}
                                 alt={image.alt}
-                                onClick={() => ClickImage(image.alt)}
+                                onClick={() =>
+                                    index === 0 && ClickImage(image.alt)
+                                }
                                 sx={{
                                     width: "90%",
                                     height: "auto",
-                                    cursor: "pointer",
+                                    cursor:
+                                        index === 0 ? "pointer" : "not-allowed",
+                                    filter:
+                                        index === 0
+                                            ? "none"
+                                            : "grayscale(100%)",
+
                                     transition: "transform 0.3s ease-in-out",
 
                                     "&:hover": {
-                                        transform: "scale(1.05)",
+                                        transform:
+                                            index === 0 ? "scale(1.1)" : "none",
                                     },
                                 }}
                             />
