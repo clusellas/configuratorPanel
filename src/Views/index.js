@@ -17,11 +17,11 @@ function Index() {
 
             let initialObjData = {
                 composition_id: objectId,
-                current_obj: null,
-                current_opt: null,
+                current_obj: null, // objeto actual
+                current_opt: null, // opcion actual
                 mueble: {}, // State for mueble object
                 encimera: {}, // State for encimera object
-                encimera_p: {},
+                encimera_p: {}, // encimera plana
                 lavabo: {},
                 espejo: {},
             };
@@ -30,13 +30,19 @@ function Index() {
         fetchData();
     }, []);
 
+    // aqui image es tipo de pieza seleccionada
     const ClickImage = async (image) => {
         try {
-            let newobjData = objData;
             objData.current_obj = image;
-            setObjData(newobjData);
+            setObjData(objData);
+            /*
+            const url = generatePath(
+                `/composition/${newobjData.composition_id}`
+            );
+            */
 
-            const url = generatePath("/opciones-primarias/");
+            const url = "/opciones-primarias";
+
             navigate(url);
         } catch (error) {
             // Handle error
