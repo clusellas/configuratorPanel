@@ -23,7 +23,7 @@ const ImageGridMedidas = ({ elements, onImageClick }) => {
 
     return (
         <Grid container spacing={2}>
-            {filteredElements.map((elem, indexElem) => (
+            {elements.map((elem, indexElem) => (
                 <Grid item xs={12} sm={6} md={4} key={indexElem}>
                     <ImageContainer onClick={() => onImageClick(elem.medidas)}>
                         <img

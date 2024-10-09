@@ -1,8 +1,10 @@
 import { Canvas } from "@react-three/fiber";
 import RenderObject from "../Components/RenderObject";
-import "../Components/RenderObject.css";
+//import "../Components/RenderObject.css";
 import { useState } from "react";
 import CreatePdf from "../Components/CreatePDF";
+import { Typography, Grid, Box } from "@mui/material";
+import zIndex from "@mui/material/styles/zIndex";
 
 /*
 Elimina todos los caracteres despues del ultimo punto de str
@@ -72,6 +74,11 @@ export default function RenderObjectView({ composition }) {
     if (mueble != null) {
         let colectionFolder = mueble.articulo.attr.coleccion.code + "/";
 
+        console.log("mueble");
+        console.log(mueble);
+
+        console.log(mueble.figure_referencia);
+
         let ref = mueble.figure_referencia
             ? `.${mueble.figure_referencia}`
             : "";
@@ -82,6 +89,8 @@ export default function RenderObjectView({ composition }) {
             mueble.articulo.attr.CodigoArticulo +
             ref +
             ".obj";
+
+        console.log(ruta_con_eje);
 
         let ruta_sin_eje =
             ROOT +
@@ -98,6 +107,11 @@ export default function RenderObjectView({ composition }) {
         valorEje = mueble.articulo.attr.valor_eje;
     }
     if (encimera != null) {
+        console.log("encimera");
+        console.log(encimera);
+
+        console.log(encimera.figure_referencia);
+
         let ruta_con_eje;
         let ruta_sin_eje;
         if (encimera.articulo.attr.plana === false) {
@@ -121,6 +135,9 @@ export default function RenderObjectView({ composition }) {
                 "." +
                 ref +
                 ".obj";
+
+            console.log(ruta_con_eje);
+
             ruta_sin_eje =
                 ROOT +
                 colectionFolder +
@@ -177,6 +194,10 @@ export default function RenderObjectView({ composition }) {
             espejo.articulo.attr.CodigoArticulo +
             ref +
             ".obj";
+
+        console.log("espejo");
+        console.log(ruta_con_eje);
+
         let ruta_sin_eje =
             ROOT +
             colectionFolder +
@@ -190,13 +211,23 @@ export default function RenderObjectView({ composition }) {
     }
 
     return (
-        <div className="render-container">
-            <div
-                style={{
+        <Box
+            sx={{
+                height: "60vh",
+                width: "50vw",
+                position: "relative",
+                top: "15vh",
+                left: "25vw",
+                border: 2,
+            }}
+        >
+            <Box
+                sx={{
                     position: "absolute",
-                    top: "20px",
-                    right: "20px",
-                    zIndex: "999",
+                    zIndex: 10,
+                    top: 0,
+                    right: 0,
+                    padding: "10px",
                 }}
             >
                 <CreatePdf
@@ -206,11 +237,11 @@ export default function RenderObjectView({ composition }) {
                     espejo={espejo}
                     Eje={Eje}
                 />
-            </div>
+            </Box>
 
             <Canvas
                 gl={{ preserveDrawingBuffer: true }}
-                style={{ touchAction: "none" }}
+                style={{ touchAction: "none", height: "100%" }}
             >
                 <color attach="background" args={["#161617"]} />
                 <fog attach="fog" args={["#131415", 10, 20]} />
@@ -228,6 +259,6 @@ export default function RenderObjectView({ composition }) {
                     valorEje={valorEje}
                 />
             </Canvas>
-        </div>
+        </Box>
     );
 }
