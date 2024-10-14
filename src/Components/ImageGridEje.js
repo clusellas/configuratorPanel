@@ -1,7 +1,13 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+
+import {
+    Typography,
+    Grid,
+    Paper,
+    Dialog,
+    DialogContent,
+    Button,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const ImageContainer = styled(Paper)(({ theme }) => ({
@@ -12,6 +18,10 @@ const ImageContainer = styled(Paper)(({ theme }) => ({
 }));
 
 const ImageGrid = ({ elements, onImageClick }) => {
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     if (!elements || elements.length === 0 || !elements[0].eje) {
         return null;
     }
@@ -22,24 +32,37 @@ const ImageGrid = ({ elements, onImageClick }) => {
     );
 
     return (
-        <Grid container spacing={2}>
-            {filteredElements.map((elem, indexElem) => (
-                <Grid item xs={12} sm={6} md={4} key={indexElem}>
-                    <ImageContainer onClick={() => onImageClick(elem.eje)}>
-                        <img
-                            src={elem.eje.image}
-                            alt={elem.eje.code}
-                            style={{
-                                maxWidth: "auto",
-                                maxHeight: "40vh",
-                                objectFit: "cover",
-                            }}
-                        />
-                        <Typography variant="body1">{elem.eje.name}</Typography>
-                    </ImageContainer>
-                </Grid>
-            ))}
-        </Grid>
+        <>
+            <Button variant="outlined" onClick={handleOpen}>
+                Eje
+            </Button>
+            <Dialog open={open} onClose={handleClose} maxWidth="md">
+                <DialogContent>
+                    <Grid container spacing={2} sx={{ p: 1 }}>
+                        {filteredElements.map((elem, indexElem) => (
+                            <Grid item xs={12} sm={6} md={4} key={indexElem}>
+                                <ImageContainer
+                                    onClick={() => onImageClick(elem.eje)}
+                                >
+                                    <img
+                                        src={elem.eje.image}
+                                        alt={elem.eje.code}
+                                        style={{
+                                            width: "90%",
+                                            maxHeight: "80%",
+                                            objectFit: "contain",
+                                        }}
+                                    />
+                                    <Typography variant="body1">
+                                        {elem.eje.name}
+                                    </Typography>
+                                </ImageContainer>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 };
 

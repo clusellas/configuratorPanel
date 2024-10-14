@@ -35,13 +35,10 @@ function Index() {
         try {
             objData.current_obj = image;
             setObjData(objData);
-            /*
-            const url = generatePath(
-                `/composition/${newobjData.composition_id}`
-            );
-            */
 
-            const url = "/opciones-primarias";
+            const url = generatePath(`/composition/${objData.composition_id}`);
+
+            //const url = "/opciones-primarias";
 
             navigate(url);
         } catch (error) {

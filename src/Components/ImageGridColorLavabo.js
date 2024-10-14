@@ -46,26 +46,3 @@ const ImageGridColorLavabo = ({ elements, onImageClick }) => {
 };
 
 export default ImageGridColorLavabo;
-
-/*
-
-
-        <Grid container spacing={2}>
-            {rows.map((row, rowIndex) => (
-                <Grid container item spacing={2} key={rowIndex}>
-                    {row.map((element, elementIndex) => (
-                        <Grid item xs={12} sm={6} md={4} key={elementIndex}>
-                            <ImageContainer onClick={() => onImageClick(element.color)}>
-                                <img
-                                    src={element.color.image}
-                                    alt={element.color.code}
-                                    style={{ maxWidth: '100%', maxHeight: '700px', objectFit: 'cover' }}
-                                />
-                                <Typography variant="body1">{element.color.name}</Typography>
-                            </ImageContainer>
-                        </Grid>
-                    ))}
-                </Grid>
-            ))}
-        </Grid>
-*/

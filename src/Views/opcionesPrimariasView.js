@@ -46,9 +46,6 @@ function OpcionesPrimariasView() {
 
             switch (objData.current_obj) {
                 case "mueble":
-                    console.log("mueble");
-                    console.log(objData.current_opt + objData.composition_id);
-                    console.log(objData.mueble);
                     data = await fetchOptionsMueble(
                         objData.current_opt,
                         objData.mueble,
@@ -75,6 +72,9 @@ function OpcionesPrimariasView() {
                         objData.espejo,
                         objData.composition_id
                     );
+                    break;
+                default:
+                    console.log("Error en switch de tipo de componente");
                     break;
             }
             setElements(data);

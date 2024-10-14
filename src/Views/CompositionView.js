@@ -5,14 +5,17 @@ import {
 } from "../Controllers/ConfiguratorObjectController";
 
 import { generatePath, useNavigate, useParams } from "react-router-dom";
-import { Button, Grid, AppBar, Toolbar } from "@mui/material";
+import { Button, Grid, AppBar, Toolbar, Typography, Box } from "@mui/material";
 import OptionDecide from "../Components/OptionDecide";
 import RenderObjectView from "./RenderObjectView";
 import { MyContext } from "../MyContext";
 import { fetchComposition } from "../Controllers/CompositionController";
+import SelectedOptions from "../Components/SelectedOptions";
+import Options from "../Components/Options";
 
 function CompositionView() {
     const { id } = useParams();
+
     const navigate = useNavigate();
     const [CMPS, setCMPS] = useState(null);
     //Es comando actual
@@ -46,24 +49,23 @@ function CompositionView() {
                 }
             }
 
-            // console.log(objData);
             let current_linea;
-
             switch (objData.current_obj) {
                 case "mueble":
                     setCurrentCO(composition.mueble);
                     if (composition.mueble != null) {
                         current_linea = composition.mueble.current_linea;
                     } else {
-                        leaveForNewProduct();
+                        //leaveForNewProduct();
                     }
                     break;
+
                 case "encimera":
                     setCurrentCO(composition.encimera);
                     if (composition.encimera != null) {
                         current_linea = composition.encimera.current_linea;
                     } else {
-                        leaveForNewProduct();
+                        // leaveForNewProduct();
                     }
                     break;
                 case "lavabo":
@@ -71,7 +73,7 @@ function CompositionView() {
                     if (composition.lavabo != null) {
                         current_linea = composition.lavabo.current_linea;
                     } else {
-                        leaveForNewProduct();
+                        //leaveForNewProduct();
                     }
                     break;
                 case "espejo":
@@ -79,9 +81,10 @@ function CompositionView() {
                     if (composition.espejo != null) {
                         current_linea = composition.espejo.current_linea;
                     } else {
-                        leaveForNewProduct();
+                        //leaveForNewProduct();
                     }
                     break;
+
                 default:
                     break;
             }
@@ -90,7 +93,7 @@ function CompositionView() {
                 setStandard(true);
             } else {
                 if (selectedOption == null) {
-                    changeOption(current_linea.opciones[0].id);
+                    //changeOption(current_linea.opciones[0].id);
                 }
             }
 
@@ -111,12 +114,13 @@ function CompositionView() {
     useEffect(() => {
         fetchData();
     }, []);
-
+    /*
     const leaveForNewProduct = async () => {
-        const url = generatePath("/opciones-primarias/");
+        //const url = generatePath("/opciones-primarias/");
+        const url = generatePath(`/composition/${id}`);
+
         // Navigate to the view displaying the newly created ConfigurationObject
         navigate(url);
-        //console.log(url);
     };
 
     const changeOption = async (option_id) => {
@@ -125,7 +129,6 @@ function CompositionView() {
         const option = await fetchOptionById(option_id);
         setSelectedOption(option);
 
-        //console.log('Selected option:', option_id);
     };
 
     const selectValue = async (opcion, selectedValue) => {
@@ -137,7 +140,6 @@ function CompositionView() {
 
         fetchData();
 
-        //console.log('Selected option:', selectedValue.id);
     };
 
     const changeConfigurationObject = (producto) => {
@@ -182,148 +184,165 @@ function CompositionView() {
             changeOption(currentCO.current_linea.opciones[index].id);
         }
 
-        //console.log('Selected option:', direction);
     }
 
     if (!currentCO) return null;
+    */
 
     return (
-        <Grid container rowSpacing={10} sx={{ height: "100vh" }}>
-            <Grid container height="8%" item xs={12} padding-bottom={5}>
-                <AppBar
-                    position="static"
-                    color="secondary"
-                    //sx={{ position: "fixed" }}
-                >
-                    <Toolbar>
-                        <Grid
-                            container
-                            justifyContent="flex-start"
-                            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                        >
-                            <Grid item x={2}>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={() =>
-                                        changeConfigurationObject("mueble")
-                                    }
-                                >
-                                    mueble
-                                </Button>
-                            </Grid>
-                            <Grid item x={2}>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={() =>
-                                        changeConfigurationObject("encimera")
-                                    }
-                                >
-                                    encimera
-                                </Button>
-                            </Grid>
+        <Box sx={{ display: "flex", flexDirection: "row" }}>
+            {CMPS && <Options />}
 
-                            {showLavabo && (
+            {CMPS && <RenderObjectView composition={CMPS} />}
+            {CMPS && <SelectedOptions composition={CMPS} />}
+        </Box>
+    );
+}
+
+export default CompositionView;
+
+/*
+            <Grid container rowSpacing={10} sx={{ height: "100vh" }}>
+                <Grid container height="8%" item xs={12} padding-bottom={5}>
+                    <AppBar
+                        position="static"
+                        color="secondary"
+                        //sx={{ position: "fixed" }}
+                    >
+                        <Toolbar>
+                            <Grid
+                                container
+                                justifyContent="flex-start"
+                                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                            >
                                 <Grid item x={2}>
                                     <Button
                                         variant="outlined"
                                         color="primary"
                                         onClick={() =>
-                                            changeConfigurationObject("lavabo")
+                                            changeConfigurationObject("mueble")
                                         }
                                     >
-                                        lavabo
+                                        mueble
                                     </Button>
                                 </Grid>
-                            )}
-                            <Grid item x={2}>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={() =>
-                                        changeConfigurationObject("espejo")
-                                    }
-                                >
-                                    espejo
-                                </Button>
+                                <Grid item x={2}>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() =>
+                                            changeConfigurationObject(
+                                                "encimera"
+                                            )
+                                        }
+                                    >
+                                        encimera
+                                    </Button>
+                                </Grid>
+
+                                {showLavabo && (
+                                    <Grid item x={2}>
+                                        <Button
+                                            variant="outlined"
+                                            color="primary"
+                                            onClick={() =>
+                                                changeConfigurationObject(
+                                                    "lavabo"
+                                                )
+                                            }
+                                        >
+                                            lavabo
+                                        </Button>
+                                    </Grid>
+                                )}
+                                <Grid item x={2}>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() =>
+                                            changeConfigurationObject("espejo")
+                                        }
+                                    >
+                                        espejo
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <div>{CMPS.total_price}€</div>
+                        </Toolbar>
+                    </AppBar>
+                </Grid>
+                <Grid
+                    height="80%"
+                    container
+                    rowSpacing={10}
+                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                    margin-top={10}
+                >
+                    <Grid item xs={8}>
+                        <Grid
+                            container
+                            rowSpacing={1}
+                            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                        >
+                            <Grid item xs={12}>
+                                {standard ? (
+                                    false
+                                ) : (
+                                    <Grid
+                                        container
+                                        rowSpacing={1}
+                                        columnSpacing={{ xs: 1, sm: 1, md: 1 }}
+                                    >
+                                        {currentCO.current_linea.opciones.map(
+                                            (option, index) => (
+                                                <Grid item x={2} key={index}>
+                                                    <Button
+                                                        key={option.id}
+                                                        variant={
+                                                            selectedOptionId ===
+                                                            option.id
+                                                                ? "contained"
+                                                                : "outlined"
+                                                        }
+                                                        color="primary"
+                                                        size="small"
+                                                        onClick={() =>
+                                                            changeOption(
+                                                                option.id
+                                                            )
+                                                        }
+                                                    >
+                                                        {option.name}
+                                                    </Button>
+                                                </Grid>
+                                            )
+                                        )}
+                                    </Grid>
+                                )}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div style={{ height: "40%" }}>
+                                    <RenderObjectView
+                                        composition={CMPS}
+                                    ></RenderObjectView>
+                                </div>
                             </Grid>
                         </Grid>
-                        <div>{CMPS.total_price}€</div>
-                    </Toolbar>
-                </AppBar>
-            </Grid>
-            <Grid
-                height="80%"
-                container
-                rowSpacing={10}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                margin-top={10}
-            >
-                <Grid item xs={8}>
-                    <Grid
-                        container
-                        rowSpacing={1}
-                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                    >
-                        <Grid item xs={12}>
-                            {standard ? (
-                                false
-                            ) : (
-                                <Grid
-                                    container
-                                    rowSpacing={1}
-                                    columnSpacing={{ xs: 1, sm: 1, md: 1 }}
-                                >
-                                    {currentCO.current_linea.opciones.map(
-                                        (option, index) => (
-                                            <Grid item x={2} key={index}>
-                                                <Button
-                                                    key={option.id}
-                                                    variant={
-                                                        selectedOptionId ===
-                                                        option.id
-                                                            ? "contained"
-                                                            : "outlined"
-                                                    }
-                                                    color="primary"
-                                                    size="small"
-                                                    onClick={() =>
-                                                        changeOption(option.id)
-                                                    }
-                                                >
-                                                    {option.name}
-                                                </Button>
-                                            </Grid>
-                                        )
-                                    )}
-                                </Grid>
-                            )}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <div style={{ height: "40%" }}>
-                                <RenderObjectView
-                                    composition={CMPS}
-                                ></RenderObjectView>
-                            </div>
-                        </Grid>
                     </Grid>
+                    {standard ? (
+                        false
+                    ) : (
+                        <Grid item xs={4}>
+                            <OptionDecide
+                                element={selectedOption}
+                                onValueClick={selectValue}
+                                opciones_y_valores={
+                                    currentCO.opciones_y_valores
+                                }
+                                navigation={navigation}
+                            ></OptionDecide>
+                        </Grid>
+                    )}
                 </Grid>
-                {standard ? (
-                    false
-                ) : (
-                    <Grid item xs={4}>
-                        <OptionDecide
-                            element={selectedOption}
-                            onValueClick={selectValue}
-                            opciones_y_valores={currentCO.opciones_y_valores}
-                            navigation={navigation}
-                        ></OptionDecide>
-                    </Grid>
-                )}
             </Grid>
-        </Grid>
-    );
-}
-
-export default CompositionView;
+            */

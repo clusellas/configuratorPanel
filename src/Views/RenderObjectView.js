@@ -1,10 +1,8 @@
 import { Canvas } from "@react-three/fiber";
 import RenderObject from "../Components/RenderObject";
-//import "../Components/RenderObject.css";
-import { useState } from "react";
 import CreatePdf from "../Components/CreatePDF";
-import { Typography, Grid, Box } from "@mui/material";
-import zIndex from "@mui/material/styles/zIndex";
+import { Typography, Box, Button } from "@mui/material";
+import NewCompositionButton from "../Components/NewCompositionButton";
 
 /*
 Elimina todos los caracteres despues del ultimo punto de str
@@ -49,8 +47,6 @@ function removeEjeButKeepFaldon(str) {
 }
 
 export default function RenderObjectView({ composition }) {
-    const [generatingPDF, setGeneratingPDF] = useState(false);
-
     const ROOT = "/models/";
 
     let mueble = composition.mueble;
@@ -73,11 +69,6 @@ export default function RenderObjectView({ composition }) {
 
     if (mueble != null) {
         let colectionFolder = mueble.articulo.attr.coleccion.code + "/";
-
-        console.log("mueble");
-        console.log(mueble);
-
-        console.log(mueble.figure_referencia);
 
         let ref = mueble.figure_referencia
             ? `.${mueble.figure_referencia}`
@@ -106,6 +97,7 @@ export default function RenderObjectView({ composition }) {
         Eje = mueble.articulo.attr.eje.code;
         valorEje = mueble.articulo.attr.valor_eje;
     }
+
     if (encimera != null) {
         console.log("encimera");
         console.log(encimera);
@@ -213,52 +205,63 @@ export default function RenderObjectView({ composition }) {
     return (
         <Box
             sx={{
-                height: "60vh",
-                width: "50vw",
-                position: "relative",
-                top: "15vh",
-                left: "25vw",
-                border: 2,
+                height: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
             }}
         >
+            <Typography variant="h1"> Configurador 3D</Typography>
             <Box
                 sx={{
-                    position: "absolute",
-                    zIndex: 10,
-                    top: 0,
-                    right: 0,
-                    padding: "10px",
+                    height: "60vh",
+                    width: "50vw",
+                    position: "relative",
+                    top: "10vh",
                 }}
             >
-                <CreatePdf
-                    mueble={mueble}
-                    encimera={encimera}
-                    lavabo={lavabo}
-                    espejo={espejo}
-                    Eje={Eje}
-                />
+                <Box
+                    sx={{
+                        position: "absolute",
+                        zIndex: 10,
+                        top: 0,
+                        right: 0,
+                        padding: "10px",
+                    }}
+                >
+                    <CreatePdf
+                        mueble={mueble}
+                        encimera={encimera}
+                        lavabo={lavabo}
+                        espejo={espejo}
+                        Eje={Eje}
+                    />
+                </Box>
+
+                <Canvas
+                    gl={{ preserveDrawingBuffer: true }}
+                    style={{ touchAction: "none", height: "100%" }}
+                >
+                    <color attach="background" args={["#161617"]} />
+                    <fog attach="fog" args={["#131415", 10, 20]} />
+
+                    <RenderObject
+                        muebleRoutes={muebleRoutes}
+                        encimeraRoutes={encimeraRoutes}
+                        lavaboRoutes={lavaboRoutes}
+                        espejoRoutes={espejoRoutes}
+                        muebleChosenOptions={muebleChosenOptions}
+                        encimeraChosenOptions={encimeraChosenOptions}
+                        lavaboChosenOptions={lavaboChosenOptions}
+                        espejoChosenOptions={espejoChosenOptions}
+                        eje={Eje}
+                        valorEje={valorEje}
+                    />
+                </Canvas>
             </Box>
-
-            <Canvas
-                gl={{ preserveDrawingBuffer: true }}
-                style={{ touchAction: "none", height: "100%" }}
-            >
-                <color attach="background" args={["#161617"]} />
-                <fog attach="fog" args={["#131415", 10, 20]} />
-
-                <RenderObject
-                    muebleRoutes={muebleRoutes}
-                    encimeraRoutes={encimeraRoutes}
-                    lavaboRoutes={lavaboRoutes}
-                    espejoRoutes={espejoRoutes}
-                    muebleChosenOptions={muebleChosenOptions}
-                    encimeraChosenOptions={encimeraChosenOptions}
-                    lavaboChosenOptions={lavaboChosenOptions}
-                    espejoChosenOptions={espejoChosenOptions}
-                    eje={Eje}
-                    valorEje={valorEje}
-                />
-            </Canvas>
+            <Box sx={{ position: "relative", top: "13vh" }}>
+                <NewCompositionButton />
+            </Box>
         </Box>
     );
 }
