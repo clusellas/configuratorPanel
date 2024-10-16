@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     BrowserRouter as Router,
     Route,
@@ -36,16 +36,27 @@ const theme = createTheme({
     },
 });
 function App() {
-    const [objData, setObjData] = useState({
-        current_obj: null,
-        current_opt: null,
-        mueble: {}, // State for mueble object
-        encimera: {}, // State for encimera object
-        encimera_p: {},
-        lavabo: {},
-        espejo: {},
-    });
     const { id } = useParams();
+
+    const [objData, setObjData] = useState(() => {
+        const savedData = sessionStorage.getItem("objData");
+        return savedData
+            ? JSON.parse(savedData)
+            : {
+                  current_obj: null,
+                  current_opt: null,
+                  mueble: {}, // State for mueble object
+                  encimera: {}, // State for encimera object
+                  encimera_p: {},
+                  lavabo: {},
+                  espejo: {},
+              };
+    });
+
+    useEffect(() => {
+        console.log("useEffect de App");
+        sessionStorage.setItem("objData", JSON.stringify(objData));
+    }, [objData]);
 
     return (
         <div className="App">
@@ -56,11 +67,15 @@ function App() {
                         <Route exact path="/" element={<IntroducionView />} />
                         {}
                         <Route exact path="/index" element={<Index />} />
-                        <Route
+
+                        {/*
+                         <Route
                             exact
                             path="/opciones-primarias"
                             element={<OpcionesPrimariasView />}
                         />
+                        */}
+
                         <Route
                             path="/composition/:id"
                             element={<CompositionView id={id} />}

@@ -11,6 +11,7 @@ import {
 import Loading from "./Loading";
 import OpcionesPrimariasSwitch from "./OpcionesPrimariasSwitch";
 import { useNavigate } from "react-router-dom";
+import MuebleOptions from "./MuebleOptions";
 
 function Options() {
     const { setObjData, objData } = useContext(MyContext);
@@ -26,15 +27,25 @@ function Options() {
         espejo: ["coleccion", "medidas"],
     };
 
+    /*
     if (objData.current_obj == null) {
-        objData.current_obj = "mueble";
-        setObjData(objData);
+        setObjData((prev) => ({
+            ...prev,
+            current_obj: "mueble",
+        }));
+
     }
     if (objData.current_opt == null) {
+        setObjData((prev) => ({
+            prev,
+            current_opt: opcionesPrimarias[prev.current_obj][0],
+        }));
+        
         objData.current_opt = opcionesPrimarias[objData.current_obj][0];
         setObjData(objData);
+        
     }
-
+*/
     const fetchData = async () => {
         setLoading(true);
 
@@ -48,6 +59,7 @@ function Options() {
                         objData.mueble,
                         objData.composition_id
                     );
+
                     break;
                 case "encimera":
                     data = await fetchOptionsEncimera(
@@ -98,20 +110,41 @@ function Options() {
 
     useEffect(() => {
         fetchData();
-    }, []);
+        CreateObjct();
+    }, [objData]);
+
+    const CreateObjct = async () => {
+        const optionArray = opcionesPrimarias[objData.current_obj];
+
+        if (
+            objData.current_opt === undefined &&
+            Object.keys(objData[objData.current_obj]).length > 0
+        ) {
+            const response = await CreateConfigurationObject(objData);
+            console.log("response");
+
+            console.log(response);
+            let objectId = response.id;
+
+            setObjData((prev) => ({
+                ...prev,
+                ObjConfigId: objectId,
+                current_opt: optionArray[optionArray.length - 1],
+            }));
+        }
+    };
 
     const ClickImage = async (element) => {
         setLoading(true);
         try {
-            //objData[objData.current_obj][objData.current_opt] = element.id;
-
-            objData[objData.current_obj][objData.current_opt] = element.id;
-
-            setObjData(objData);
-
+            setObjData((prev) => ({
+                ...prev,
+                [prev.current_obj]: {
+                    ...prev[prev.current_obj],
+                    [prev.current_opt]: element.id,
+                },
+            }));
             await nextOption();
-
-            fetchData();
         } catch (error) {
             // Handle error
         }
@@ -126,22 +159,10 @@ function Options() {
         if (currentIndex !== -1) {
             // Calculate the next index
             nextIndex = currentIndex + 1;
-            objData.current_opt = optionArray[nextIndex];
-            //console.log(nextIndex)
-        }
-
-        setObjData(objData);
-
-        if (nextIndex >= optionArray.length) {
-            const response = await CreateConfigurationObject(objData);
-            let objectId = response.id;
-
-            objData.ObjConfigId = objectId;
-
-            let nextIndex = optionArray.length - 1;
-            objData.current_opt = optionArray[nextIndex];
-
-            setObjData(objData);
+            setObjData((prev) => ({
+                ...prev,
+                current_opt: optionArray[nextIndex],
+            }));
         }
     };
 
@@ -154,8 +175,13 @@ function Options() {
                 boxSizing: "border-box",
             }}
         >
-            <Typography variant="h4"> Options</Typography>
-            {loading && <Loading />}
+            {<Typography variant="h4"> Options</Typography>}
+            {
+                //loading && <Loading />
+            }
+            {/*
+            <MuebleOptions />
+            */}
             {
                 <OpcionesPrimariasSwitch
                     current_opt={objData.current_opt}
@@ -168,12 +194,3 @@ function Options() {
 }
 
 export default Options;
-
-/*
-            <OpcionesPrimariasSwitch
-                current_opt={objData.current_opt}
-                elements={elements}
-                ClickImage={ClickImage}
-            />
-
-*/

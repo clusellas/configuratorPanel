@@ -33,12 +33,15 @@ function Index() {
     // aqui image es tipo de pieza seleccionada
     const ClickImage = async (image) => {
         try {
-            objData.current_obj = image;
-            setObjData(objData);
+            //objData.current_obj = image;
+            //setObjData(objData);
+            setObjData((prev) => ({
+                ...prev,
+                current_obj: image,
+                current_opt: "coleccion",
+            }));
 
             const url = generatePath(`/composition/${objData.composition_id}`);
-
-            //const url = "/opciones-primarias";
 
             navigate(url);
         } catch (error) {
