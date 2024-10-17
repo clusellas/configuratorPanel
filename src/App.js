@@ -54,7 +54,6 @@ function App() {
     });
 
     useEffect(() => {
-        console.log("useEffect de App");
         sessionStorage.setItem("objData", JSON.stringify(objData));
     }, [objData]);
 
@@ -65,7 +64,6 @@ function App() {
                     <CountryPopup />
                     <Routes>
                         <Route exact path="/" element={<IntroducionView />} />
-                        {}
                         <Route exact path="/index" element={<Index />} />
 
                         {/*

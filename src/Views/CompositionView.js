@@ -34,21 +34,6 @@ function CompositionView() {
 
             setCMPS(composition);
 
-            if (objData.current_obj == null) {
-                setUnexpectedError(true);
-
-                objData.composition_id = composition.id;
-                if (composition.mueble) {
-                    objData.current_obj = "mueble";
-                } else if (composition.encimera) {
-                    objData.current_obj = "encmiera";
-                } else if (composition.espejo) {
-                    objData.current_obj = "espejo";
-                } else if (composition.lavabo) {
-                    objData.current_obj = "lavabo";
-                }
-            }
-
             let current_linea;
             switch (objData.current_obj) {
                 case "mueble":
@@ -113,7 +98,7 @@ function CompositionView() {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [objData]);
     /*
     const leaveForNewProduct = async () => {
         //const url = generatePath("/opciones-primarias/");
@@ -189,10 +174,11 @@ function CompositionView() {
     if (!currentCO) return null;
     */
 
+    console.log("CMPS");
+    console.log(CMPS);
     return (
         <Box sx={{ display: "flex", flexDirection: "row" }}>
             {CMPS && <Options />}
-
             {CMPS && <RenderObjectView composition={CMPS} />}
             {CMPS && <SelectedOptions composition={CMPS} />}
         </Box>

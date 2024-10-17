@@ -3,10 +3,10 @@ import PrintIcon from "@mui/icons-material/Print"; // Import pdf-lib library
 import { Button } from "@mui/material";
 import { PDFDocument } from "pdf-lib";
 
-function CreatePdf() {
+function CreatePdf({ mueble, encimera, lavabo, espejo, Eje }) {
     const [generatingPDF, setGeneratingPDF] = useState(false);
 
-    async function createPDF({ mueble, encimera, lavabo, espejo, Eje }) {
+    async function createPDF() {
         // Set generatingPDF to true to show loading indicator
         setGeneratingPDF(true);
 

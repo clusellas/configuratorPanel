@@ -35,7 +35,15 @@ function SelectedOptions({ composition }) {
             </ListItem>
         ));
     };
-
+    /*
+    const showPrice = () => {
+        return (
+            <ListItem key="price">
+                <ListItemText primary={`Precio total: ${objData.price}`} />
+            </ListItem>
+        );
+    };
+*/
     return (
         <Box
             sx={{
@@ -50,9 +58,6 @@ function SelectedOptions({ composition }) {
             <List>
                 <Typography variant="h5">Mueble</Typography>
                 {muebleItems()}
-                {
-                    //objDataItems()
-                }
             </List>
         </Box>
     );
