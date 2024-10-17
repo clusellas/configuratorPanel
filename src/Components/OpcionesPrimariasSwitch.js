@@ -5,13 +5,21 @@ import ImageGridEje from "./ImageGridEje";
 import ImageGridFaldon from "./ImageGridFaldon";
 import SizeForm from "./SizeForm";
 import { Box } from "@mui/material";
+import React, { useState } from "react";
 
 function OpcionesPrimariasSwitch({ current_opt, elements, ClickImage }) {
+    const [open, setOpen] = useState(true);
+    const handleClose = () => setOpen(false);
     return (
         <>
             {current_opt === "coleccion" && (
                 <Box>
-                    <ImageGrid elements={elements} onImageClick={ClickImage} />
+                    <ImageGrid
+                        elements={elements}
+                        onImageClick={ClickImage}
+                        open={open}
+                        handleClose={handleClose}
+                    />
                 </Box>
             )}
 
@@ -20,13 +28,20 @@ function OpcionesPrimariasSwitch({ current_opt, elements, ClickImage }) {
                     <ImageGridDesign
                         elements={elements}
                         onImageClick={ClickImage}
+                        open={open}
+                        handleClose={handleClose}
                     />
                 </Box>
             )}
 
             {current_opt === "ancho" && elements[0]?.ancho && (
                 <Box style={{ display: "flex", overflow: "hidden" }}>
-                    <SizeForm elements={elements} onImageClick={ClickImage} />
+                    <SizeForm
+                        elements={elements}
+                        onImageClick={ClickImage}
+                        open={open}
+                        handleClose={handleClose}
+                    />
                 </Box>
             )}
 
@@ -38,6 +53,8 @@ function OpcionesPrimariasSwitch({ current_opt, elements, ClickImage }) {
                     <ImageGridEje
                         elements={elements}
                         onImageClick={ClickImage}
+                        open={open}
+                        handleClose={handleClose}
                     />
                 </Box>
             )}
@@ -47,6 +64,8 @@ function OpcionesPrimariasSwitch({ current_opt, elements, ClickImage }) {
                     <ImageGridFaldon
                         elements={elements}
                         onImageClick={ClickImage}
+                        open={open}
+                        handleClose={handleClose}
                     />
                 </Box>
             )}
@@ -56,6 +75,8 @@ function OpcionesPrimariasSwitch({ current_opt, elements, ClickImage }) {
                     <ImageGridColorLavabo
                         elements={elements}
                         onImageClick={ClickImage}
+                        open={open}
+                        handleClose={handleClose}
                     />
                 </Box>
             )}

@@ -46,6 +46,8 @@ function Options() {
         
     }
 */
+
+    /*
     const fetchData = async () => {
         setLoading(true);
 
@@ -107,9 +109,8 @@ function Options() {
             setLoading(false);
         }
     };
-
+*/
     useEffect(() => {
-        fetchData();
         CreateObjct();
     }, [objData]);
 
@@ -179,16 +180,14 @@ function Options() {
             {
                 //loading && <Loading />
             }
+            {<MuebleOptions />}
             {/*
-            <MuebleOptions />
-            */}
-            {
                 <OpcionesPrimariasSwitch
                     current_opt={objData.current_opt}
                     elements={elements}
                     ClickImage={ClickImage}
                 />
-            }
+            */}
         </Box>
     );
 }

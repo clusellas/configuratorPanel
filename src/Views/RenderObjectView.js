@@ -81,8 +81,6 @@ export default function RenderObjectView({ composition }) {
             ref +
             ".obj";
 
-        console.log(ruta_con_eje);
-
         let ruta_sin_eje =
             ROOT +
             colectionFolder +
@@ -99,11 +97,6 @@ export default function RenderObjectView({ composition }) {
     }
 
     if (encimera != null) {
-        console.log("encimera");
-        console.log(encimera);
-
-        console.log(encimera.figure_referencia);
-
         let ruta_con_eje;
         let ruta_sin_eje;
         if (encimera.articulo.attr.plana === false) {
@@ -127,8 +120,6 @@ export default function RenderObjectView({ composition }) {
                 "." +
                 ref +
                 ".obj";
-
-            console.log(ruta_con_eje);
 
             ruta_sin_eje =
                 ROOT +
@@ -186,9 +177,6 @@ export default function RenderObjectView({ composition }) {
             espejo.articulo.attr.CodigoArticulo +
             ref +
             ".obj";
-
-        console.log("espejo");
-        console.log(ruta_con_eje);
 
         let ruta_sin_eje =
             ROOT +

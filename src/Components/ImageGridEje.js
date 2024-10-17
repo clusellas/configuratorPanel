@@ -17,11 +17,7 @@ const ImageContainer = styled(Paper)(({ theme }) => ({
     cursor: "pointer",
 }));
 
-const ImageGrid = ({ elements, onImageClick }) => {
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+const ImageGrid = ({ elements, onImageClick, open, handleClose }) => {
     if (!elements || elements.length === 0 || !elements[0].eje) {
         return null;
     }
@@ -33,9 +29,6 @@ const ImageGrid = ({ elements, onImageClick }) => {
 
     return (
         <>
-            <Button variant="outlined" onClick={handleOpen}>
-                Eje
-            </Button>
             <Dialog open={open} onClose={handleClose} maxWidth="md">
                 <DialogContent>
                     <Grid container spacing={2} sx={{ p: 1 }}>

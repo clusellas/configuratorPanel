@@ -11,7 +11,7 @@ const ImageContainer = styled(Paper)(({ theme }) => ({
     cursor: "pointer",
 }));
 
-const ImageGridFaldon = ({ elements, onImageClick }) => {
+const ImageGridFaldon = ({ elements, onImageClick, open, handleClose }) => {
     if (!elements || elements.length === 0 || !elements[0].faldon) {
         return null;
     }

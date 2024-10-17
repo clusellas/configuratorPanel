@@ -174,8 +174,6 @@ function CompositionView() {
     if (!currentCO) return null;
     */
 
-    console.log("CMPS");
-    console.log(CMPS);
     return (
         <Box sx={{ display: "flex", flexDirection: "row" }}>
             {CMPS && <Options />}

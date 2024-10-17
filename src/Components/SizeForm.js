@@ -9,12 +9,9 @@ import {
     DialogContent,
 } from "@mui/material";
 
-const SizeFrom = ({ elements, onImageClick }) => {
+const SizeFrom = ({ elements, onImageClick, open, handleClose }) => {
     const [value, setValue] = useState(elements[0].ancho.id); // State to manage input value
-    const [open, setOpen] = useState(false);
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     useEffect(() => {
         let minValue = 1000;
         let maxValue = 0;
@@ -41,9 +38,6 @@ const SizeFrom = ({ elements, onImageClick }) => {
 
     return (
         <>
-            <Button variant="outlined" onClick={handleOpen}>
-                Ancho
-            </Button>
             <Dialog open={open} onClose={handleClose} maxWidth="md">
                 <DialogContent>
                     <Grid

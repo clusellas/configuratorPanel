@@ -11,7 +11,12 @@ const ImageContainer = styled(Paper)(({ theme }) => ({
     cursor: "pointer",
 }));
 
-const ImageGridColorLavabo = ({ elements, onImageClick }) => {
+const ImageGridColorLavabo = ({
+    elements,
+    onImageClick,
+    open,
+    handleClose,
+}) => {
     if (!elements || elements.length === 0 || !elements[0].color) {
         return null;
     }
