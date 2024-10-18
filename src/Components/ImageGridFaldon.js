@@ -1,7 +1,12 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
+import {
+    Typography,
+    Grid,
+    Paper,
+    Dialog,
+    DialogContent,
+    Button,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const ImageContainer = styled(Paper)(({ theme }) => ({
@@ -21,11 +26,41 @@ const ImageGridFaldon = ({ elements, onImageClick, open, handleClose }) => {
             element.faldon.image !== "http://localhost:8000/media/default.png"
     );
 
-    const rows = [];
-    for (let i = 0; i < filteredElements.length; i += 2) {
-        rows.push(filteredElements.slice(i, i + 2));
-    }
+    return (
+        <>
+            <Dialog open={open} onClose={handleClose} maxWidth="md">
+                <DialogContent>
+                    <Grid container spacing={2} sx={{ p: 1 }}>
+                        {elements.map((elem, indexElem) => (
+                            <Grid item xs={12} sm={6} md={4} key={indexElem}>
+                                <ImageContainer
+                                    onClick={() => onImageClick(elem.faldon)}
+                                >
+                                    <img
+                                        src={elem.faldon.image}
+                                        alt={elem.faldon.code}
+                                        style={{
+                                            width: "90%",
+                                            maxHeight: "80%",
+                                            objectFit: "contain",
+                                        }}
+                                    />
+                                    <Typography variant="body1">
+                                        {elem.faldon.name}
+                                    </Typography>
+                                </ImageContainer>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </DialogContent>
+            </Dialog>
+        </>
+    );
+};
 
+export default ImageGridFaldon;
+
+/*
     return (
         <Grid container spacing={2}>
             {rows.map((row, rowIndex) => (
@@ -57,3 +92,6 @@ const ImageGridFaldon = ({ elements, onImageClick, open, handleClose }) => {
 };
 
 export default ImageGridFaldon;
+
+
+*/

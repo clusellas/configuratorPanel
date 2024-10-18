@@ -6,6 +6,7 @@ import ImageGridFaldon from "./ImageGridFaldon";
 import SizeForm from "./SizeForm";
 import { Box } from "@mui/material";
 import React, { useState } from "react";
+import ImageGridAcabado from "./ImageGridAcabado";
 
 function OpcionesPrimariasSwitch({ current_opt, elements, ClickImage }) {
     const [open, setOpen] = useState(true);
@@ -80,95 +81,19 @@ function OpcionesPrimariasSwitch({ current_opt, elements, ClickImage }) {
                     />
                 </Box>
             )}
+
+            {current_opt === "acabado" && (
+                <Box style={{ display: "flex", overflow: "hidden" }}>
+                    <ImageGridAcabado
+                        elements={elements}
+                        onImageClick={ClickImage}
+                        open={open}
+                        handleClose={handleClose}
+                    />
+                </Box>
+            )}
         </>
     );
 }
 
 export default OpcionesPrimariasSwitch;
-
-/*
-switch (current_opt) {
-        case "coleccion":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <ImageGrid elements={elements} onImageClick={ClickImage} />
-                </div>
-            );
-        case "design":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <ImageGridDesign
-                        elements={elements}
-                        onImageClick={ClickImage}
-                    />
-                </div>
-            );
-        case "ancho":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <SizeForm elements={elements} onImageClick={ClickImage} />
-                </div>
-            );
-        case "eje":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <ImageGridEje
-                        elements={elements}
-                        onImageClick={ClickImage}
-                    />
-                </div>
-            );
-        case "faldon":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <ImageGridFaldon
-                        elements={elements}
-                        onImageClick={ClickImage}
-                    />
-                </div>
-            );
-        case "medidas":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <ImageGridMedidas
-                        elements={elements}
-                        onImageClick={ClickImage}
-                    />
-                </div>
-            );
-        case "color":
-            return (
-                <div
-                    className="collections-container"
-                    style={{ display: "flex", overflow: "hidden" }}
-                >
-                    <ImageGridColorLavabo
-                        elements={elements}
-                        onImageClick={ClickImage}
-                    />
-                </div>
-            );
-
-        default:
-            return <div>AN ERROR OCURRED</div>;
-    }
-
-*/

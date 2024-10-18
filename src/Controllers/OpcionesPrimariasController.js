@@ -1,8 +1,11 @@
 import api from "../api";
 
 export function fetchOptionsMueble(option, mueble, composition_id) {
-    let payload = Object.assign({}, mueble);
+    let optionsSelected = Object.assign({}, mueble);
 
+    const { [option]: _, ...payload } = optionsSelected;
+
+    //  aqui
     switch (option) {
         case "coleccion":
             payload.show_coleccion = true;
@@ -37,7 +40,10 @@ export function fetchOptionsMueble(option, mueble, composition_id) {
 }
 
 export function fetchOptionsEncimera(option, encimera, composition_id) {
-    let payload = Object.assign({}, encimera);
+    let optionsSelected = Object.assign({}, encimera);
+
+    const { [option]: _, ...payload } = optionsSelected;
+
     switch (option) {
         case "coleccion":
             payload.show_coleccion = true;
@@ -74,7 +80,9 @@ export function fetchOptionsEncimera(option, encimera, composition_id) {
 }
 
 export async function fetchOptionsLavabo(option, lavabo, composition_id) {
-    let payload = Object.assign({}, lavabo);
+    let optionsSelected = Object.assign({}, lavabo);
+    const { [option]: _, ...payload } = optionsSelected;
+
     switch (option) {
         case "coleccion":
             payload.show_coleccion = true;
@@ -102,7 +110,9 @@ export async function fetchOptionsLavabo(option, lavabo, composition_id) {
 }
 
 export function fetchOptionsEspejo(option, espejo, composition_id) {
-    let payload = Object.assign({}, espejo);
+    let optionsSelected = Object.assign({}, espejo);
+    const { [option]: _, ...payload } = optionsSelected;
+
     switch (option) {
         case "coleccion":
             payload.show_coleccion = true;
@@ -129,10 +139,10 @@ export function fetchOptionsEspejo(option, espejo, composition_id) {
         });
 }
 
-export function CreateConfigurationObject(objData) {
+export function CreateConfigurationObject(objData, current_obj) {
     let payload;
 
-    switch (objData.current_obj) {
+    switch (current_obj) {
         case "mueble":
             payload = Object.assign({}, objData.mueble);
             break;
@@ -148,7 +158,7 @@ export function CreateConfigurationObject(objData) {
     }
 
     payload.composition = objData.composition_id;
-    payload.object_type = objData.current_obj;
+    payload.object_type = current_obj;
 
     const jsonData = JSON.stringify(payload);
 

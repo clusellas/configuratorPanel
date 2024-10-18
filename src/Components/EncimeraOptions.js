@@ -2,19 +2,18 @@ import { Button, Typography, List, ListItem, Divider } from "@mui/material";
 import React, { useEffect, useContext, useState } from "react";
 import { MyContext } from "../MyContext";
 import {
-    fetchOptionsMueble,
+    fetchOptionsEncimera,
     CreateConfigurationObject,
 } from "../Controllers/OpcionesPrimariasController";
 import OpcionesPrimariasSwitch from "./OpcionesPrimariasSwitch";
-import { useTrail } from "@react-three/drei";
 
-function MuebleOptions() {
+function EncimeraOptions() {
     const { setObjData, objData } = useContext(MyContext);
     const [elements, setElements] = useState([]);
-    const [muebleChanged, setMuebleChanged] = useState(false);
+    const [encimeraChanged, setEncimeraChanged] = useState(false);
 
     const [currentOption, setCurrentOpcion] = useState(null);
-    const opcionesPrimariasMueble = ["coleccion", "design", "ancho", "eje"];
+    const opcionesPrimariasEncimera = ["coleccion", "ancho", "eje", "faldon"];
 
     useEffect(() => {
         CreateObjct();
@@ -22,21 +21,25 @@ function MuebleOptions() {
 
     const CreateObjct = async () => {
         if (
-            Object.keys(objData.mueble).length ===
-                opcionesPrimariasMueble.length &&
-            muebleChanged
+            Object.keys(objData.encimera).length ===
+                opcionesPrimariasEncimera.length &&
+            encimeraChanged
         ) {
-            setMuebleChanged(false);
-            const response = await CreateConfigurationObject(objData, "mueble");
+            setEncimeraChanged(false);
+            const response = await CreateConfigurationObject(
+                objData,
+                "encimera"
+            );
 
-            console.log(response);
             let objectId = response.id;
 
             setObjData((prev) => ({
                 ...prev,
                 ObjConfigId: objectId,
                 current_opt:
-                    opcionesPrimariasMueble[opcionesPrimariasMueble.length - 1],
+                    opcionesPrimariasEncimera[
+                        opcionesPrimariasEncimera.length - 1
+                    ],
             }));
         }
     };
@@ -45,9 +48,9 @@ function MuebleOptions() {
         try {
             let data;
 
-            data = await fetchOptionsMueble(
+            data = await fetchOptionsEncimera(
                 opcion,
-                objData.mueble,
+                objData.encimera,
                 objData.composition_id
             );
 
@@ -65,8 +68,8 @@ function MuebleOptions() {
         setElements([]);
         setObjData((prev) => ({
             ...prev,
-            mueble: {
-                ...prev.mueble,
+            encimera: {
+                ...prev.encimera,
                 [currentOption]: element.id,
             },
         }));
@@ -74,8 +77,9 @@ function MuebleOptions() {
     }
 
     const nextOption = async () => {
-        setMuebleChanged(true);
-        const currentIndex = opcionesPrimariasMueble.indexOf(currentOption);
+        setEncimeraChanged(true);
+
+        const currentIndex = opcionesPrimariasEncimera.indexOf(currentOption);
 
         let nextIndex;
         // If the current option is found in the array
@@ -84,13 +88,13 @@ function MuebleOptions() {
             nextIndex = currentIndex + 1;
             setObjData((prev) => ({
                 ...prev,
-                current_opt: opcionesPrimariasMueble[nextIndex],
+                current_opt: opcionesPrimariasEncimera[nextIndex],
             }));
         }
     };
 
-    const ShowMuebleOptions = () => {
-        return opcionesPrimariasMueble.map((opcion, index) => (
+    const ShowEncimeraOptions = () => {
+        return opcionesPrimariasEncimera.map((opcion, index) => (
             <ListItem key={index}>
                 <Button onClick={() => handleButtonClick(opcion)}>
                     {opcion}
@@ -101,8 +105,8 @@ function MuebleOptions() {
 
     return (
         <>
-            <Typography variant="h5"> Opciones mueble</Typography>
-            <List>{ShowMuebleOptions()}</List>
+            <Typography variant="h5"> Opciones encimera</Typography>
+            <List>{ShowEncimeraOptions()}</List>
             <Divider />
             {currentOption && elements.length > 0 && (
                 <OpcionesPrimariasSwitch
@@ -115,4 +119,4 @@ function MuebleOptions() {
     );
 }
 
-export default MuebleOptions;
+export default EncimeraOptions;

@@ -5,9 +5,11 @@ import {
     ListItem,
     ListItemText,
     Divider,
+    Button,
 } from "@mui/material";
 import React, { useContext } from "react";
 import { MyContext } from "../MyContext";
+import CloseIcon from "@mui/icons-material/Close";
 
 function SelectedOptions({ composition }) {
     const { setObjData, objData } = useContext(MyContext);
@@ -23,6 +25,24 @@ function SelectedOptions({ composition }) {
             ([mueble_key, mueble_value], mueble_index) => (
                 <ListItem key={mueble_index}>
                     <ListItemText primary={`${mueble_key}:  ${mueble_value}`} />
+                </ListItem>
+            )
+        );
+    };
+
+    const encimeraItems = () => {
+        const encimera = objData["encimera"] ? objData["encimera"] : {};
+
+        if (Object.keys(encimera).length === 0) {
+            return <Typography> no hay nada</Typography>;
+        }
+
+        return Object.entries(objData["encimera"]).map(
+            ([encimera_key, encimera_value], encimera_index) => (
+                <ListItem key={encimera_index}>
+                    <ListItemText
+                        primary={`${encimera_key}:  ${encimera_value}`}
+                    />
                 </ListItem>
             )
         );
@@ -58,6 +78,10 @@ function SelectedOptions({ composition }) {
             <List>
                 <Typography variant="h5">Mueble</Typography>
                 {muebleItems()}
+                <Divider />
+                <Typography variant="h5">Encimera</Typography>
+
+                {encimeraItems()}
             </List>
         </Box>
     );

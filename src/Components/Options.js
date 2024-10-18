@@ -12,6 +12,7 @@ import Loading from "./Loading";
 import OpcionesPrimariasSwitch from "./OpcionesPrimariasSwitch";
 import { useNavigate } from "react-router-dom";
 import MuebleOptions from "./MuebleOptions";
+import EncimeraOptions from "./EncimeraOptions";
 
 function Options() {
     const { setObjData, objData } = useContext(MyContext);
@@ -110,6 +111,7 @@ function Options() {
         }
     };
 */
+    /*
     useEffect(() => {
         CreateObjct();
     }, [objData]);
@@ -134,7 +136,8 @@ function Options() {
             }));
         }
     };
-
+    */
+    /*
     const ClickImage = async (element) => {
         setLoading(true);
         try {
@@ -165,7 +168,7 @@ function Options() {
                 current_opt: optionArray[nextIndex],
             }));
         }
-    };
+    };*/
 
     return (
         <Box
@@ -181,6 +184,7 @@ function Options() {
                 //loading && <Loading />
             }
             {<MuebleOptions />}
+            {<EncimeraOptions />}
             {/*
                 <OpcionesPrimariasSwitch
                     current_opt={objData.current_opt}
