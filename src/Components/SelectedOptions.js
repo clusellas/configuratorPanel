@@ -5,23 +5,36 @@ import {
     ListItem,
     ListItemText,
     Divider,
-    Button,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MyContext } from "../MyContext";
-import CloseIcon from "@mui/icons-material/Close";
 
 function SelectedOptions({ composition }) {
+    const [opcionsNames, setOpcionsNames] = useState([]);
     const { setObjData, objData } = useContext(MyContext);
 
+    const url = "http://localhost:8000/server/opcions-names/";
+
+    useEffect(() => {
+        const data = objData;
+        fetch(url, {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((data) => setOpcionsNames(data))
+            .catch((error) => console.log(error));
+    }, [objData]);
+
     const muebleItems = () => {
-        const mueble = objData["mueble"] ? objData["mueble"] : {};
+        const mueble = opcionsNames["mueble"] ? opcionsNames["mueble"] : {};
 
         if (Object.keys(mueble).length === 0) {
             return <Typography> no hay nada</Typography>;
         }
 
-        return Object.entries(objData["mueble"]).map(
+        return Object.entries(mueble).map(
             ([mueble_key, mueble_value], mueble_index) => (
                 <ListItem key={mueble_index}>
                     <ListItemText primary={`${mueble_key}:  ${mueble_value}`} />
@@ -31,13 +44,15 @@ function SelectedOptions({ composition }) {
     };
 
     const encimeraItems = () => {
-        const encimera = objData["encimera"] ? objData["encimera"] : {};
+        const encimera = opcionsNames["encimera"]
+            ? opcionsNames["encimera"]
+            : {};
 
         if (Object.keys(encimera).length === 0) {
             return <Typography> no hay nada</Typography>;
         }
 
-        return Object.entries(objData["encimera"]).map(
+        return Object.entries(encimera).map(
             ([encimera_key, encimera_value], encimera_index) => (
                 <ListItem key={encimera_index}>
                     <ListItemText
@@ -48,22 +63,6 @@ function SelectedOptions({ composition }) {
         );
     };
 
-    const objDataItems = () => {
-        return Object.entries(objData).map(([key, value], index) => (
-            <ListItem key={index}>
-                <ListItemText primary={`${key}:  ${value}`} />
-            </ListItem>
-        ));
-    };
-    /*
-    const showPrice = () => {
-        return (
-            <ListItem key="price">
-                <ListItemText primary={`Precio total: ${objData.price}`} />
-            </ListItem>
-        );
-    };
-*/
     return (
         <Box
             sx={{
@@ -79,6 +78,9 @@ function SelectedOptions({ composition }) {
                 <Typography variant="h5">Mueble</Typography>
                 {muebleItems()}
                 <Divider />
+
+                <Divider />
+
                 <Typography variant="h5">Encimera</Typography>
 
                 {encimeraItems()}
@@ -88,45 +90,3 @@ function SelectedOptions({ composition }) {
 }
 
 export default SelectedOptions;
-
-/*
-                {Object.entries(objData["mueble"]).map(
-                    ([mueble_key, mueble_value], mueble_index) => (
-                        <ListItem>
-                            <ListItemText
-                                key={mueble_index}
-                                primary={`${mueble_key}:  ${mueble_value}`}
-                            />
-                        </ListItem>
-                    )
-                )}
-
-*/
-
-/*
- <List>
-                {Object.entries(objData).map(([map_key, map_value], index) => (
-                    <React.Fragment key={index}>
-                        <ListItem>
-                            {map_key === "mueble" ? (
-                                Object.entries(map_value).map(
-                                    (
-                                        [mueble_map_key, mueble_map_value],
-                                        index_mueble
-                                    ) => (
-                                        <ListItemText
-                                            key={index_mueble}
-                                            primary={`${mueble_map_key}  =   ${mueble_map_value}`}
-                                        />
-                                    )
-                                )
-                            ) : (
-                                <ListItemText
-                                    primary={`${map_key}  =   ${map_value}`}
-                                />
-                            )}
-                        </ListItem>
-                    </React.Fragment>
-                ))}
-            </List>
-*/
