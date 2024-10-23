@@ -29,6 +29,12 @@ function CompositionView() {
     const { setObjData, objData } = useContext(MyContext);
 
     const fetchData = async () => {
+        const composition = await fetchComposition(id);
+
+        setCMPS(composition);
+    };
+    /*
+    const fetchData = async () => {
         try {
             const composition = await fetchComposition(id);
 
@@ -41,7 +47,6 @@ function CompositionView() {
                     if (composition.mueble != null) {
                         current_linea = composition.mueble.current_linea;
                     } else {
-                        //leaveForNewProduct();
                     }
                     break;
 
@@ -50,7 +55,6 @@ function CompositionView() {
                     if (composition.encimera != null) {
                         current_linea = composition.encimera.current_linea;
                     } else {
-                        // leaveForNewProduct();
                     }
                     break;
                 case "lavabo":
@@ -58,7 +62,6 @@ function CompositionView() {
                     if (composition.lavabo != null) {
                         current_linea = composition.lavabo.current_linea;
                     } else {
-                        //leaveForNewProduct();
                     }
                     break;
                 case "espejo":
@@ -66,13 +69,13 @@ function CompositionView() {
                     if (composition.espejo != null) {
                         current_linea = composition.espejo.current_linea;
                     } else {
-                        //leaveForNewProduct();
                     }
                     break;
 
                 default:
                     break;
             }
+
 
             if (current_linea === null) {
                 setStandard(true);
@@ -94,19 +97,13 @@ function CompositionView() {
         } catch (error) {
             console.error("Error fetching configurator object:", error);
         }
-    };
+    };*/
 
     useEffect(() => {
         fetchData();
     }, [objData]);
     /*
-    const leaveForNewProduct = async () => {
-        //const url = generatePath("/opciones-primarias/");
-        const url = generatePath(`/composition/${id}`);
 
-        // Navigate to the view displaying the newly created ConfigurationObject
-        navigate(url);
-    };
 
     const changeOption = async (option_id) => {
         // Handle the click event for the option
@@ -176,7 +173,7 @@ function CompositionView() {
 
     return (
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-            {CMPS && <Options />}
+            {CMPS && <Options composition={CMPS} setComposition={setCMPS} />}
             {CMPS && <RenderObjectView composition={CMPS} />}
             {CMPS && <SelectedOptions composition={CMPS} />}
         </Box>
@@ -255,6 +252,14 @@ export default CompositionView;
                         </Toolbar>
                     </AppBar>
                 </Grid>
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
                 <Grid
                     height="80%"
                     container
@@ -268,6 +273,8 @@ export default CompositionView;
                             rowSpacing={1}
                             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                         >
+
+                        ///////////////////////////////////////   2     ///////////////////////////////////////////
                             <Grid item xs={12}>
                                 {standard ? (
                                     false
@@ -304,6 +311,11 @@ export default CompositionView;
                                     </Grid>
                                 )}
                             </Grid>
+                        ///////////////////////////////////////   2     ///////////////////////////////////////////
+
+
+
+                        ///////////////////////////////////////   3     ///////////////////////////////////////////
                             <Grid item xs={12}>
                                 <div style={{ height: "40%" }}>
                                     <RenderObjectView
@@ -311,11 +323,16 @@ export default CompositionView;
                                     ></RenderObjectView>
                                 </div>
                             </Grid>
+
+                        ///////////////////////////////////////   3     ///////////////////////////////////////////
+
+
                         </Grid>
                     </Grid>
                     {standard ? (
                         false
                     ) : (
+                     ///////////////////////////////////////   4     ///////////////////////////////////////////
                         <Grid item xs={4}>
                             <OptionDecide
                                 element={selectedOption}
@@ -326,6 +343,8 @@ export default CompositionView;
                                 navigation={navigation}
                             ></OptionDecide>
                         </Grid>
+                     ///////////////////////////////////////   4     ///////////////////////////////////////////
+
                     )}
                 </Grid>
             </Grid>

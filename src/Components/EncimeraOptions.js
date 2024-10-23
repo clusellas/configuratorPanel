@@ -95,11 +95,11 @@ function EncimeraOptions() {
 
     const ShowEncimeraOptions = () => {
         return opcionesPrimariasEncimera.map((opcion, index) => (
-            <ListItem key={index}>
-                <Button onClick={() => handleButtonClick(opcion)}>
-                    {opcion}
-                </Button>
-            </ListItem>
+            //  <ListItem key={index}>
+            <Button key={index} onClick={() => handleButtonClick(opcion)}>
+                {opcion}
+            </Button>
+            ///</ListItem>
         ));
     };
 

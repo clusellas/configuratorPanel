@@ -21,11 +21,6 @@ const ImageGridFaldon = ({ elements, onImageClick, open, handleClose }) => {
         return null;
     }
 
-    const filteredElements = elements.filter(
-        (element) =>
-            element.faldon.image !== "http://localhost:8000/media/default.png"
-    );
-
     return (
         <>
             <Dialog open={open} onClose={handleClose} maxWidth="md">
@@ -59,39 +54,3 @@ const ImageGridFaldon = ({ elements, onImageClick, open, handleClose }) => {
 };
 
 export default ImageGridFaldon;
-
-/*
-    return (
-        <Grid container spacing={2}>
-            {rows.map((row, rowIndex) => (
-                <Grid container item spacing={2} key={rowIndex}>
-                    {row.map((element, elementIndex) => (
-                        <Grid item xs={12} sm={6} md={4} key={elementIndex}>
-                            <ImageContainer
-                                onClick={() => onImageClick(element.faldon)}
-                            >
-                                <img
-                                    src={element.faldon.image}
-                                    alt={element.faldon.code}
-                                    style={{
-                                        maxWidth: "100%",
-                                        maxHeight: "700px",
-                                        objectFit: "cover",
-                                    }}
-                                />
-                                <Typography variant="body1">
-                                    {element.faldon.name}
-                                </Typography>
-                            </ImageContainer>
-                        </Grid>
-                    ))}
-                </Grid>
-            ))}
-        </Grid>
-    );
-};
-
-export default ImageGridFaldon;
-
-
-*/

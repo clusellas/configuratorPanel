@@ -5,15 +5,34 @@ import {
     ListItem,
     ListItemText,
     Divider,
+    Paper,
+    styled,
+    AccordionSummary,
+    Accordion,
+    AccordionDetails,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { MyContext } from "../MyContext";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function SelectedOptions({ composition }) {
     const [opcionsNames, setOpcionsNames] = useState([]);
     const { setObjData, objData } = useContext(MyContext);
+    const [muebleExpanded, setMuebleExpanded] = useState(true);
+    const [personalizacionExpanded, setPersonalizacionExpanded] =
+        useState(true);
 
     const url = "http://localhost:8000/server/opcions-names/";
+
+    const PaperList = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.background.main,
+        padding: 3,
+    }));
+
+    const AccordionList = styled(Accordion)(({ theme }) => ({
+        backgroundColor: theme.palette.background.main,
+        padding: 3,
+    }));
 
     useEffect(() => {
         const data = objData;
@@ -27,6 +46,8 @@ function SelectedOptions({ composition }) {
             .catch((error) => console.log(error));
     }, [objData]);
 
+    ///////////////////////  Mueble /////////////////////////////////////
+
     const muebleItems = () => {
         const mueble = opcionsNames["mueble"] ? opcionsNames["mueble"] : {};
 
@@ -37,11 +58,42 @@ function SelectedOptions({ composition }) {
         return Object.entries(mueble).map(
             ([mueble_key, mueble_value], mueble_index) => (
                 <ListItem key={mueble_index}>
-                    <ListItemText primary={`${mueble_key}:  ${mueble_value}`} />
+                    <ListItemText
+                        primary={
+                            <span>
+                                <strong> {mueble_key.toUpperCase()}: </strong>
+                                {mueble_value}
+                            </span>
+                        }
+                    />
                 </ListItem>
             )
         );
     };
+
+    const showConfigurationMueble = () => {
+        // ordenar por orden y eliminar las opciones con code X ya que sobran (Eje, Ancho)
+        const opciones = composition.mueble?.opciones_y_valores;
+
+        if (opciones) {
+            const opcionesFilter = opciones.filter((x) => x.valor.code !== "X");
+            opcionesFilter.sort((a, b) => a.opcion.orden - b.opcion.orden);
+            return opcionesFilter.map((conf, conf_index) => (
+                <ListItem key={conf_index}>
+                    <ListItemText
+                        primary={
+                            <span>
+                                <strong> {conf.opcion.name}: </strong>{" "}
+                                {conf.valor.code}
+                            </span>
+                        }
+                    />
+                </ListItem>
+            ));
+        }
+    };
+
+    ///////////////////////  Encimera /////////////////////////////////////
 
     const encimeraItems = () => {
         const encimera = opcionsNames["encimera"]
@@ -63,30 +115,139 @@ function SelectedOptions({ composition }) {
         );
     };
 
+    const ShowPrice = () => {
+        return (
+            <Typography variant="h4" color="success.main">
+                {composition.total_price} €
+            </Typography>
+        );
+    };
+
     return (
-        <Box
-            sx={{
-                border: "2px solid red",
-                width: "20vw",
-                height: "100vh",
-                boxSizing: "border-box",
-            }}
-        >
-            <Typography variant="h4"> Selected Options</Typography>
+        <Box sx={{ position: "relative", height: "100vh" }}>
+            <Box sx={{ height: "5%" }}>
+                <Typography variant="h4"> Selected Options</Typography>
+            </Box>
+            <Box
+                sx={{
+                    p: 2,
+                    width: "20vw",
+                    height: "85%",
+                    boxSizing: "border-box",
+                    overflowY: "auto",
+                }}
+            >
+                <Accordion
+                    expanded={muebleExpanded}
+                    onChange={() => setMuebleExpanded(!muebleExpanded)}
+                >
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="mueble-content"
+                        id="mueble-header"
+                    >
+                        <Typography variant="h5">Mueble</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <List>{muebleItems()}</List>
 
-            <List>
-                <Typography variant="h5">Mueble</Typography>
-                {muebleItems()}
+                        {composition.mueble && (
+                            <>
+                                <PaperList elevation={5}>
+                                    <Typography variant="h5">
+                                        Personalización de mueble
+                                    </Typography>
+                                    <List>{showConfigurationMueble()}</List>
+                                </PaperList>
+                            </>
+                        )}
+                    </AccordionDetails>
+                </Accordion>
+
                 <Divider />
-
-                <Divider />
-
                 <Typography variant="h5">Encimera</Typography>
-
-                {encimeraItems()}
-            </List>
+                <List>{encimeraItems()}</List>
+            </Box>
+            {composition.total_price && (
+                <Box
+                    sx={{
+                        position: "absolute",
+                        bottom: 0,
+                        right: 0,
+                        boxSizing: "border-box",
+                        p: 2,
+                    }}
+                >
+                    {ShowPrice()}
+                </Box>
+            )}
         </Box>
     );
 }
 
 export default SelectedOptions;
+
+/*
+ return (
+        <>
+            <Box
+                sx={{
+                    p: 2,
+                    width: "20vw",
+                    height: "80vh",
+                    boxSizing: "border-box",
+                    position: "relative",
+                    overflowY: "auto",
+                }}
+            >
+                <Typography variant="h4"> Selected Options</Typography>
+
+                <Accordion
+                    expanded={muebleExpanded}
+                    onChange={() => setMuebleExpanded(!muebleExpanded)}
+                >
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="mueble-content"
+                        id="mueble-header"
+                    >
+                        <Typography variant="h5">Mueble</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <List>{muebleItems()}</List>
+
+                        {composition.mueble && (
+                            <>
+                                <PaperList elevation={5}>
+                                    <Typography variant="h5">
+                                        Personalización de mueble
+                                    </Typography>
+                                    <List>{showConfigurationMueble()}</List>
+                                </PaperList>
+                            </>
+                        )}
+                    </AccordionDetails>
+                </Accordion>
+
+                <Divider />
+                <Typography variant="h5">Encimera</Typography>
+                <List>{encimeraItems()}</List>
+            </Box>
+            {composition.total_price && (
+                <Box
+                    sx={{
+                        position: "absolute",
+                        bottom: 0,
+                        right: 0,
+                        boxSizing: "border-box",
+                        p: 2,
+                    }}
+                >
+                    {ShowPrice()}
+                </Box>
+            )}
+        </>
+    );
+}
+
+*/

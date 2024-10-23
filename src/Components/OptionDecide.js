@@ -19,7 +19,7 @@ const OptionBox = styled("div")(({ theme }) => ({
 const ScrollableImageList = styled(Grid)(({ theme }) => ({
     //maxHeight: 1000,
     overflowY: "auto",
-    maxHeight: "70vh",
+    maxHeight: "40vh",
 }));
 
 const ImageContainer = styled("div")(({ theme, selected }) => ({
@@ -35,12 +35,7 @@ const ImageContainer = styled("div")(({ theme, selected }) => ({
     textAlign: "center",
 }));
 
-const OptionDecide = ({
-    element,
-    onValueClick,
-    opciones_y_valores,
-    navigation,
-}) => {
+const OptionDecide = ({ element, onValueClick, opciones_y_valores }) => {
     const baseURL = "http://localhost:8000";
 
     if (!element) {
@@ -64,6 +59,11 @@ const OptionDecide = ({
                     <Autocomplete
                         options={element.valores}
                         getOptionLabel={(option) => option.code}
+                        renderOption={(props, option) => (
+                            <li {...props} key={option.code + option.id}>
+                                {option.code}
+                            </li>
+                        )}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -85,7 +85,7 @@ const OptionDecide = ({
                                     val.valor.id === item.id
                             );
                             return (
-                                <Grid item xs={12} sm={6} key={index}>
+                                <Grid item xs={12} sm={4} key={index}>
                                     <ImageContainer
                                         selected={selected}
                                         onClick={() =>
@@ -109,23 +109,6 @@ const OptionDecide = ({
                         })}
                     </ScrollableImageList>
                 )}
-            </div>
-            <div>
-                <Button
-                    onClick={() => navigation("back")}
-                    variant="contained"
-                    color="primary"
-                    style={{ marginRight: "10px" }}
-                >
-                    Back
-                </Button>
-                <Button
-                    onClick={() => navigation("next")}
-                    variant="contained"
-                    color="primary"
-                >
-                    Next
-                </Button>
             </div>
         </OptionBox>
     );
