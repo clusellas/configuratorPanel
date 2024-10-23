@@ -29,6 +29,7 @@ function MuebleOptions({ composition, setComposition }) {
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedOptionId, setSelectedOptionId] = useState(null);
     const [currentCO, setCurrentCO] = useState(null);
+    const [showOpionSelect, setShowOpionSelect] = useState(false);
 
     const [currentOption, setCurrentOpcion] = useState(null);
     const opcionesPrimariasMueble = ["coleccion", "design", "ancho", "eje"];
@@ -75,6 +76,17 @@ function MuebleOptions({ composition, setComposition }) {
     }
 
     function handleButtonClick(opcion) {
+        if (opcion === currentOption) setShowOpionSelect(!showOpionSelect);
+        else setShowOpionSelect(true);
+        /*
+        if (Object.entries(objData.encimera).length > 0) {
+           
+            setObjData((prev) => ({
+                ...prev,
+                encimera: {},
+            }));
+        }
+        */
         setElements([]);
         setCurrentOpcion(opcion);
         getElements(opcion);
@@ -89,24 +101,9 @@ function MuebleOptions({ composition, setComposition }) {
                 [currentOption]: element.id,
             },
         }));
-        await nextOption();
-    }
-
-    const nextOption = async () => {
+        setCurrentOpcion(null);
         setMuebleChanged(true);
-        const currentIndex = opcionesPrimariasMueble.indexOf(currentOption);
-
-        let nextIndex;
-        // If the current option is found in the array
-        if (currentIndex !== -1) {
-            // Calculate the next index
-            nextIndex = currentIndex + 1;
-            setObjData((prev) => ({
-                ...prev,
-                current_opt: opcionesPrimariasMueble[nextIndex],
-            }));
-        }
-    };
+    }
 
     const ShowMuebleOptions = () => {
         return opcionesPrimariasMueble.map((opcion, index) => (
@@ -117,6 +114,7 @@ function MuebleOptions({ composition, setComposition }) {
                     opcion === opcionesPrimariasMueble[1] &&
                     !objData.mueble.coleccion
                 }
+                variant={opcion === currentOption ? "contained" : "text"}
             >
                 {opcion}
             </Button>
@@ -199,14 +197,15 @@ function MuebleOptions({ composition, setComposition }) {
         <>
             <Typography variant="h4"> Opciones mueble</Typography>
             <List>{ShowMuebleOptions()}</List>
-            <Divider />
-            {currentOption && elements.length > 0 && (
+
+            {currentOption && elements.length > 0 && showOpionSelect && (
                 <OpcionesPrimariasSwitch
                     current_opt={currentOption}
                     elements={elements}
                     ClickImage={ClickImage}
                 />
             )}
+
             {composition.mueble && (
                 <Box>
                     <Typography variant="h6">

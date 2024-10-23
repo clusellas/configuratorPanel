@@ -11,6 +11,7 @@ function EncimeraOptions() {
     const { setObjData, objData } = useContext(MyContext);
     const [elements, setElements] = useState([]);
     const [encimeraChanged, setEncimeraChanged] = useState(false);
+    const [showOpionSelect, setShowOpionSelect] = useState(false);
 
     const [currentOption, setCurrentOpcion] = useState(null);
     const opcionesPrimariasEncimera = ["coleccion", "faldon"];
@@ -18,11 +19,15 @@ function EncimeraOptions() {
     const urlBase = "http://localhost:8000/server/encimera/deduct_eje_ancho/";
 
     useEffect(() => {
-        if (Object.entries(objData.encimera).length === 0) {
-            deductEjeAncho();
-        }
         CreateObjct();
     }, [objData]);
+
+    useEffect(() => {
+        setObjData((prev) => ({
+            ...prev,
+            encimera: {},
+        }));
+    }, [objData.mueble]);
 
     async function deductEjeAncho() {
         const params = new URLSearchParams({
@@ -30,7 +35,6 @@ function EncimeraOptions() {
         }).toString();
 
         const urlDeduct = `${urlBase}?${params}`;
-        console.log(urlDeduct);
 
         fetch(urlDeduct)
             .then((response) => response.json())
@@ -86,6 +90,8 @@ function EncimeraOptions() {
     }
 
     function handleButtonClick(opcion) {
+        if (opcion === currentOption) setShowOpionSelect(!showOpionSelect);
+        else setShowOpionSelect(true);
         setElements([]);
         setCurrentOpcion(opcion);
         getElements(opcion);
@@ -93,6 +99,9 @@ function EncimeraOptions() {
 
     async function ClickImage(element) {
         setElements([]);
+        if (Object.entries(objData.encimera).length === 0) {
+            deductEjeAncho();
+        }
         setObjData((prev) => ({
             ...prev,
             encimera: {
@@ -100,30 +109,18 @@ function EncimeraOptions() {
                 [currentOption]: element.id,
             },
         }));
-        await nextOption();
-    }
-
-    const nextOption = async () => {
+        setCurrentOpcion(null);
         setEncimeraChanged(true);
-
-        const currentIndex = opcionesPrimariasEncimera.indexOf(currentOption);
-
-        let nextIndex;
-        // If the current option is found in the array
-        if (currentIndex !== -1) {
-            // Calculate the next index
-            nextIndex = currentIndex + 1;
-            setObjData((prev) => ({
-                ...prev,
-                current_opt: opcionesPrimariasEncimera[nextIndex],
-            }));
-        }
-    };
+    }
 
     const ShowEncimeraOptions = () => {
         return opcionesPrimariasEncimera.map((opcion, index) => (
             //  <ListItem key={index}>
-            <Button key={index} onClick={() => handleButtonClick(opcion)}>
+            <Button
+                key={index}
+                onClick={() => handleButtonClick(opcion)}
+                variant={opcion === currentOption ? "contained" : "text"}
+            >
                 {opcion}
             </Button>
             ///</ListItem>
@@ -135,7 +132,7 @@ function EncimeraOptions() {
             <Typography variant="h5"> Opciones encimera</Typography>
             <List>{ShowEncimeraOptions()}</List>
             <Divider />
-            {currentOption && elements.length > 0 && (
+            {currentOption && elements.length > 0 && showOpionSelect && (
                 <OpcionesPrimariasSwitch
                     current_opt={currentOption}
                     elements={elements}

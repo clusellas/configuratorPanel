@@ -38,53 +38,42 @@ const SizeFrom = ({ elements, onImageClick, open, handleClose }) => {
 
     return (
         <>
-            <Dialog open={open} onClose={handleClose} maxWidth="md">
-                <DialogContent>
-                    <Grid
-                        container
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        style={{ minHeight: "30vh" }}
+            <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                style={{ minHeight: "30vh" }}
+            >
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: 2,
+                    }}
+                >
+                    <TextField
+                        select
+                        label="Ancho"
+                        value={value}
+                        onChange={handleChange}
+                        sx={{ minWidth: "20vw" }}
                     >
-                        <Box
-                            component="form"
-                            onSubmit={handleSubmit}
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                gap: 2,
-                            }}
-                        >
-                            <TextField
-                                select
-                                label="Ancho"
-                                value={value}
-                                onChange={handleChange}
-                                sx={{ minWidth: "20vw" }}
-                            >
-                                {/* Generate dropdown options based on the list of elements */}
-                                {elements.map((element, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        value={element.ancho.id}
-                                    >
-                                        {element.ancho.code}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                            >
-                                Submit
-                            </Button>
-                        </Box>
-                    </Grid>
-                </DialogContent>
-            </Dialog>
+                        {/* Generate dropdown options based on the list of elements */}
+                        {elements.map((element, index) => (
+                            <MenuItem key={index} value={element.ancho.id}>
+                                {element.ancho.code}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <Button type="submit" variant="contained" color="primary">
+                        Submit
+                    </Button>
+                </Box>
+            </Grid>
         </>
     );
 };

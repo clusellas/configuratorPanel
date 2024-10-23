@@ -30,6 +30,37 @@ const ImageGrid = ({ elements, onImageClick, open, handleClose }) => {
 
     return (
         <>
+            <Grid container spacing={2} sx={{ p: 1 }}>
+                {filteredElements.map((elem, indexElem) => (
+                    <Grid item xs={12} sm={6} md={4} key={indexElem}>
+                        <ImageContainer
+                            onClick={() => onImageClick(elem.coleccion)}
+                        >
+                            <img
+                                src={elem.coleccion.image}
+                                alt={elem.coleccion.code}
+                                style={{
+                                    width: "90%",
+                                    maxHeight: "80%",
+                                    objectFit: "contain",
+                                }}
+                            />
+                            <Typography variant="body1">
+                                {elem.coleccion.name}
+                            </Typography>
+                        </ImageContainer>
+                    </Grid>
+                ))}
+            </Grid>
+        </>
+    );
+};
+
+export default ImageGrid;
+
+/*
+return (
+        <>
             <Dialog open={open} onClose={handleClose} maxWidth="md">
                 <DialogContent>
                     <Grid container spacing={2} sx={{ p: 1 }}>
@@ -60,4 +91,4 @@ const ImageGrid = ({ elements, onImageClick, open, handleClose }) => {
     );
 };
 
-export default ImageGrid;
+*/

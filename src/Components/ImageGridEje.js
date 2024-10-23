@@ -29,32 +29,26 @@ const ImageGrid = ({ elements, onImageClick, open, handleClose }) => {
 
     return (
         <>
-            <Dialog open={open} onClose={handleClose} maxWidth="md">
-                <DialogContent>
-                    <Grid container spacing={2} sx={{ p: 1 }}>
-                        {filteredElements.map((elem, indexElem) => (
-                            <Grid item xs={12} sm={6} md={4} key={indexElem}>
-                                <ImageContainer
-                                    onClick={() => onImageClick(elem.eje)}
-                                >
-                                    <img
-                                        src={elem.eje.image}
-                                        alt={elem.eje.code}
-                                        style={{
-                                            width: "90%",
-                                            maxHeight: "80%",
-                                            objectFit: "contain",
-                                        }}
-                                    />
-                                    <Typography variant="body1">
-                                        {elem.eje.name}
-                                    </Typography>
-                                </ImageContainer>
-                            </Grid>
-                        ))}
+            <Grid container spacing={2} sx={{ p: 1 }}>
+                {filteredElements.map((elem, indexElem) => (
+                    <Grid item xs={12} sm={6} md={4} key={indexElem}>
+                        <ImageContainer onClick={() => onImageClick(elem.eje)}>
+                            <img
+                                src={elem.eje.image}
+                                alt={elem.eje.code}
+                                style={{
+                                    width: "90%",
+                                    maxHeight: "80%",
+                                    objectFit: "contain",
+                                }}
+                            />
+                            <Typography variant="body1">
+                                {elem.eje.name}
+                            </Typography>
+                        </ImageContainer>
                     </Grid>
-                </DialogContent>
-            </Dialog>
+                ))}
+            </Grid>
         </>
     );
 };

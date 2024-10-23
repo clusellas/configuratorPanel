@@ -16,9 +16,6 @@ import EncimeraOptions from "./EncimeraOptions";
 
 function Options({ composition, setComposition }) {
     const { setObjData, objData } = useContext(MyContext);
-    const [elements, setElements] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
 
     const opcionesPrimarias = {
         mueble: ["coleccion", "design", "ancho", "eje"],
@@ -37,12 +34,6 @@ function Options({ composition, setComposition }) {
                 overflowY: "auto",
             }}
         >
-            {
-                //<Typography variant="h4"> Options</Typography>
-            }
-            {
-                //loading && <Loading />
-            }
             {
                 <MuebleOptions
                     composition={composition}

@@ -30,43 +30,30 @@ const ImageGrid = ({ elements, onImageClick, open, handleClose }) => {
 
     return (
         <>
-            <Dialog open={open} onClose={handleClose} maxWidth="md">
-                <DialogContent>
-                    <Grid container spacing={2}>
-                        {filteredElements.map((elem, indexElem) => (
-                            <Grid
-                                item
-                                xs={12}
-                                sm={6}
-                                md={4}
-                                lg={2.4}
-                                key={indexElem}
-                            >
-                                <ImageContainer
-                                    onClick={() =>
-                                        onImageClick(
-                                            elem.design_coleccion.design
-                                        )
-                                    }
-                                >
-                                    <img
-                                        src={elem.design_coleccion.image}
-                                        alt={elem.design_coleccion.design.code}
-                                        style={{
-                                            maxWidth: "100%",
-                                            height: "auto",
-                                            objectFit: "cover",
-                                        }}
-                                    />
-                                    <Typography variant="body1">
-                                        {elem.design_coleccion.design.name}
-                                    </Typography>
-                                </ImageContainer>
-                            </Grid>
-                        ))}
+            <Grid container spacing={2} sx={{ p: 1 }}>
+                {filteredElements.map((elem, indexElem) => (
+                    <Grid item xs={12} sm={6} md={3} key={indexElem}>
+                        <ImageContainer
+                            onClick={() =>
+                                onImageClick(elem.design_coleccion.design)
+                            }
+                        >
+                            <img
+                                src={elem.design_coleccion.image}
+                                alt={elem.design_coleccion.design.code}
+                                style={{
+                                    maxWidth: "100%",
+                                    height: "auto",
+                                    objectFit: "cover",
+                                }}
+                            />
+                            <Typography variant="body1">
+                                {elem.design_coleccion.design.name}
+                            </Typography>
+                        </ImageContainer>
                     </Grid>
-                </DialogContent>
-            </Dialog>
+                ))}
+            </Grid>
         </>
     );
 };

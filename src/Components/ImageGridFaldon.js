@@ -23,32 +23,28 @@ const ImageGridFaldon = ({ elements, onImageClick, open, handleClose }) => {
 
     return (
         <>
-            <Dialog open={open} onClose={handleClose} maxWidth="md">
-                <DialogContent>
-                    <Grid container spacing={2} sx={{ p: 1 }}>
-                        {elements.map((elem, indexElem) => (
-                            <Grid item xs={12} sm={6} md={4} key={indexElem}>
-                                <ImageContainer
-                                    onClick={() => onImageClick(elem.faldon)}
-                                >
-                                    <img
-                                        src={elem.faldon.image}
-                                        alt={elem.faldon.code}
-                                        style={{
-                                            width: "90%",
-                                            maxHeight: "80%",
-                                            objectFit: "contain",
-                                        }}
-                                    />
-                                    <Typography variant="body1">
-                                        {elem.faldon.name}
-                                    </Typography>
-                                </ImageContainer>
-                            </Grid>
-                        ))}
+            <Grid container spacing={2} sx={{ p: 1 }}>
+                {elements.map((elem, indexElem) => (
+                    <Grid item xs={12} sm={6} md={4} key={indexElem}>
+                        <ImageContainer
+                            onClick={() => onImageClick(elem.faldon)}
+                        >
+                            <img
+                                src={elem.faldon.image}
+                                alt={elem.faldon.code}
+                                style={{
+                                    width: "90%",
+                                    maxHeight: "80%",
+                                    objectFit: "contain",
+                                }}
+                            />
+                            <Typography variant="body1">
+                                {elem.faldon.name}
+                            </Typography>
+                        </ImageContainer>
                     </Grid>
-                </DialogContent>
-            </Dialog>
+                ))}
+            </Grid>
         </>
     );
 };

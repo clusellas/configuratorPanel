@@ -18,7 +18,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 function SelectedOptions({ composition }) {
     const [opcionsNames, setOpcionsNames] = useState([]);
     const { setObjData, objData } = useContext(MyContext);
-    const [muebleExpanded, setMuebleExpanded] = useState(false);
+    const [muebleExpanded, setMuebleExpanded] = useState(true);
     const [encimeraExpanded, setEncimeraExpanded] = useState(false);
 
     const url = "http://localhost:8000/server/opcions-names/";
@@ -174,11 +174,7 @@ function SelectedOptions({ composition }) {
                         expanded={encimeraExpanded}
                         onChange={() => setEncimeraExpanded(!encimeraExpanded)}
                     >
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="mueble-content"
-                            id="mueble-header"
-                        >
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="h5">Encimera</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
