@@ -140,10 +140,6 @@ function MuebleOptions({ composition, setComposition }) {
         if (selectedOption != null && composition.mueble?.current_linea) {
             var foundInOpcions = false;
 
-            console.log("FOR----------");
-            console.log(selectedOption);
-            console.log(composition.mueble?.current_linea);
-
             for (
                 let i = 0;
                 i < composition.mueble.current_linea.opciones.length;
@@ -154,8 +150,6 @@ function MuebleOptions({ composition, setComposition }) {
                     selectedOption.id
                 ) {
                     foundInOpcions = true;
-                    console.log("FOUND");
-                    console.log(selectedOption.id);
                 }
             }
             if (!foundInOpcions) {
@@ -218,8 +212,7 @@ function MuebleOptions({ composition, setComposition }) {
                     <Typography variant="h6">
                         Opciones de personalización de mueble
                     </Typography>
-
-                    <List>{ShowConfigurationOpcions()}</List>
+                    {ShowConfigurationOpcions()}
                     <Grid item xs={4}>
                         {currentCO?.opciones_y_valores && (
                             <OptionDecide

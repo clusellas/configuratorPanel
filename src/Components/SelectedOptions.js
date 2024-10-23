@@ -18,9 +18,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 function SelectedOptions({ composition }) {
     const [opcionsNames, setOpcionsNames] = useState([]);
     const { setObjData, objData } = useContext(MyContext);
-    const [muebleExpanded, setMuebleExpanded] = useState(true);
-    const [personalizacionExpanded, setPersonalizacionExpanded] =
-        useState(true);
+    const [muebleExpanded, setMuebleExpanded] = useState(false);
+    const [encimeraExpanded, setEncimeraExpanded] = useState(false);
 
     const url = "http://localhost:8000/server/opcions-names/";
 
@@ -108,7 +107,12 @@ function SelectedOptions({ composition }) {
             ([encimera_key, encimera_value], encimera_index) => (
                 <ListItem key={encimera_index}>
                     <ListItemText
-                        primary={`${encimera_key}:  ${encimera_value}`}
+                        primary={
+                            <span>
+                                <strong>{encimera_key.toUpperCase()}: </strong>
+                                {encimera_value}
+                            </span>
+                        }
                     />
                 </ListItem>
             )
@@ -165,8 +169,23 @@ function SelectedOptions({ composition }) {
                 </Accordion>
 
                 <Divider />
-                <Typography variant="h5">Encimera</Typography>
-                <List>{encimeraItems()}</List>
+                {composition.mueble && (
+                    <Accordion
+                        expanded={encimeraExpanded}
+                        onChange={() => setEncimeraExpanded(!encimeraExpanded)}
+                    >
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="mueble-content"
+                            id="mueble-header"
+                        >
+                            <Typography variant="h5">Encimera</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <List>{encimeraItems()}</List>
+                        </AccordionDetails>
+                    </Accordion>
+                )}
             </Box>
             {composition.total_price && (
                 <Box
@@ -186,68 +205,3 @@ function SelectedOptions({ composition }) {
 }
 
 export default SelectedOptions;
-
-/*
- return (
-        <>
-            <Box
-                sx={{
-                    p: 2,
-                    width: "20vw",
-                    height: "80vh",
-                    boxSizing: "border-box",
-                    position: "relative",
-                    overflowY: "auto",
-                }}
-            >
-                <Typography variant="h4"> Selected Options</Typography>
-
-                <Accordion
-                    expanded={muebleExpanded}
-                    onChange={() => setMuebleExpanded(!muebleExpanded)}
-                >
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="mueble-content"
-                        id="mueble-header"
-                    >
-                        <Typography variant="h5">Mueble</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <List>{muebleItems()}</List>
-
-                        {composition.mueble && (
-                            <>
-                                <PaperList elevation={5}>
-                                    <Typography variant="h5">
-                                        Personalización de mueble
-                                    </Typography>
-                                    <List>{showConfigurationMueble()}</List>
-                                </PaperList>
-                            </>
-                        )}
-                    </AccordionDetails>
-                </Accordion>
-
-                <Divider />
-                <Typography variant="h5">Encimera</Typography>
-                <List>{encimeraItems()}</List>
-            </Box>
-            {composition.total_price && (
-                <Box
-                    sx={{
-                        position: "absolute",
-                        bottom: 0,
-                        right: 0,
-                        boxSizing: "border-box",
-                        p: 2,
-                    }}
-                >
-                    {ShowPrice()}
-                </Box>
-            )}
-        </>
-    );
-}
-
-*/

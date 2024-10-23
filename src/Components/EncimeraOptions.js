@@ -13,16 +13,43 @@ function EncimeraOptions() {
     const [encimeraChanged, setEncimeraChanged] = useState(false);
 
     const [currentOption, setCurrentOpcion] = useState(null);
-    const opcionesPrimariasEncimera = ["coleccion", "ancho", "eje", "faldon"];
+    const opcionesPrimariasEncimera = ["coleccion", "faldon"];
+    // "ancho", "eje",
+    const urlBase = "http://localhost:8000/server/encimera/deduct_eje_ancho/";
 
     useEffect(() => {
+        if (Object.entries(objData.encimera).length === 0) {
+            deductEjeAncho();
+        }
         CreateObjct();
     }, [objData]);
+
+    async function deductEjeAncho() {
+        const params = new URLSearchParams({
+            composition_id: objData.composition_id,
+        }).toString();
+
+        const urlDeduct = `${urlBase}?${params}`;
+        console.log(urlDeduct);
+
+        fetch(urlDeduct)
+            .then((response) => response.json())
+            .then((data) => {
+                setObjData((prev) => ({
+                    ...prev,
+                    encimera: {
+                        ...prev.encimera,
+                        ancho: data["ancho"],
+                        eje: data["eje"],
+                    },
+                }));
+            });
+    }
 
     const CreateObjct = async () => {
         if (
             Object.keys(objData.encimera).length ===
-                opcionesPrimariasEncimera.length &&
+                opcionesPrimariasEncimera.length + 2 &&
             encimeraChanged
         ) {
             setEncimeraChanged(false);
